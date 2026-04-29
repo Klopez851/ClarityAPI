@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor//jackson's laters version prioritizes all args over no args.
+@AllArgsConstructor//jackson's latests version prioritizes all args over no args.
 public class Note {
     ///////////////////////
     /// CLASS VARIABLES ///
@@ -27,7 +27,7 @@ public class Note {
     private UserTable user;
 
     @ManyToOne
-    @JoinColumn(name = "label_id")//name of fk in note that refers to the labelID table
+    @JoinColumn(name = "label_id")//name of fk in note that refers to the label table
     private Label label;
 
     @ManyToOne
