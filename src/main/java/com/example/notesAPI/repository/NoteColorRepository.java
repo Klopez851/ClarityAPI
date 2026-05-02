@@ -13,7 +13,7 @@ public interface NoteColorRepository extends JpaRepository<NoteColor, Integer> {
 
     boolean existsByColorHEX(String colorHex);
 
-    @Query("SELECT new com.example.notesAPI.dto.noteColor.NoteColorDTO(n.colorID, n.colorHEX) " +
+    @Query("SELECT new com.example.notesAPI.dto.noteColor.NoteColorDTO(n.colorHEX, n.colorID) " +
             "FROM NoteColor n " +
             "WHERE n.user.id = ?1")
     List<NoteColorDTO> findAllByUser(int userID);

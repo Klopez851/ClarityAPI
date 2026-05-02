@@ -1,7 +1,9 @@
 package com.example.notesAPI.service;
 
 import com.example.notesAPI.dto.ApiResponseDTO;
+import com.example.notesAPI.dto.EmailDTO;
 import com.example.notesAPI.dto.Note.CreateNoteDTO;
+import com.example.notesAPI.dto.Note.NoteDTO;
 import com.example.notesAPI.errorHandler.DatabaseErrorException;
 import com.example.notesAPI.errorHandler.ForbiddenRequestException;
 import com.example.notesAPI.errorHandler.ResourceNotFoundException;
@@ -16,6 +18,8 @@ import com.example.notesAPI.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -85,6 +89,24 @@ public class NoteService {
     ///////////////////
     /// GET METHODS ///
     ///////////////////
+
+    public ApiResponseDTO<List<NoteDTO>> getNotes(EmailDTO emailDTO, HttpServletRequest request) {
+        //clean data
+        String email = emailDTO.getEmail().strip().toLowerCase();
+
+        //validate request
+        if(isRequestValid(email, request)){
+            //ensure user exists
+            Optional<UserTable> user = userRepo.findByEmail(email);
+
+            //fetch all notes
+            List<NoteDTO> notes = noteRepo.findAllByUser(user.get().getUserID());
+
+            //return response
+            return  new ApiResponseDTO<>(true, "Notes successfully fetched", notes);
+        }
+        throw new ForbiddenRequestException("Access denied: You can only modify your own account.");
+    }
 
     ///////////////////
     /// PUT METHODS ///
@@ -178,25 +200,26 @@ public class NoteService {
     ///////////////////////
 
     private boolean isRequestValid(String userEmail, HttpServletRequest request){
-    String token;
-    String JWTemail = null;
+        String token;
+        String JWTemail = null;
 
-    //get auth header from request
-    String authHeader = request.getHeader("Authorization");
+        //get auth header from request
+        String authHeader = request.getHeader("Authorization");
 
-    //ensure header isn't empty or wrongly formatted
-    if(authHeader != null && authHeader.startsWith("Bearer ")){
-        //extract token and get email from token
-        token = authHeader.substring(7);//jwt string starts at 7th index of header string
-        JWTemail = jwtService.extractEmail(token);
+        //ensure header isn't empty or wrongly formatted
+        if(authHeader != null && authHeader.startsWith("Bearer ")){
+            //extract token and get email from token
+            token = authHeader.substring(7);//jwt string starts at 7th index of header string
+            JWTemail = jwtService.extractEmail(token);
+            //dont need to verify token validity bc jwt filter takes care of that for all incoming requests.
+        }
+
+        //ensure emails match
+        if (userEmail.equals(JWTemail)){
+            return true;
+        }
+
+        return false;
     }
-
-    //ensure emails match
-    if (userEmail.equals(JWTemail)){
-        return true;
-    }
-
-    return false;
-}
 
 }

@@ -214,6 +214,7 @@ public class UITemplateService {
             //extract token and get email from token
             token = authHeader.substring(7);//jwt string starts at 7th index of header string
             JWTemail = jwtService.extractEmail(token);
+            //dont need to verify token validity bc jwt filter takes care of that for all incoming requests.
         }
 
         //ensure emails match
