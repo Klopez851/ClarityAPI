@@ -3,6 +3,7 @@ package com.example.notesAPI.service;
 import com.example.notesAPI.dto.ApiResponseDTO;
 import com.example.notesAPI.dto.EmailDTO;
 import com.example.notesAPI.dto.Note.CreateNoteDTO;
+import com.example.notesAPI.dto.Note.GetNoteDTO;
 import com.example.notesAPI.dto.Note.NoteDTO;
 import com.example.notesAPI.errorHandler.DatabaseErrorException;
 import com.example.notesAPI.errorHandler.ForbiddenRequestException;
@@ -106,6 +107,32 @@ public class NoteService {
             return  new ApiResponseDTO<>(true, "Notes successfully fetched", notes);
         }
         throw new ForbiddenRequestException("Access denied: You can only modify your own account.");
+    }
+
+    public ApiResponseDTO<NoteDTO> getNote(GetNoteDTO noteDTO, HttpServletRequest request){
+        //clean data
+        String email = noteDTO.getEmail().strip().toLowerCase();
+        int noteID = noteDTO.getNoteID();
+
+        //validate request
+        if(isRequestValid(email, request)){
+            //ensure email exists
+            Optional<UserTable> user = userRepo.findByEmail(email);
+
+            //ensure note exists
+            Optional<Note> reqNote = noteRepo.findById(noteID);
+
+            // send note to front if user exists, notes exists, and the note is associated to the given user
+            if(reqNote.isPresent()){
+                if(user.isPresent()){
+                    if(user.get().getUserID() == reqNote.get().getUser().getUserID()){
+                        NoteDTO note = noteRepo.findByIdAndConvertToDTO(noteID);
+                        return new ApiResponseDTO<>(true, "note successfully fetched", note);
+
+                    }throw new ResourceNotFoundException("A note by that id associated with the provided user could not be found");
+                }throw new ResourceNotFoundException("A user associated with the provided email could not be found");
+            }throw new ResourceNotFoundException("A note associated with that id could not be found");
+        }throw new ForbiddenRequestException("Access denied: You can only modify your own account.");
     }
 
     ///////////////////
