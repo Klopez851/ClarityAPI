@@ -194,7 +194,7 @@ public class UserService {
 
             //hash new password
             if(!user.isPresent()){
-                throw new ResourceNotFoundException("The email address " +userEmail+" does not match any existing user account. " +
+                throw new ResourceNotFoundException("The email address " +userEmail+" does not match any existing user account. \n" +
                         "Password updates require a valid email to identify the user record to update.");
             }else {
                 user.get().setUserPassword(passwordEncoder.encode(pswrd));

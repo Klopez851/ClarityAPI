@@ -2,6 +2,7 @@ package com.example.notesAPI.controller;
 
 import com.example.notesAPI.dto.ApiResponseDTO;
 import com.example.notesAPI.dto.EmailDTO;
+import com.example.notesAPI.dto.Label.UpdateBooleanStatusDTO;
 import com.example.notesAPI.dto.Note.CreateNoteDTO;
 import com.example.notesAPI.dto.Note.GetNoteDTO;
 import com.example.notesAPI.dto.Note.NoteDTO;
@@ -10,7 +11,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -58,6 +58,83 @@ public class NoteController {
         return service.getNote(noteDTO, request);
     }
 
+    //////////////////////
+    /// PUT MAPPING/S ////
+    //////////////////////
+
+//    @Operation(summary = "updates a note", description = "updates a users note")
+//    @PutMapping("/updateNote")
+//    public ApiResponseDTO<String> updateNote(@RequestBody UpdateNoteDTO noteDTO, HttpServletRequest request){
+//        if(!noteDTO.isValid()){
+//            throw new IllegalArgumentException ("- Either the title or body field must contain content (both cannot be empty).\n" +
+//                    "- The fields pinned and hidden cannot both be set to true at the same time." +
+//                    "- The id field must contain a value bigger than 0");
+//        }
+//
+//        return service.updateNote(noteDTO, request);
+//    }
+
+    ////////////////////////
+    /// PATCH MAPPING/S ////
+    ////////////////////////
+
+    @Operation(summary = "updates a notes pinned status")
+    @PatchMapping("/updatePinned")
+    public ApiResponseDTO<String> updatePinnedStatus (@RequestBody UpdateBooleanStatusDTO noteDTO, HttpServletRequest request){
+        if(!noteDTO.isValid()){
+            throw new IllegalArgumentException("All fields (email, noteID, newValue) must be filled out");
+        }
+        return service.updatePinned(noteDTO, request);
+    }
+
+
+    @Operation(summary = "updates a notes hidden status")
+    @PatchMapping("/updateHidden")
+    public ApiResponseDTO<String> updateHiddenStatus (@RequestBody UpdateBooleanStatusDTO noteDTO, HttpServletRequest request){
+        if(!noteDTO.isValid()){
+            throw new IllegalArgumentException("All fields (email, noteID, newValue) must be filled out");
+        }
+        return service.updateHidden(noteDTO, request);
+    }
+
+
+    @Operation(summary = "updates a notes deleted status")
+    @PatchMapping("/updateDeleted")
+    public ApiResponseDTO<String> updateDeletedStatus (@RequestBody UpdateBooleanStatusDTO noteDTO, HttpServletRequest request){
+        if(!noteDTO.isValid()){
+            throw new IllegalArgumentException("All fields (email, noteID, newValue) must be filled out");
+        }
+        return service.updateDeleted(noteDTO, request);
+    }
+//
+//    @Operation(summary = "updates a notes <> status")
+//    @PatchMapping("/update<>")
+//    public ApiResponseDTO<String> update<>(@RequestBody Update DTO, HttpServletRequest request){
+//
+//    }
+//    //viewonly
+//
+//    @Operation(summary = "updates a notes <> status")
+//    @PatchMapping("/update<>")
+//    public ApiResponseDTO<String> update<>(@RequestBody Update DTO, HttpServletRequest request){
+//
+//    }
+//    //label
+//
+//    @Operation(summary = "updates a notes <> status")
+//    @PatchMapping("/update<>")
+//    public ApiResponseDTO<String> update<>(@RequestBody Update DTO, HttpServletRequest request){
+//
+//    }
+//    //color
+//
+//    @Operation(summary = "updates a notes <> status")
+//    @PatchMapping("/update<>")
+//    public ApiResponseDTO<String> update<>(@RequestBody Update DTO, HttpServletRequest request){
+//
+//    }
+//    //cosmetics
+//
 
 }
 

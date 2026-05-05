@@ -30,5 +30,14 @@ public class Label {
         return (labelID+" "+user.getEmail()+" "+labelName);
     }
 
+    public boolean equals(Label label){
+        if(this.labelID == label.getLabelID()
+                && this.labelName.equalsIgnoreCase(label.getLabelName())
+                && this.user.equals(label.getUser())){
+            return true;
+        }
+        return false;
+    }
+
 
 }

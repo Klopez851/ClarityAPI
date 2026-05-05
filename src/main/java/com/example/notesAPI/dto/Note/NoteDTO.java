@@ -2,7 +2,6 @@ package com.example.notesAPI.dto.Note;
 
 import com.example.notesAPI.dto.Label.LabelDTO;
 import com.example.notesAPI.dto.noteColor.NoteColorDTO;
-import com.example.notesAPI.model.Note;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
@@ -56,7 +55,7 @@ public class NoteDTO {
 
     @JsonIgnore
     public boolean isValid(){
-        if(isEqual(pinned, hidden)){
+        if(pinned == true && hidden == true){
             return false;
         }
 
@@ -65,23 +64,10 @@ public class NoteDTO {
             return false;
         }
 
+        if(id < 0){
+            return false;
+        }
+
         return true;
-    }
-
-//    public NoteDTO toDTO(Note note){
-//        NoteDTO dto = new NoteDTO(note.getNoteID(), note.getTitle(),note.getTextContent(),)
-//
-//                //, LabelDTO label, NoteColorDTO noteColor, String cosmetics,
-//        //                   boolean pinned, boolean hidden,
-//        //                   LocalDateTime createdAt, LocalDateTime updatedAt,
-//        //                   boolean deleted, LocalDateTime timeLeftBeforeDeletion
-//    }
-
-    ////////////////////////
-    /// PRIVATE METHOD/S ///
-    ////////////////////////
-
-    private boolean isEqual(boolean attribute1, boolean attribute2){
-        return (attribute1 == attribute2);
     }
 }

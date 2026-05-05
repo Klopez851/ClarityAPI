@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,5 +40,16 @@ public class UserTable {
 
     public String toString(){
         return (userID +" "+ username+" "+email+" "+ userPassword +" "+createdAt+".");
+    }
+
+    public boolean equals(UserTable user){
+
+        if(this.userID == user.getUserID()
+                && this.username == user.getUsername()
+                && this.email == user.getEmail()
+                && this.userPassword.equals(user.getUserPassword())){
+            return true;
+        }
+        return false;
     }
 }

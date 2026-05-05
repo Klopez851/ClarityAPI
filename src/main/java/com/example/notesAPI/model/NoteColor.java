@@ -28,4 +28,13 @@ public class NoteColor {
         this.colorHEX = colorHEX;
     }
 
+    public boolean equals(NoteColor color){
+        if(this.colorID == color.getColorID()
+                && this.colorHEX.equalsIgnoreCase(color.getColorHEX())
+                && this.user.equals(color.getUser())){
+            return true;
+        }
+        return false;
+    }
+
 }
