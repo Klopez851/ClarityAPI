@@ -11,7 +11,7 @@ public class GetTemplateDTO {
     private String templateName, templateDetails;
     private int templateID;
 
-    //this constructor matches the exact order the query UITemplateRepository.findAllByUser() requires
+    //this constructor matches the exact order the query UITemplateRepository.getAllNoteByUser() requires
     // changes made here need to be reflected there.
     public GetTemplateDTO(int templateID, String templateName, String templateDetails){
         this.templateID = templateID;

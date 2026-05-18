@@ -25,7 +25,8 @@ public class NoteController {
     /// POST MAPPING/S ///
     //////////////////////
 
-    @Operation(summary = "creates a note", description = "creates a note and associated it with the given email ")
+    @Operation(summary = "creates a note", description = "creates a note and associated it with the given email, " +
+            "if labelID/noteColorID = null/\" \" those fields will be saved as null ")
     @PostMapping("/createNote")
     public ApiResponseDTO<String> createNote(@RequestBody CreateNoteDTO note, HttpServletRequest request) {
         if(!note.isValid()){
@@ -60,17 +61,17 @@ public class NoteController {
     /// PUT MAPPING/S ////
     //////////////////////
 
-//    @Operation(summary = "updates a note", description = "updates a users note")
-//    @PutMapping("/updateNote")
-//    public ApiResponseDTO<String> updateNote(@RequestBody UpdateNoteDTO noteDTO, HttpServletRequest request){
-//        if(!noteDTO.isValid()){
-//            throw new IllegalArgumentException ("- Either the title or body field must contain content (both cannot be empty).\n" +
-//                    "- The fields pinned and hidden cannot both be set to true at the same time." +
-//                    "- The id field must contain a value bigger than 0");
-//        }
-//
-//        return service.updateNote(noteDTO, request);
-//    }
+    @Operation(summary = "updates a note", description = "updates a users note")
+    @PutMapping("/updateNote")
+    public ApiResponseDTO<String> updateNote(@RequestBody UpdateNoteDTO noteDTO, HttpServletRequest request){
+        if(!noteDTO.isValid()){
+            throw new IllegalArgumentException ("- Either the title or body field must contain content (both cannot be empty).\n" +
+                    "- The fields pinned and hidden cannot both be set to true at the same time." +
+                    "- The id field must contain a value bigger than 0");
+        }
+
+        return service.updateNote(noteDTO, request);
+    }
 
     ////////////////////////
     /// PATCH MAPPING/S ////

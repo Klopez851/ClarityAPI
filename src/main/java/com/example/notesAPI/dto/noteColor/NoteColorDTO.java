@@ -15,7 +15,7 @@ public class NoteColorDTO {
     @Schema(name = "colorHEX",example = "#b5a2c8", requiredMode = Schema.RequiredMode.REQUIRED)
     private String colorHEX;
 
-    //this constructor matches the exact order the query NoteColorRepository.findAllByUser() requires
+    //this constructor matches the exact order the query NoteColorRepository.getAllNoteByUser() requires
     // changes made here need to be reflected there.
     public NoteColorDTO(String colorHex, int colorID){
         this.colorID = colorID;

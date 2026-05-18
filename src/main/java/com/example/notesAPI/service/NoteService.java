@@ -17,7 +17,6 @@ import com.example.notesAPI.repository.NotesRepository;
 import com.example.notesAPI.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -47,8 +46,8 @@ public class NoteService {
 
         // validate the request
         if (isRequestValid(email, request)) {
-            Optional<Label> label = null;
-            Optional<NoteColor> color = null;
+            Optional<Label> label = Optional.empty();
+            Optional<NoteColor> color = Optional.empty();
 
             //look up user
             Optional<UserTable> user = userRepo.findByEmail(email);
@@ -104,7 +103,7 @@ public class NoteService {
             Optional<UserTable> user = userRepo.findByEmail(email);
 
             //fetch all notes
-            List<NoteDTO> notes = noteRepo.findAllByUser(user.get().getUserID());
+            List<NoteDTO> notes = noteRepo.getAllNoteByUser(user.get().getUserID());
 
             //return response
             return new ApiResponseDTO<>(true, "Notes successfully fetched", notes);
@@ -129,7 +128,7 @@ public class NoteService {
             if (reqNote.isPresent()) {
                 if (user.isPresent()) {
                     if (user.get().getUserID() == reqNote.get().getUser().getUserID()) {
-                        NoteDTO note = noteRepo.findByIdAndConvertToDTO(noteID);
+                        NoteDTO note = noteRepo.getNoteByUser(noteID);
                         return new ApiResponseDTO<>(true, "note successfully fetched", note);
 
                     }
@@ -146,79 +145,79 @@ public class NoteService {
     /// PUT METHODS ///
     ///////////////////
 
-//    public ApiResponseDTO<String> updateNote(UpdateNoteDTO noteDTO, HttpServletRequest request) {
-//        //clean data
-//        String title = noteDTO.getTitle().strip();
-//        String textContent = noteDTO.getTextContent().strip();
-//        String cosmetics = noteDTO.getCosmetics().strip();
-//        String email = noteDTO.getEmail().strip().toLowerCase();
-//
-//        //validate request
-//        if(isRequestValid(email, request)){
-//            //make sure user exists
-//            Optional<UserTable> user = userRepo.findByEmail(email);
-//
-//            //make sure note exists
-//            Optional<Note> note = noteRepo.findById(noteDTO.getId());
-//
-//            //get label and color if they exists
-//            Optional<Label> label = labelRepo.findById(noteDTO.getLabel().getLabelID());
-//            Optional<NoteColor> color = noteColorRepo.findById(noteDTO.getNoteColor().getColorID());
-//
-//            //make sure note is associated with the user
-//            if(note.isPresent()){
-//                if(user.isPresent()){
-//                    if(user.get().getUserID() == note.get().getUser().getUserID()){
-//                        //update whatever fields need to be updated
-//                        if(!note.get().getTitle().equals(noteDTO.getTitle())){
-//                            note.get().setTitle(noteDTO.getTitle());
-//                        }
-//
-//                        if(!note.get().getTextContent().equals(noteDTO.getTextContent())){
-//                            note.get().setTextContent(noteDTO.getTextContent());
-//                        }
-//
-//                        if(!note.get().getLabel().equals(label.get())){
-//                            note.get().setLabel(label.get());
-//                        }
-//
-//                        if(!note.get().getColor().equals(color.get())){
-//                            note.get().setColor(color.get());
-//                        }
-//
-//                        if(!note.get().getTitle().equals(noteDTO.getTitle())){
-//                            note.get().setTitle(noteDTO.getTitle());
-//                        }
-//
-//                        if(!note.get().getCosmetics().equals(noteDTO.getCosmetics())){
-//                            note.get().setCosmetics(noteDTO.getCosmetics());
-//                        }
-//
-//                        if(note.get().isPinned() != noteDTO.isPinned()){
-//                            note.get().setPinned(noteDTO.isPinned());
-//                        }
-//
-//                        if(note.get().isHidden() != noteDTO.isHidden()){
-//                            note.get().setHidden(noteDTO.isHidden());
-//                        }
-//
-//                        if(note.get().isDeleted() != noteDTO.isDeleted()){
-//                            note.get().setDeleted(noteDTO.isDeleted());
-//                        }
-//
-//                        note.get().setUpdatedAt(LocalDateTime.now());
-//
-//                        //save entity
-//                        noteRepo.save(note.get());
-//
-//                        return new ApiResponseDTO<String>(true,"note succesfully updated", noteRepo.findById(noteDTO.getId()).get().toString());
-//
-//                    }
-//                }
-//            }
-//
-//        }throw new ForbiddenRequestException("Access denied: You can only modify your own account.");
-//    }
+    public ApiResponseDTO<String> updateNote(UpdateNoteDTO noteDTO, HttpServletRequest request) {
+        //clean data
+        String title = noteDTO.getTitle().strip();
+        String textContent = noteDTO.getTextContent().strip();
+        String cosmetics = noteDTO.getCosmetics().strip();
+        String email = noteDTO.getEmail().strip().toLowerCase();
+
+        //validate request
+        if(isRequestValid(email, request)){
+            //make sure user exists
+            Optional<UserTable> user = userRepo.findByEmail(email);
+
+            //make sure note exists
+            Optional<Note> note = noteRepo.findById(noteDTO.getId());
+
+            //get label and color if they exists
+            Optional<Label> label = labelRepo.findById(noteDTO.getLabel().getLabelID());
+            Optional<NoteColor> color = noteColorRepo.findById(noteDTO.getNoteColor().getColorID());
+
+            //make sure note is associated with the user
+            if(note.isPresent()){
+                if(user.isPresent()){
+                    if(user.get().getUserID() == note.get().getUser().getUserID()){
+                        //update whatever fields need to be updated
+                        if(!note.get().getTitle().equals(noteDTO.getTitle())){
+                            note.get().setTitle(noteDTO.getTitle());
+                        }
+
+                        if(!note.get().getTextContent().equals(noteDTO.getTextContent())){
+                            note.get().setTextContent(noteDTO.getTextContent());
+                        }
+
+                        if(!note.get().getLabel().equals(label.get())){
+                            note.get().setLabel(label.get());
+                        }
+
+                        if(!note.get().getColor().equals(color.get())){
+                            note.get().setColor(color.get());
+                        }
+
+                        if(!note.get().getTitle().equals(noteDTO.getTitle())){
+                            note.get().setTitle(noteDTO.getTitle());
+                        }
+
+                        if(!note.get().getCosmetics().equals(noteDTO.getCosmetics())){
+                            note.get().setCosmetics(noteDTO.getCosmetics());
+                        }
+
+                        if(note.get().isPinned() != noteDTO.isPinned()){
+                            note.get().setPinned(noteDTO.isPinned());
+                        }
+
+                        if(note.get().isHidden() != noteDTO.isHidden()){
+                            note.get().setHidden(noteDTO.isHidden());
+                        }
+
+                        if(note.get().isDeleted() != noteDTO.isDeleted()){
+                            note.get().setDeleted(noteDTO.isDeleted());
+                        }
+
+                        note.get().setUpdatedAt(LocalDateTime.now());
+
+                        //save entity
+                        noteRepo.save(note.get());
+
+                        return new ApiResponseDTO<String>(true,"note succesfully updated", noteRepo.findById(noteDTO.getId()).get().toString());
+
+                    }
+                }
+            }
+
+        }throw new ForbiddenRequestException("Access denied: You can only modify your own account.");
+    }
 
     /////////////////////
     /// PATCH METHODS ///

@@ -12,7 +12,7 @@ public class LabelDTO {
     private int labelID;
     private String labelName;
 
-    //this constructor matches the exact order the query LabelRepository.findAllByUser() requires
+    //this constructor matches the exact order the query LabelRepository.getAllNoteByUser() requires
     // changes made here need to be reflected there.
     public LabelDTO(String labelName, int labelID){
         this.labelID =labelID;

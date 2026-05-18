@@ -5,13 +5,16 @@ import com.example.notesAPI.dto.noteColor.NoteColorDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+
 //this used only to return notes to the frontend, therefore no swagger annotations needed
 @Getter
 @Setter
+@NoArgsConstructor
 @JsonPropertyOrder({"id", "title", "textContent", "label", "noteColor", "cosmetics", "pinned", "hidden",
         "createdAt", "updatedAt", "deleted", "timeLeftBeforeDeletion"})
 public class NoteDTO {
@@ -33,17 +36,18 @@ public class NoteDTO {
     private LocalDateTime updatedAt;
     private LocalDateTime timeLeftBeforeDeletion;
 
-    //this constructor matches the exact order the query NotesRepository.findAllByUser() and .findByUser() requires
+    //this constructor matches the exact order the query NotesRepository.getAllNoteByUser() and .findByUser() requires
     // changes made here need to be reflected there.
-    public NoteDTO(int id, String title, String content, LabelDTO label, NoteColorDTO noteColor, String cosmetics,
+    public NoteDTO(int id, String title, String content, String labelName, Integer labelId, String colorHex,
+                   Integer colorID, String cosmetics,
                    boolean pinned, boolean hidden,
                    LocalDateTime createdAt, LocalDateTime updatedAt,
                    boolean deleted, LocalDateTime timeLeftBeforeDeletion){
         this.id = id;
         this.title = title;
         this.textContent = content;
-        this.label = label;
-        this.noteColor = noteColor;
+        this.label = labelId != null ? new LabelDTO(labelName, labelId.intValue()) : null;//big int bc it is nullable
+        this.noteColor = colorID != null ? new NoteColorDTO(colorHex, colorID.intValue()) : null;;
         this.cosmetics = cosmetics;
         this.pinned = pinned;
         this.hidden = hidden;
