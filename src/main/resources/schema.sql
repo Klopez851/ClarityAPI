@@ -1,6 +1,6 @@
-CREATE SCHEMA `noteswebapp` ;
+CREATE SCHEMA IF NOT EXISTS `noteswebapp`;
 --
-CREATE TABLE user_table (
+CREATE TABLE IF NOT EXISTS user_table (
   user_id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL,
   username VARCHAR(50) NOT NULL,
   email varchar(254) NOT NULL UNIQUE,
@@ -9,7 +9,7 @@ CREATE TABLE user_table (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 ;
 
-CREATE TABLE note (
+CREATE TABLE IF NOT EXISTS note (
   note_id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL,
   user_id INTEGER NOT NULL,
   title VARCHAR(255),
@@ -27,21 +27,21 @@ CREATE TABLE note (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 ;
 
-CREATE TABLE label (
+CREATE TABLE IF NOT EXISTS label (
   label_name VARCHAR(50) NOT NULL,
   user_id INTEGER NOT NULL,
   label_id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 ;
 
-CREATE TABLE notecolor (
+CREATE TABLE IF NOT EXISTS notecolor (
   user_id INTEGER NOT NULL,
   color_hex VARCHAR(7) NOT NULL,
   color_id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 ;
 
-CREATE TABLE uitemplate (
+CREATE TABLE IF NOT EXISTS uitemplate (
   user_id INTEGER DEFAULT NULL,
   template_id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL,
   template_name VARCHAR(25) NOT NULL,
@@ -66,8 +66,8 @@ ALTER TABLE uitemplate ADD CONSTRAINT unique_user_template UNIQUE (user_id, temp
 CREATE INDEX idx_user_table_ ON user_table (user_id);
 CREATE INDEX idx_user_table_email ON user_table (email);
 
-CREATE INDEX idx_note_UserID ON Note (user_id);
-CREATE INDEX idx_note_LabelName ON Note (label_id);
+CREATE INDEX idx_note_UserID ON note (user_id);
+CREATE INDEX idx_note_LabelName ON note (label_id);
 
 CREATE INDEX idx_Label_UserID ON label (user_id);
 
