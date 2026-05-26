@@ -14,6 +14,7 @@ import com.example.notesAPI.model.UITemplate;
 import com.example.notesAPI.model.UserTable;
 import com.example.notesAPI.repository.UITemplateRepository;
 import com.example.notesAPI.repository.UserRepository;
+import com.example.notesAPI.utilClasses.RequestValidationService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,10 +26,11 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class UITemplateService {
-
+    /// CONSTANTS ///
+    private final int MAX_TEMPLATE_NAME_SIZE = 25;
     private final UITemplateRepository templateRepo;
     private final UserRepository userRepo;
-    private final JWTService jwtService;
+    private final RequestValidationService requestUtil;
 
     ////////////////////
     /// POST METHODS ///
@@ -36,127 +38,124 @@ public class UITemplateService {
 
     public ApiResponseDTO<String> createTemplate(CreateTemplateDTO templateDTO, HttpServletRequest request){
         //clean data
-        String email = templateDTO.getEmail().strip().toLowerCase();
+        String email = requestUtil.extractEmailClaim(request);
         String templateName = templateDTO.getTemplateName().strip();
         String templateDetails = templateDTO.getTemplateDetails().strip();//need to figure this one out, idk how to store template deets yet
 
-        //ensure person making the request and the user creating the template match
-        if(isRequestValid(email,request)) {
-            //find user in db
-            Optional<UserTable> user = userRepo.findByEmail(email);
-            if (!user.isPresent()) {
-                throw new ResourceNotFoundException("please provide a valid email");
-            }
-
-            //create a template
-            UITemplate template = new UITemplate();
-            template.setUser(user.get());
-            template.setTemplateName(templateName);
-            template.setTemplateDetails(templateDetails);
-
-            //add template to db
-            try {
-                templateRepo.save(template);
-            } catch (Exception e) {
-                throw new DatabaseErrorException(e.getMessage());
-            }
-
-            return new ApiResponseDTO<>(
-                    true,
-                    "Template created successfully",
-                    template.toString()
-            );
+        if(templateName.length()>MAX_TEMPLATE_NAME_SIZE){
+            throw new IllegalArgumentException("template name can be a maximum of "+MAX_TEMPLATE_NAME_SIZE+" characters");
         }
-        throw new ForbiddenRequestException("Access denied: You can only modify your own account.");
+
+        //find user in db
+        Optional<UserTable> user = userRepo.findByEmail(email);
+        if (user.isEmpty()) {
+            throw new ResourceNotFoundException("A user associated with the email "+email+" could not be found");
+        }
+
+        //create a template
+        UITemplate template = new UITemplate();
+        template.setUser(user.get());
+        template.setTemplateName(templateName);
+        template.setTemplateDetails(templateDetails);
+
+        //add template to db
+        try {
+            templateRepo.save(template);
+        } catch (Exception e) {
+            throw new DatabaseErrorException(e.getMessage());
+        }
+
+        return new ApiResponseDTO<>(
+                true,
+                "Template created successfully",
+                null
+        );
     }
 
     ///////////////////
     /// GET METHODS ///
     ///////////////////
 
-    public ApiResponseDTO<List<GetTemplateDTO>> getTemplates(EmailDTO userEmail, HttpServletRequest request) {
-        //clean data
-        String email = userEmail.getEmail().strip().toLowerCase();
+    public ApiResponseDTO<List<GetTemplateDTO>> getTemplates(HttpServletRequest request) {
+        //get data
+        String email = requestUtil.extractEmailClaim(request);
 
-        //validate the request
-        if (isRequestValid(email,request)){
-            //ensure user exists
-            Optional<UserTable> user = userRepo.findByEmail(email);
+        //ensure user exists
+        Optional<UserTable> user = userRepo.findByEmail(email);
 
-            if(user.isPresent()){
-                //get templates associated with user
-                List<GetTemplateDTO> templates = templateRepo.findAllByUser(user.get().getUserID());
-                return new ApiResponseDTO<List<GetTemplateDTO>>(true, "templates found", templates);
+        if(user.isPresent()){
+            //get templates associated with user
+            List<GetTemplateDTO> templates = templateRepo.findAllByUser(user.get().getUserID());
+            return new ApiResponseDTO<List<GetTemplateDTO>>(true, "templates found", templates);
 
-            }else{throw new ResourceNotFoundException("User associated with that email could not be found");}
+        }else{throw new ResourceNotFoundException("A user associated with the email "+email+" could not be found");}
 
-        }
-        throw new ForbiddenRequestException("Access denied: You can only get information from your own account.");
     }
 
-    ///////////////////
+    /////////////////////
     /// PATCH METHODS ///
-    ///////////////////
+    /////////////////////
 
     public ApiResponseDTO<String> updateTemplateDetails(UpdateTemplateDTO templateDTO, HttpServletRequest request) {
         //clean data
-        String email = templateDTO.getEmail().strip().toLowerCase();
+        String email = requestUtil.extractEmailClaim(request);
         String newTemplateDetails = templateDTO.getNewInfo().strip();
         int templateID = Integer.parseInt(templateDTO.getTemplateID());
 
-        //validate request
-        if(isRequestValid(email, request)){
-            //ensure the templateDTO being updated belongs to the user making request
-            Optional<UITemplate> template = templateRepo.findById(templateID);
-            Optional<UserTable> user = userRepo.findByEmail(email);
+        //ensure the template being updated belongs to the user making request
+        Optional<UITemplate> template = templateRepo.findById(templateID);
+        Optional<UserTable> user = userRepo.findByEmail(email);
 
-            if(template.isPresent()){
-                if(user.isPresent()){
-                    if(user.get().getUserID() == template.get().getUser().getUserID()){
-                        //save new template details
-                        template.get().setTemplateDetails(newTemplateDetails);
-                        templateRepo.save(template.get());
+        if(template.isPresent()){
+            if(user.isPresent()){
+                if(user.get().getUserID() == template.get().getUser().getUserID()){
+                    //save new template details
+                    template.get().setTemplateDetails(newTemplateDetails);
+                    templateRepo.save(template.get());
 
-                        return new ApiResponseDTO<String>(true,
-                                "template successfully updated", template.get().toString());
+                    return new ApiResponseDTO<String>(true,
+                            "template successfully updated", template.get().toString());
 
-                    }else{throw new ResourceNotFoundException("Could not find ui template associated with that user");}
-                }else{throw new ResourceNotFoundException("UA user associated with that email could not be found");}
-            }else {throw new ResourceNotFoundException("A template associated with that ID could not be found");}
+                }else{throw new ResourceNotFoundException("Could not find ui template associated with that user");}
+            }else{throw new ResourceNotFoundException("A user associated with the email "+email+" could not be found");}
+        }else {throw new ResourceNotFoundException("A template associated with that ID could not be found");}
 
-        }
-        throw new ForbiddenRequestException("Access denied: You can only modify your own account.");
     }
 
     public ApiResponseDTO<String> updateTemplateName(UpdateTemplateDTO templateDTO, HttpServletRequest request) {
         //clean data
-        String email = templateDTO.getEmail().strip().toLowerCase();
+        String email = requestUtil.extractEmailClaim(request);
         String newName = templateDTO.getNewInfo().strip();
         int templateID = Integer.parseInt(templateDTO.getTemplateID().strip());
 
-        //validate request
-        if(isRequestValid(email,request)){
-            //ensure template exists
-            Optional<UITemplate> template = templateRepo.findById(templateID);
-
-            //ensure email is valid
-            Optional<UserTable> user = userRepo.findByEmail(email);
-
-            //ensure template is associated with the email/user provided
-            if (template.isPresent()){
-                if(user.isPresent()){
-                    if(template.get().getUser().getUserID() == user.get().getUserID()){
-                        //update and save template
-                        template.get().setTemplateName(newName);
-
-                        templateRepo.save(template.get());
-
-                        return new ApiResponseDTO<String>(true, "Template name successfully updated", null);
-                    }else{}
-                }else{throw new ResourceNotFoundException("A user associated with that email could not be found");}
-            }else{throw new ResourceNotFoundException("A template with that ID could not found");}
+        //input validation
+        if(newName.length()>MAX_TEMPLATE_NAME_SIZE){
+            throw new IllegalArgumentException("template name can be a maximum of "+MAX_TEMPLATE_NAME_SIZE+" characters");
         }
-        throw new ForbiddenRequestException("Access denied: You can only modify your own account.");
+
+        //ensure template exists
+        Optional<UITemplate> template = templateRepo.findById(templateID);
+
+        //ensure email is valid
+        Optional<UserTable> user = userRepo.findByEmail(email);
+
+        //ensure template is associated with the email/user provided
+        if (template.isPresent()){
+            if(user.isPresent()){
+                if(template.get().getUser().getUserID() == user.get().getUserID()){
+                    //update and save template
+                    template.get().setTemplateName(newName);
+
+                    templateRepo.save(template.get());
+
+                    return new ApiResponseDTO<String>(
+                            true,
+                            "Template name successfully updated",
+                            null);
+
+                }else{throw new ResourceNotFoundException("such template associated with the user could not be found");}
+            }else{throw new ResourceNotFoundException("A user associated with the email "+email+" could not be found");}
+        }else{throw new ResourceNotFoundException("A template with that ID could not found");}
     }
 
     //////////////////////
@@ -165,64 +164,31 @@ public class UITemplateService {
 
     public ApiResponseDTO<String> deleteTemplate(DeleteUITemplateDTO template, HttpServletRequest request) {
         //clean data
-        String email = template.getEmail().strip().toLowerCase();
+        String email = requestUtil.extractEmailClaim(request);
         int templateID = Integer.parseInt(template.getTemplateID());
 
-        //ensure request is valid (user making the request and user deleting the template are the same)
-        if(isRequestValid(email,request)) {
-            //ensure template exists and is associated with the user making the request
-            Optional<UserTable> user = userRepo.findByEmail(email);
-            Optional<UITemplate> uiTemplate = templateRepo.findById(templateID);
+        //ensure template exists and is associated with the user making the request
+        Optional<UserTable> user = userRepo.findByEmail(email);
+        Optional<UITemplate> uiTemplate = templateRepo.findById(templateID);
 
-            //delete template if the template exists, the user making the request exist, and if the template to be
-            // deleted is associated with the user making the request
-            if(uiTemplate.isPresent()){
-                if(user.isPresent()){
-                    if(uiTemplate.get().getUser().getUserID() == user.get().getUserID()){
-                        //delete template
-                        templateRepo.deleteById(uiTemplate.get().getTemplateID());
+        //delete template if the template exists, the user making the request exist, and if the template to be
+        // deleted is associated with the user making the request
+        if(uiTemplate.isPresent()){
+            if(user.isPresent()){
+                if(uiTemplate.get().getUser().getUserID() == user.get().getUserID()){
+                    //delete template
+                    templateRepo.deleteById(uiTemplate.get().getTemplateID());
 
-                        //return a response
-                        return new ApiResponseDTO<>(true, "template succesfully deleted", null);
+                    //return a response
+                    return new ApiResponseDTO<>(
+                            true,
+                            "template succesfully deleted",
+                            null);
 
-                    }else{
-                        throw new ResourceNotFoundException("Could not find a UI template associated with that user");
-                    }
-                }else{
-                    throw new ResourceNotFoundException("A user associated with that email could not be found");
-                }
-            }else{
-                throw new IdNotFoundException("A template associated with that ID could not be found");
-            }
-        }
-        throw new ForbiddenRequestException("Access denied: You can only modify your own account.");
+                }else{throw new ResourceNotFoundException("Could not find a UI template associated with that user");}
+            }else{throw new ResourceNotFoundException("A user associated with that email could not be found");}
+        }else{throw new IdNotFoundException("A template associated with that ID could not be found");}
     }
 
-    ///////////////////////
-    /// PRIVATE METHODS ///
-    ///////////////////////
-
-    private boolean isRequestValid(String userEmail, HttpServletRequest request){
-        String token;
-        String JWTemail = null;
-
-        //get auth header from request
-        String authHeader = request.getHeader("Authorization");
-
-        //ensure header isn't empty or wrongly formatted
-        if(authHeader != null && authHeader.startsWith("Bearer ")){
-            //extract token and get email from token
-            token = authHeader.substring(7);//jwt string starts at 7th index of header string
-            JWTemail = jwtService.extractEmail(token);
-            //dont need to verify token validity bc jwt filter takes care of that for all incoming requests.
-        }
-
-        //ensure emails match
-        if (userEmail.equals(JWTemail)){
-            return true;
-        }
-
-        return false;
-    }
 }
 

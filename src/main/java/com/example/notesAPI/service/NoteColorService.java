@@ -129,7 +129,7 @@ public class NoteColorService {
                     );
 
                 }else{throw new ResourceNotFoundException("A color by that ID associated with the provided email could not be found");}
-            }else{throw new ResourceNotFoundException("A user associated with that email could not be found");}
+            }else{throw new ResourceNotFoundException("A user associated with the email "+email+" could not be found");}
         }else {throw new IdNotFoundException("A color associated with that ID could not be found");}
     }
 

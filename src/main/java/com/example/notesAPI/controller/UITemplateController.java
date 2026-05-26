@@ -31,7 +31,7 @@ public class UITemplateController {
     @PostMapping("/create")
     public ApiResponseDTO<String> createTemplate(@RequestBody CreateTemplateDTO template, HttpServletRequest request) {
         if (!template.isValid()) {
-            throw new IllegalArgumentException("All fields (user email, template name, and template details) must be filled out");
+            throw new IllegalArgumentException("All fields (template name, and template details) must be filled out");
         }
         return service.createTemplate(template, request);
     }
@@ -42,11 +42,8 @@ public class UITemplateController {
 
     @Operation(summary = "fetches ui templates", description = "fetches all ui templates associated with the provided email")
     @GetMapping("/getTemplates")
-    public ApiResponseDTO<List<GetTemplateDTO>> getTemplates(@RequestBody EmailDTO userEmail, HttpServletRequest request) {
-        if (!userEmail.isValid()) {
-            throw new IllegalArgumentException("please provide a valid email");
-        }
-        return service.getTemplates(userEmail, request);
+    public ApiResponseDTO<List<GetTemplateDTO>> getTemplates(HttpServletRequest request) {
+        return service.getTemplates(request);
     }
 
     /// /////////////////
@@ -57,7 +54,7 @@ public class UITemplateController {
     @PatchMapping("/updateTemplateDetails")
     public ApiResponseDTO<String> updateTemplateDetails(@RequestBody UpdateTemplateDTO template, HttpServletRequest request) {
         if (!template.isValid()) {
-            throw new IllegalArgumentException("All fields (email, newInfo) must be filled out");
+            throw new IllegalArgumentException("The field newInfo must be provided");
         }
 
         return service.updateTemplateDetails(template, request);
@@ -67,9 +64,8 @@ public class UITemplateController {
     @PatchMapping("/updateTemplateName")
     public ApiResponseDTO<String> updateTemplateName(@RequestBody UpdateTemplateDTO templateDTO, HttpServletRequest request) {
         if (!templateDTO.isValid()) {
-            throw new IllegalArgumentException("All fields (email, templateID, newInfo) must be filled out");
+            throw new IllegalArgumentException("All fields (templateID, newInfo) must be filled out");
         }
-
         return service.updateTemplateName(templateDTO, request);
     }
 
@@ -82,7 +78,7 @@ public class UITemplateController {
     public ApiResponseDTO<String> deleteTemplate(@RequestBody DeleteUITemplateDTO template, HttpServletRequest request) {
         //make sure data is valid
         if (!template.isValid()) {
-            throw new IllegalArgumentException("All fields (templateID and email) must be filled out");
+            throw new IllegalArgumentException("A templateID must be provided");
         }
         //give data to service
         return service.deleteTemplate(template, request);

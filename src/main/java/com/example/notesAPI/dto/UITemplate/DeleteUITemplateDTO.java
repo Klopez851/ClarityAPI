@@ -13,13 +13,9 @@ public class DeleteUITemplateDTO {
     @Schema(name = "templateID",example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
     private String templateID;
 
-    @Schema(name = "email",example = "sampleemail@gmail.com", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String email;
-
     @JsonIgnore
     public boolean isValid(){
-        if(templateID == null || templateID.isBlank()
-                || email == null || email.isBlank()){
+        if(templateID == null || templateID.isBlank()){
             return false;
         }
         return true;

@@ -10,8 +10,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class CreateTemplateDTO {
-    @Schema(name = "email",example = "sampleemail@gmail.com", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String email;
 
     @Schema(name = "templateName",example = "MyTemplate", requiredMode = Schema.RequiredMode.REQUIRED)
     private String templateName;
@@ -21,8 +19,7 @@ public class CreateTemplateDTO {
 
     @JsonIgnore
     public boolean isValid(){
-        if (email == null || email.isBlank()
-        || templateName == null || templateName.isBlank()
+        if (templateName == null || templateName.isBlank()
         || templateDetails == null || templateDetails.isBlank()){
 
             return false;
