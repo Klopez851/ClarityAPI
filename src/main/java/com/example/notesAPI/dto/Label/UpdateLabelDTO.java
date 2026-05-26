@@ -17,14 +17,10 @@ public class UpdateLabelDTO {
     @Schema(name = "labelName",example = "interesting facts", requiredMode = Schema.RequiredMode.REQUIRED)
     private String labelName;
 
-    @Schema(name = "email",example = "sampleemail@gmail.com", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String email;
-
     @JsonIgnore
     public boolean isValid(){
         if ((labelID == null || labelID.isBlank())
-                || (labelName == null || labelName.isBlank())
-                || (email== null || email.isBlank())){
+                || (labelName == null || labelName.isBlank())){
             return false;
         }
         return true;

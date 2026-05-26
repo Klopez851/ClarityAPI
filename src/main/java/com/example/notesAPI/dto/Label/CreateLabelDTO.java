@@ -10,16 +10,13 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class CreateLabelDTO {
-    @Schema(name = "email",example = "sampleemail@gmail.com", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String email;
 
     @Schema(name = "label",example = "sample label", requiredMode = Schema.RequiredMode.REQUIRED)
     private String label;
 
     @JsonIgnore
     public boolean isValid(){
-        if((email==null || email.isBlank())
-                || (label==null||label.isBlank())){
+        if(label==null||label.isBlank()){
             return false;
         }
         return true;

@@ -42,15 +42,10 @@ public class LabelController {
     /// GET MAPPING/S ///
     /// //////////////////
 
-    @Operation(summary = "fetches labels", description = "fetches all labels associated with the provided email")
+    @Operation(summary = "fetches labels", description = "fetches all labels associated with the provided email in the jwt token")
     @GetMapping("/getLabels")
-    public ApiResponseDTO<List<LabelDTO>> getLabels(@RequestBody EmailDTO userEmail, HttpServletRequest request) {
-        //validate input
-        if (!userEmail.isValid()) {
-            throw new IllegalArgumentException("A valid email is needed to get labels");
-        }
-
-        return service.getLabels(userEmail, request);
+    public ApiResponseDTO<List<LabelDTO>> getLabels(HttpServletRequest request) {
+        return service.getLabels(request);
     }
 
     //might create endpoint to get individual labels if needed
@@ -60,12 +55,11 @@ public class LabelController {
     /// ////////////////////
     @Operation(summary = "updates a label", description = "allows users to update any of the labels associated with them as long as a different label name from the name stored is provided")
     @PatchMapping("/updateLabel")
-    public ApiResponseDTO<String> updateLabel(@RequestBody UpdateLabelDTO reqLabel, HttpServletRequest request) {
+    public ApiResponseDTO<String> updateLabel(@RequestBody UpdateLabelDTO reqLabel) {
         if (!reqLabel.isValid()) {
-            throw new IllegalArgumentException("All fields(labelID, labelName, email) must be filled");
+            throw new IllegalArgumentException("All fields (labelID, labelName, email) must be filled");
         }
-
-        return service.updateLabel(reqLabel, request);
+        return service.updateLabel(reqLabel);
     }
 
     /// /////////////////////
@@ -78,7 +72,6 @@ public class LabelController {
         if (!label.isValid()) {
             throw new IllegalArgumentException("All fields (labelID, email) must be filled out");
         }
-
         return service.deleteLabel(label, request);
     }
 }

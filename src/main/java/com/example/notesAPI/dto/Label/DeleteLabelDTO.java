@@ -14,13 +14,9 @@ public class DeleteLabelDTO {
     @Schema(name = "labelID",example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
     private String labelID;
 
-    @Schema(name = "email",example = "sampleemail@gmail.com", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String email;
-
     @JsonIgnore
     public boolean isValid(){
-        if ((labelID == null || labelID.isBlank())
-                || (email== null || email.isBlank())){
+        if (labelID == null || labelID.isBlank()){
             return false;
         }
         return true;

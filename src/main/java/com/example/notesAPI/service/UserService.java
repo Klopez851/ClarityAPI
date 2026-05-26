@@ -28,11 +28,11 @@ public class UserService {
     private final int MAX_EMAIL_LENGTH = 254;
 
     //using constructor injection with lombok annotations
-    private UserRepository userRepo;
-    private BCryptPasswordEncoder passwordEncoder;
-    private AuthenticationManager authManager;
-    private JWTService jwtService;
-    private RequestValidationService requestUtil;
+    private final UserRepository userRepo;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final AuthenticationManager authManager;
+    private final JWTService jwtService;
+    private final RequestValidationService requestUtil;
 
     /// /////////////////
     /// POST METHODS ///
@@ -57,12 +57,12 @@ public class UserService {
 
         //validate username length
         if (username.length() > MAX_USERNAME_LENGTH) {
-            throw new IllegalArgumentException("Username is too long, needs to be less than 51 characters");
+            throw new IllegalArgumentException("Username is too long, needs to be less than "+MAX_USERNAME_LENGTH+" characters");
         }
 
         //validate email length
         if (email.length() > MAX_EMAIL_LENGTH) {
-            throw new IllegalArgumentException("Email is too long, needs to be less than 254 characters");
+            throw new IllegalArgumentException("Email is too long, needs to be less than "+MAX_EMAIL_LENGTH+" characters");
         }
 
         //Create user object
@@ -121,7 +121,7 @@ public class UserService {
 
         //validate the input some more
         if (newUsername.length() > MAX_USERNAME_LENGTH) {
-            throw new IllegalArgumentException("Username is too long");
+            throw new IllegalArgumentException("Username is too long, needs to be less than "+MAX_USERNAME_LENGTH+" characters");
         }
 
         //get the user from the db
@@ -158,7 +158,7 @@ public class UserService {
 
         //validate the input some more
         if (newEmail.length() > MAX_EMAIL_LENGTH) {
-            throw new IllegalArgumentException("Email is too long");
+            throw new IllegalArgumentException("Email is too long, needs to be less than "+MAX_EMAIL_LENGTH+" characters");
         }
 
         //get the user from the db
