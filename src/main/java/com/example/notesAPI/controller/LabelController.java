@@ -33,7 +33,7 @@ public class LabelController {
     @PostMapping("/createLabel")
     public ApiResponseDTO<String> createLabel(@RequestBody CreateLabelDTO userLabel, HttpServletRequest request) {
         if (!userLabel.isValid()) {
-            throw new IllegalArgumentException("label name must be filled out and a valid email must be provided");
+            throw new IllegalArgumentException("A label name must be provided");
         }
         return service.createLabel(userLabel, request);
     }
@@ -57,7 +57,7 @@ public class LabelController {
     @PatchMapping("/updateLabel")
     public ApiResponseDTO<String> updateLabel(@RequestBody UpdateLabelDTO reqLabel) {
         if (!reqLabel.isValid()) {
-            throw new IllegalArgumentException("All fields (labelID, labelName, email) must be filled");
+            throw new IllegalArgumentException("All fields (labelID, labelName) must be filled");
         }
         return service.updateLabel(reqLabel);
     }
@@ -70,7 +70,7 @@ public class LabelController {
     @DeleteMapping("/deleteLabel")
     public ApiResponseDTO<String> deleteLabel(@RequestBody DeleteLabelDTO label, HttpServletRequest request) {
         if (!label.isValid()) {
-            throw new IllegalArgumentException("All fields (labelID, email) must be filled out");
+            throw new IllegalArgumentException("A labelID must provided");
         }
         return service.deleteLabel(label, request);
     }

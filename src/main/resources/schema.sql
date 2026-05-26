@@ -36,7 +36,8 @@ CREATE TABLE IF NOT EXISTS label (
 
 CREATE TABLE IF NOT EXISTS notecolor (
   user_id INTEGER NOT NULL,
-  color_hex VARCHAR(7) NOT NULL,
+  -- 9 chars to allow support for color hex with alpha transparency
+  color_hex VARCHAR(9) NOT NULL,
   color_id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 ;

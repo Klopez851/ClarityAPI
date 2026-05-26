@@ -10,16 +10,13 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class CreateNoteColorDTO {
-    @Schema(name = "email",example = "sampleemail@gmail.com", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String email;
 
     @Schema(name = "colorHex",example = "#b5a2c8", requiredMode = Schema.RequiredMode.REQUIRED)
     private String colorHex;
 
     @JsonIgnore
     public boolean isValid(){
-        if(email == null || email.isBlank()
-                || colorHex == null || colorHex.isBlank()){
+        if(colorHex == null || colorHex.isBlank()){
             return false;
         }
         return true;

@@ -32,9 +32,8 @@ public class NoteColorController {
     @PostMapping("/createColor")
     public ApiResponseDTO<String> createNoteColor(@RequestBody CreateNoteColorDTO colorDTO, HttpServletRequest request) {
         if (!colorDTO.isValid()) {
-            throw new IllegalArgumentException("All fields (email, colorHex) must be filled out");
+            throw new IllegalArgumentException("A colorHex must be provided");
         }
-
         return service.createNoteColor(colorDTO, request);
     }
 
@@ -42,13 +41,10 @@ public class NoteColorController {
     /// GET MAPPING/S ///
     /// //////////////////
 
-    @Operation(summary = "fetch colors", description = " fetch all colors associated with the provided emailDTO")
+    @Operation(summary = "fetch colors", description = " fetch all colors associated with the email provided by the jwt token")
     @GetMapping("/getColors")
-    public ApiResponseDTO<List<NoteColorDTO>> getNoteColors(@RequestBody EmailDTO emailDTO, HttpServletRequest request) {
-        if (!emailDTO.isValid()) {
-            throw new IllegalArgumentException("Please provide a valid email");
-        }
-        return service.getNoteColors(emailDTO, request);
+    public ApiResponseDTO<List<NoteColorDTO>> getNoteColors(HttpServletRequest request) {
+        return service.getNoteColors(request);
     }
 
     /// ////////////////////
@@ -59,7 +55,7 @@ public class NoteColorController {
     @PatchMapping("/updateColor")
     public ApiResponseDTO<String> updateNoteColor(@RequestBody UpdateNoteColorDTO colorDTO, HttpServletRequest request) {
         if (!colorDTO.isValid()) {
-            throw new IllegalArgumentException("All fields (email, colorID, newColor) must be filled out");
+            throw new IllegalArgumentException("All fields (colorID, newColor) must be filled out");
         }
         return service.updateNoteColor(colorDTO, request);
     }
@@ -72,7 +68,7 @@ public class NoteColorController {
     @DeleteMapping("/deleteColor")
     public ApiResponseDTO<String> deleteNoteColor(@RequestBody DeleteNoteColorDTO colorDTO, HttpServletRequest request) {
         if (!colorDTO.isValid()) {
-            throw new IllegalArgumentException("All fields (email, colorID) must be filled out");
+            throw new IllegalArgumentException("A colorID must be provided");
         }
         return service.deleteCoteColor(colorDTO, request);
     }

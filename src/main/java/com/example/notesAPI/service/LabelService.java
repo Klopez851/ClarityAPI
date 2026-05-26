@@ -27,7 +27,6 @@ public class LabelService {
     private final int MAX_LABEL_NAME_SIZE = 50;
     private final LabelRepository labelRepo;
     private final UserRepository userRepo;
-    private final JWTService jwtService;
     private final RequestValidationService requestUtil;
 
     ////////////////////
@@ -115,7 +114,7 @@ public class LabelService {
         return new ApiResponseDTO<String>(
                 true,
                 "Label successfully updated",
-                label.get().getLabelName());
+                null);
     }
 
     //////////////////////
