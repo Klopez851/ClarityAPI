@@ -1,7 +1,10 @@
 package com.example.notesAPI.service;
 
 import com.example.notesAPI.dto.ApiResponseDTO;
-import com.example.notesAPI.dto.User.*;
+import com.example.notesAPI.dto.User.UpdateEmailDTO;
+import com.example.notesAPI.dto.User.UpdateUserInfoDTO;
+import com.example.notesAPI.dto.User.UserInfoDTO;
+import com.example.notesAPI.dto.User.UserLoginDTO;
 import com.example.notesAPI.errorHandler.DatabaseErrorException;
 import com.example.notesAPI.errorHandler.ResourceAlreadyExistsException;
 import com.example.notesAPI.errorHandler.ResourceNotFoundException;
@@ -57,12 +60,12 @@ public class UserService {
 
         //validate username length
         if (username.length() > MAX_USERNAME_LENGTH) {
-            throw new IllegalArgumentException("Username is too long, needs to be less than "+MAX_USERNAME_LENGTH+" characters");
+            throw new IllegalArgumentException("Username is too long, needs to be less than " + MAX_USERNAME_LENGTH + " characters");
         }
 
         //validate email length
         if (email.length() > MAX_EMAIL_LENGTH) {
-            throw new IllegalArgumentException("Email is too long, needs to be less than "+MAX_EMAIL_LENGTH+" characters");
+            throw new IllegalArgumentException("Email is too long, needs to be less than " + MAX_EMAIL_LENGTH + " characters");
         }
 
         //Create user object
@@ -121,7 +124,7 @@ public class UserService {
 
         //validate the input some more
         if (newUsername.length() > MAX_USERNAME_LENGTH) {
-            throw new IllegalArgumentException("Username is too long, needs to be less than "+MAX_USERNAME_LENGTH+" characters");
+            throw new IllegalArgumentException("Username is too long, needs to be less than " + MAX_USERNAME_LENGTH + " characters");
         }
 
         //get the user from the db
@@ -133,9 +136,9 @@ public class UserService {
                     "Username updates require a valid email to identify the user to update.");
         }
 
-        if(user.get().getUsername().equals(newUsername)){
+        if (user.get().getUsername().equals(newUsername)) {
             throw new ResourceAlreadyExistsException("No changes made. The new username matches the current username.");
-        }else{
+        } else {
             user.get().setUsername(newUsername);
         }
 
@@ -158,7 +161,7 @@ public class UserService {
 
         //validate the input some more
         if (newEmail.length() > MAX_EMAIL_LENGTH) {
-            throw new IllegalArgumentException("Email is too long, needs to be less than "+MAX_EMAIL_LENGTH+" characters");
+            throw new IllegalArgumentException("Email is too long, needs to be less than " + MAX_EMAIL_LENGTH + " characters");
         }
 
         //get the user from the db
@@ -169,9 +172,9 @@ public class UserService {
             throw new ResourceNotFoundException("Cannot find a user to update");
         }
 
-        if(user.get().getEmail().equals(newEmail)){
+        if (user.get().getEmail().equals(newEmail)) {
             throw new ResourceAlreadyExistsException("No changes made. The new email matches the current email.");
-        }else{
+        } else {
             user.get().setEmail(newEmail);
         }
 
@@ -229,7 +232,7 @@ public class UserService {
         Optional<UserTable> userToBeDeleted = userRepo.findByEmail(userEmail);
 
         if (userToBeDeleted.isEmpty()) {
-            throw new ResourceNotFoundException("A user associated with email "+userEmail+" could not be found");
+            throw new ResourceNotFoundException("A user associated with email " + userEmail + " could not be found");
         }
         //delete user
         userRepo.delete(userToBeDeleted.get());

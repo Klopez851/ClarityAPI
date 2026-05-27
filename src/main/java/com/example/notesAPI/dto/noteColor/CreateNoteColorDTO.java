@@ -11,12 +11,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CreateNoteColorDTO {
 
-    @Schema(name = "colorHex",example = "#b5a2c8", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "colorHex", example = "#b5a2c8", requiredMode = Schema.RequiredMode.REQUIRED)
     private String colorHex;
 
     @JsonIgnore
-    public boolean isValid(){
-        if(colorHex == null || colorHex.isBlank()){
+    public boolean isValid() {
+        if (colorHex == null || colorHex.isBlank()) {
             return false;
         }
         return true;

@@ -10,15 +10,15 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class UpdateColorDTO {
-    @Schema(name = "noteID",example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "noteID", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
     private int noteID;
 
-    @Schema(name = "colorID",example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "colorID", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
     private int colorID;
 
     @JsonIgnore
-    public boolean isValid(){
-        if(noteID<1 ||colorID<1){
+    public boolean isValid() {
+        if (noteID < 1 || colorID < 1) {
             return false;
         }
 

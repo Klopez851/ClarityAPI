@@ -1,9 +1,9 @@
 package com.example.notesAPI.service;
 
 import com.example.notesAPI.dto.ApiResponseDTO;
+import com.example.notesAPI.dto.Label.CreateLabelDTO;
 import com.example.notesAPI.dto.Label.DeleteLabelDTO;
 import com.example.notesAPI.dto.Label.LabelDTO;
-import com.example.notesAPI.dto.Label.CreateLabelDTO;
 import com.example.notesAPI.dto.Label.UpdateLabelDTO;
 import com.example.notesAPI.errorHandler.IdNotFoundException;
 import com.example.notesAPI.errorHandler.ResourceNotFoundException;
@@ -29,11 +29,11 @@ public class LabelService {
     private final UserRepository userRepo;
     private final RequestValidationService requestUtil;
 
-    ////////////////////
+    /// /////////////////
     /// POST METHODS ///
-    ////////////////////
+    /// /////////////////
 
-    public ApiResponseDTO<String> createLabel(CreateLabelDTO userLabel, HttpServletRequest request){
+    public ApiResponseDTO<String> createLabel(CreateLabelDTO userLabel, HttpServletRequest request) {
         Label label;
 
         //clean data
@@ -47,9 +47,9 @@ public class LabelService {
         if (user.isEmpty()) {
             throw new IllegalArgumentException("Valid email needed to create label");
         }
-        if(labelName.length()>MAX_LABEL_NAME_SIZE){
-            throw new IllegalArgumentException("label is too long, it can be a maximum of "+MAX_LABEL_NAME_SIZE+" characters");
-        }else{
+        if (labelName.length() > MAX_LABEL_NAME_SIZE) {
+            throw new IllegalArgumentException("label is too long, it can be a maximum of " + MAX_LABEL_NAME_SIZE + " characters");
+        } else {
             label = new Label(user.get(), labelName);
         }
 
@@ -61,9 +61,9 @@ public class LabelService {
                 "label successfully created", null);
     }
 
-    ///////////////////
+    /// ////////////////
     /// GET METHODS ///
-    ///////////////////
+    /// ////////////////
 
     public ApiResponseDTO<List<LabelDTO>> getLabels(HttpServletRequest request) {
         //clean email
@@ -83,9 +83,9 @@ public class LabelService {
         return new ApiResponseDTO<List<LabelDTO>>(true, "labels successfully fetched", labels);
     }
 
-    /////////////////////
+    /// //////////////////
     /// PATCH METHODS ///
-    /////////////////////
+    /// //////////////////
 
     public ApiResponseDTO<String> updateLabel(UpdateLabelDTO reqLabel) {
         //clean data
@@ -117,9 +117,9 @@ public class LabelService {
                 null);
     }
 
-    //////////////////////
+    /// ///////////////////
     /// DELETE METHODS ///
-    //////////////////////
+    /// ///////////////////
 
     public ApiResponseDTO<String> deleteLabel(DeleteLabelDTO reqLabel, HttpServletRequest request) {
         //clean/format data
@@ -131,15 +131,21 @@ public class LabelService {
         Optional<UserTable> user = userRepo.findByEmail(email);
 
         //delete if label exists, if user exists, and is label is associated with the user
-        if(label.isPresent()){
-            if(user.isPresent()){
-                if(label.get().getUser().getUserID() == user.get().getUserID()){
+        if (label.isPresent()) {
+            if (user.isPresent()) {
+                if (label.get().getUser().getUserID() == user.get().getUserID()) {
                     //delete label
                     labelRepo.delete(label.get());
                     return new ApiResponseDTO<String>(true, "label successfully deleted", null);
 
-                }else{throw new ResourceNotFoundException("Could not such label associated with that user");}
-            }else{throw new ResourceNotFoundException("A user with the email "+email+" could not be found");}
-        }else{throw new IdNotFoundException("A label with that id could not be found");}
+                } else {
+                    throw new ResourceNotFoundException("Could not such label associated with that user");
+                }
+            } else {
+                throw new ResourceNotFoundException("A user with the email " + email + " could not be found");
+            }
+        } else {
+            throw new IdNotFoundException("A label with that id could not be found");
+        }
     }
 }

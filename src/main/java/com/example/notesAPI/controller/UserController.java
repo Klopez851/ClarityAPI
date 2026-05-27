@@ -1,9 +1,10 @@
 package com.example.notesAPI.controller;
 
 import com.example.notesAPI.dto.ApiResponseDTO;
-import com.example.notesAPI.dto.EmailDTO;
-import com.example.notesAPI.dto.User.*;
-import com.example.notesAPI.errorHandler.ResourceNotFoundException;
+import com.example.notesAPI.dto.User.UpdateEmailDTO;
+import com.example.notesAPI.dto.User.UpdateUserInfoDTO;
+import com.example.notesAPI.dto.User.UserInfoDTO;
+import com.example.notesAPI.dto.User.UserLoginDTO;
 import com.example.notesAPI.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

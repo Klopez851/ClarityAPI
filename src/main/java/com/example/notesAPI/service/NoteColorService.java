@@ -1,12 +1,14 @@
 package com.example.notesAPI.service;
 
 import com.example.notesAPI.dto.ApiResponseDTO;
-import com.example.notesAPI.dto.EmailDTO;
 import com.example.notesAPI.dto.noteColor.CreateNoteColorDTO;
 import com.example.notesAPI.dto.noteColor.DeleteNoteColorDTO;
 import com.example.notesAPI.dto.noteColor.NoteColorDTO;
 import com.example.notesAPI.dto.noteColor.UpdateNoteColorDTO;
-import com.example.notesAPI.errorHandler.*;
+import com.example.notesAPI.errorHandler.DatabaseErrorException;
+import com.example.notesAPI.errorHandler.IdNotFoundException;
+import com.example.notesAPI.errorHandler.ResourceAlreadyExistsException;
+import com.example.notesAPI.errorHandler.ResourceNotFoundException;
 import com.example.notesAPI.model.NoteColor;
 import com.example.notesAPI.model.UserTable;
 import com.example.notesAPI.repository.NoteColorRepository;
@@ -29,28 +31,28 @@ public class NoteColorService {
     private final NoteColorRepository noteColorRepo;
     private final RequestValidationService requestUtil;
 
-    /////////////////////
+    /// //////////////////
     /// POST METHOD/S ///
-    /////////////////////
+    /// //////////////////
 
     public ApiResponseDTO<String> createNoteColor(CreateNoteColorDTO colorDTO, HttpServletRequest request) {
         //clean data
         String email = requestUtil.extractEmailClaim(request);
-        String colorHex= colorDTO.getColorHex().strip();
+        String colorHex = colorDTO.getColorHex().strip();
         NoteColor color;
 
         //ensure email is associated with an existing user
         Optional<UserTable> user = userRepo.findByEmail(email);
 
-        if(user.isPresent()){
+        if (user.isPresent()) {
             //create noteColor
-            if(!(colorHex.length()>MAX_COLOR_HEX_SIZE)){
+            if (!(colorHex.length() > MAX_COLOR_HEX_SIZE)) {
                 color = new NoteColor(colorHex, user.get());
-            }else{
-                throw new IllegalArgumentException("color hex can be a maximum of "+ MAX_COLOR_HEX_SIZE+" characters");
+            } else {
+                throw new IllegalArgumentException("color hex can be a maximum of " + MAX_COLOR_HEX_SIZE + " characters");
             }
 
-            if(!noteColorRepo.existsByColorHEX(colorHex)) {
+            if (!noteColorRepo.existsByColorHEX(colorHex)) {
                 //store color
                 try {
                     noteColorRepo.save(color);
@@ -62,13 +64,15 @@ public class NoteColorService {
                         "color successfully saved",
                         null);
 
-            }throw new ResourceAlreadyExistsException("Such color already exists");
-        }throw new ResourceNotFoundException("A user associated with the email "+email+" could not be found");
+            }
+            throw new ResourceAlreadyExistsException("Such color already exists");
+        }
+        throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
     }
 
-    ////////////////////
+    /// /////////////////
     /// GET METHOD/S ///
-    ////////////////////
+    /// /////////////////
 
     public ApiResponseDTO<List<NoteColorDTO>> getNoteColors(HttpServletRequest request) {
         //clean data
@@ -77,7 +81,7 @@ public class NoteColorService {
         //ensure user exists
         Optional<UserTable> user = userRepo.findByEmail(email);
 
-        if(user.isPresent()){
+        if (user.isPresent()) {
             //fetch and return all associated colors
             return new ApiResponseDTO<List<NoteColorDTO>>(
                     true,
@@ -85,12 +89,13 @@ public class NoteColorService {
                     noteColorRepo.findAllByUser(user.get().getUserID())
             );
 
-        }throw new ResourceNotFoundException("A user associated with the email "+email+" could not be found");
+        }
+        throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
     }
 
-    //////////////////////
+    /// ///////////////////
     /// PATCH METHOD/S ///
-    //////////////////////
+    /// ///////////////////
 
     public ApiResponseDTO<String> updateNoteColor(UpdateNoteColorDTO colorDTO, HttpServletRequest request) {
         //clean data
@@ -99,8 +104,8 @@ public class NoteColorService {
         int colorID = Integer.parseInt(colorDTO.getColorID().strip());
 
         //validate input
-        if(newColor.length()>MAX_COLOR_HEX_SIZE){
-            throw new IllegalArgumentException("color hex can be a maximum of "+ MAX_COLOR_HEX_SIZE+" characters");
+        if (newColor.length() > MAX_COLOR_HEX_SIZE) {
+            throw new IllegalArgumentException("color hex can be a maximum of " + MAX_COLOR_HEX_SIZE + " characters");
         }
 
         //get color to be updated
@@ -110,9 +115,9 @@ public class NoteColorService {
         Optional<UserTable> user = userRepo.findByEmail(email);
 
         //ensure color to be updates is associated with the provided user
-        if(color.isPresent()){
-            if(user.isPresent()){
-                if(user.get().getUserID() == color.get().getUser().getUserID()){
+        if (color.isPresent()) {
+            if (user.isPresent()) {
+                if (user.get().getUserID() == color.get().getUser().getUserID()) {
                     //update and save color
                     color.get().setColorHEX(newColor);
 
@@ -128,27 +133,33 @@ public class NoteColorService {
                             null
                     );
 
-                }else{throw new ResourceNotFoundException("A color by that ID associated with the provided email could not be found");}
-            }else{throw new ResourceNotFoundException("A user associated with the email "+email+" could not be found");}
-        }else {throw new IdNotFoundException("A color associated with that ID could not be found");}
+                } else {
+                    throw new ResourceNotFoundException("A color by that ID associated with the provided email could not be found");
+                }
+            } else {
+                throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
+            }
+        } else {
+            throw new IdNotFoundException("A color associated with that ID could not be found");
+        }
     }
 
-    ///////////////////////
+    /// ////////////////////
     /// DELETE METHOD/S ///
-    ///////////////////////
+    /// ////////////////////
 
     public ApiResponseDTO<String> deleteCoteColor(DeleteNoteColorDTO colorDTO, HttpServletRequest request) {
         //clean data
-        String email= requestUtil.extractEmailClaim(request);
-        int colorID= Integer.parseInt(colorDTO.getColorID().strip());
+        String email = requestUtil.extractEmailClaim(request);
+        int colorID = Integer.parseInt(colorDTO.getColorID().strip());
 
         //ensure color to be deletes exists and is associated with the provided email
         Optional<NoteColor> color = noteColorRepo.findById(colorID);
         Optional<UserTable> user = userRepo.findByEmail(email);
 
-        if(color.isPresent()){
-            if(user.isPresent()){
-                if(user.get().getUserID() == color.get().getUser().getUserID()){
+        if (color.isPresent()) {
+            if (user.isPresent()) {
+                if (user.get().getUserID() == color.get().getUser().getUserID()) {
 
                     noteColorRepo.delete(color.get());
 
@@ -157,8 +168,14 @@ public class NoteColorService {
                             "color successfull deleted",
                             null
                     );
-                }else{throw new ResourceNotFoundException("A color by that ID associated with the provided email could not be found");}
-            }else{throw new ResourceNotFoundException("A user by that email could not be found");}
-        }else{throw new IdNotFoundException("A color by that ID could not be found");}
+                } else {
+                    throw new ResourceNotFoundException("A color by that ID associated with the provided email could not be found");
+                }
+            } else {
+                throw new ResourceNotFoundException("A user by that email could not be found");
+            }
+        } else {
+            throw new IdNotFoundException("A color by that ID could not be found");
+        }
     }
 }

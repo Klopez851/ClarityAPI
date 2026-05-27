@@ -11,12 +11,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class DeleteLabelDTO {
 
-    @Schema(name = "labelID",example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "labelID", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
     private String labelID;
 
     @JsonIgnore
-    public boolean isValid(){
-        if (labelID == null || labelID.isBlank()){
+    public boolean isValid() {
+        if (labelID == null || labelID.isBlank()) {
             return false;
         }
         return true;

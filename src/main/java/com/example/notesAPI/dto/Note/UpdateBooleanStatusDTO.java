@@ -10,15 +10,15 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class UpdateBooleanStatusDTO {
-    @Schema(name = "noteID",example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "noteID", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
     private int noteID;
 
-    @Schema(name = "newValue",example = "true", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "newValue", example = "true", requiredMode = Schema.RequiredMode.REQUIRED)
     private boolean newValue;
 
     @JsonIgnore
-    public boolean isValid(){
-        if(noteID<0){
+    public boolean isValid() {
+        if (noteID < 0) {
             return false;
         }
         return true;

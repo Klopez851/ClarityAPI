@@ -1,19 +1,16 @@
 package com.example.notesAPI.controller;
 
 import com.example.notesAPI.dto.ApiResponseDTO;
+import com.example.notesAPI.dto.Label.CreateLabelDTO;
 import com.example.notesAPI.dto.Label.DeleteLabelDTO;
 import com.example.notesAPI.dto.Label.LabelDTO;
-import com.example.notesAPI.dto.Label.CreateLabelDTO;
 import com.example.notesAPI.dto.Label.UpdateLabelDTO;
-import com.example.notesAPI.dto.EmailDTO;
-import com.example.notesAPI.repository.LabelRepository;
-import com.example.notesAPI.repository.UserRepository;
 import com.example.notesAPI.service.LabelService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.v3.oas.annotations.*;
 
 import java.util.List;
 

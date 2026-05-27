@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
 import java.net.URI;
 
 @RestControllerAdvice
@@ -21,7 +22,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     //user already exists
     @ExceptionHandler(ResourceAlreadyExistsException.class)
-    public ProblemDetail handleDuplicateUser(ResourceAlreadyExistsException ex, WebRequest request){
+    public ProblemDetail handleDuplicateUser(ResourceAlreadyExistsException ex, WebRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
         problemDetail.setInstance(URI.create(request.getDescription(false)));
         return problemDetail;
@@ -29,7 +30,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     //user not found
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ProblemDetail handleUserNotFound (ResourceNotFoundException ex, WebRequest request){
+    public ProblemDetail handleUserNotFound(ResourceNotFoundException ex, WebRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
         problemDetail.setInstance(URI.create(request.getDescription(false)));
         return problemDetail;
@@ -37,7 +38,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     //Id not found
     @ExceptionHandler(IdNotFoundException.class)
-    public ProblemDetail handleIdNotFound(IdNotFoundException ex, WebRequest request){
+    public ProblemDetail handleIdNotFound(IdNotFoundException ex, WebRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
         problemDetail.setInstance(URI.create(request.getDescription(false)));
         return problemDetail;
@@ -45,7 +46,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     //user making request and user record being afffected dont match
     @ExceptionHandler(ForbiddenRequestException.class)
-    public ProblemDetail handleInvalidRequest(ForbiddenRequestException ex, WebRequest request){
+    public ProblemDetail handleInvalidRequest(ForbiddenRequestException ex, WebRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, ex.getMessage());
         problemDetail.setInstance(URI.create(request.getDescription(false)));
         return problemDetail;

@@ -11,12 +11,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CreateLabelDTO {
 
-    @Schema(name = "label",example = "sample label", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "label", example = "sample label", requiredMode = Schema.RequiredMode.REQUIRED)
     private String label;
 
     @JsonIgnore
-    public boolean isValid(){
-        if(label==null||label.isBlank()){
+    public boolean isValid() {
+        if (label == null || label.isBlank()) {
             return false;
         }
         return true;

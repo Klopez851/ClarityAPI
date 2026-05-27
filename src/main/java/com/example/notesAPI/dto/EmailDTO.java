@@ -10,12 +10,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class EmailDTO {
-    @Schema(name = "email",example = "sampleemail@gmail.com", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "email", example = "sampleemail@gmail.com", requiredMode = Schema.RequiredMode.REQUIRED)
     private String email;
 
     @JsonIgnore
-    public boolean isValid(){
-        if(email == null || email.isBlank()){
+    public boolean isValid() {
+        if (email == null || email.isBlank()) {
             return false;
         }
         return true;

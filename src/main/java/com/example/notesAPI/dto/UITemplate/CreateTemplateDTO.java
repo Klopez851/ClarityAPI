@@ -11,16 +11,16 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CreateTemplateDTO {
 
-    @Schema(name = "templateName",example = "MyTemplate", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "templateName", example = "MyTemplate", requiredMode = Schema.RequiredMode.REQUIRED)
     private String templateName;
 
-    @Schema(name = "templateDetails",example = "<TBD>", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "templateDetails", example = "<TBD>", requiredMode = Schema.RequiredMode.REQUIRED)
     private String templateDetails;
 
     @JsonIgnore
-    public boolean isValid(){
+    public boolean isValid() {
         if (templateName == null || templateName.isBlank()
-        || templateDetails == null || templateDetails.isBlank()){
+                || templateDetails == null || templateDetails.isBlank()) {
 
             return false;
         }

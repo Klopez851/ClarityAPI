@@ -13,9 +13,9 @@ public class GetTemplateDTO {
 
     //this constructor matches the exact order the query UITemplateRepository.getAllNoteByUser() requires
     // changes made here need to be reflected there.
-    public GetTemplateDTO(int templateID, String templateName, String templateDetails){
+    public GetTemplateDTO(int templateID, String templateName, String templateDetails) {
         this.templateID = templateID;
-        this.templateName =templateName;
+        this.templateName = templateName;
         this.templateDetails = templateDetails;
     }
 }

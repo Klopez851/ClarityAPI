@@ -20,9 +20,9 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     //the email is the users username
     public UserDetails loadUserByUsername(String email) throws ResourceNotFoundException {
-        Optional<UserTable> user = userRepo.findByEmail(email) ;
-        if(!user.isPresent()){
-            throw  new ResourceNotFoundException("user not found");
+        Optional<UserTable> user = userRepo.findByEmail(email);
+        if (!user.isPresent()) {
+            throw new ResourceNotFoundException("user not found");
         }
 
         return new MyUserDetails(user.get());

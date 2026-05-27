@@ -12,12 +12,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UpdateEmailDTO {
 
-    @Schema(name = "newEmail",example = "testsampleemail.com", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "newEmail", example = "testsampleemail.com", requiredMode = Schema.RequiredMode.REQUIRED)
     private String newEmail;
 
     @JsonIgnore
-    public boolean isValid(){
-        if((newEmail == null || newEmail.isBlank())) {
+    public boolean isValid() {
+        if ((newEmail == null || newEmail.isBlank())) {
             return false;
         }
         return true;

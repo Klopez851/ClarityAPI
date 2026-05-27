@@ -1,7 +1,6 @@
 package com.example.notesAPI.controller;
 
 import com.example.notesAPI.dto.ApiResponseDTO;
-import com.example.notesAPI.dto.EmailDTO;
 import com.example.notesAPI.dto.UITemplate.CreateTemplateDTO;
 import com.example.notesAPI.dto.UITemplate.DeleteUITemplateDTO;
 import com.example.notesAPI.dto.UITemplate.GetTemplateDTO;

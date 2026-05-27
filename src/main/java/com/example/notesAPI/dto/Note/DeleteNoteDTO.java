@@ -10,12 +10,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class DeleteNoteDTO {
-    @Schema(name = "noteID",example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "noteID", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
     private int noteID;
 
     @JsonIgnore
-    public boolean isValid(){
-        if(noteID<1){
+    public boolean isValid() {
+        if (noteID < 1) {
             return false;
         }
         return true;

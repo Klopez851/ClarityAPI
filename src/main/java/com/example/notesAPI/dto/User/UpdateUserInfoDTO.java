@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
@@ -16,8 +15,8 @@ public class UpdateUserInfoDTO {
     private String newData;
 
     @JsonIgnore
-    public boolean isValid(){
-        if(newData == null || newData.isBlank()){
+    public boolean isValid() {
+        if (newData == null || newData.isBlank()) {
             return false;
         }
         return true;

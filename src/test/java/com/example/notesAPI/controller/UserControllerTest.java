@@ -1,9 +1,10 @@
 package com.example.notesAPI.controller;
 
-import org.junit.jupiter.api.*;
 import io.restassured.http.Header;
+import org.junit.jupiter.api.*;
 
-import static io.restassured.RestAssured.*;
+import static io.restassured.RestAssured.baseURI;
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -20,25 +21,25 @@ class UserControllerTest {
 
         //get jwt token to use in all requests
         authToken =
-            given() //prerequisites
-            .when()// action to be performed
-                .contentType("application/json")
-                .body("""
-                        {
-                            "email":"sampleemail@gmail.com",
-                            "userPassword":"qwertyisfun"
-                        }""")
-                .post("/login")
-            .then() //what needs to be asserted/validated/tested for correctness
-                .extract().body().asString();
+                given() //prerequisites
+                        .when()// action to be performed
+                        .contentType("application/json")
+                        .body("""
+                                {
+                                    "email":"sampleemail@gmail.com",
+                                    "userPassword":"qwertyisfun"
+                                }""")
+                        .post("/login")
+                        .then() //what needs to be asserted/validated/tested for correctness
+                        .extract().body().asString();
     }
 
-    /////////////////////////
+    /// //////////////////////
     /// CREATE USER TESTS ///
-    /////////////////////////
+    /// //////////////////////
 
     @Test
-    void createUser_UserDoesntExists_UserIsCreated(){
+    void createUser_UserDoesntExists_UserIsCreated() {
         given()
                 .when()
                 .contentType("application/json")
@@ -58,7 +59,7 @@ class UserControllerTest {
 
     @Test
     @Order(1)
-    void createUser_UserDoesExists_ConflictResponse(){
+    void createUser_UserDoesExists_ConflictResponse() {
         given()
                 .when()
                 .contentType("application/json")
@@ -76,7 +77,7 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser_EmptyReqBody_BadReqResponse(){
+    void createUser_EmptyReqBody_BadReqResponse() {
         given()
                 .when()
                 .contentType("application/json")
@@ -88,7 +89,7 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser_IncorrectReqBody_BadReqResponse(){
+    void createUser_IncorrectReqBody_BadReqResponse() {
         given()
                 .when()
                 .contentType("application/json")
@@ -105,7 +106,7 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser_UsernameTooLong_BadReqResponse(){
+    void createUser_UsernameTooLong_BadReqResponse() {
         given()
                 .when()
                 .contentType("application/json")
@@ -123,7 +124,7 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser_EmailTooLong_BadReqResponse(){
+    void createUser_EmailTooLong_BadReqResponse() {
         given()
                 .when()
                 .contentType("application/json")
@@ -142,12 +143,12 @@ class UserControllerTest {
                 .statusCode(400);//bad request
     }
 
-    ////////////////////////
+    /// /////////////////////
     /// USER LOGIN TESTS ///
-    ////////////////////////
+    /// /////////////////////
 
     @Test
-    void login_ExistingUser_JWTReturned(){
+    void login_ExistingUser_JWTReturned() {
         given()
                 .when()
                 .contentType("application/json")
@@ -164,7 +165,7 @@ class UserControllerTest {
     }
 
     @Test
-    void login_NonExistingUser_NotFoundResponse(){
+    void login_NonExistingUser_NotFoundResponse() {
         given()
                 .when()
                 .contentType("application/json")
@@ -179,7 +180,7 @@ class UserControllerTest {
     }
 
     @Test
-    void login_EmptyReqBody_BadReqResponse(){
+    void login_EmptyReqBody_BadReqResponse() {
         given()
                 .when()
                 .contentType("application/json")
@@ -189,38 +190,38 @@ class UserControllerTest {
                 .assertThat().statusCode(400);
     }
 
-    //////////////////////
+    /// ///////////////////
     /// GET USER TESTS ///
-    //////////////////////
+    /// ///////////////////
 
     @Test
-    void getUser_ExistingUser_SuccessResponse(){
-        Header authHeader = new Header("Authorization", "Bearer "+authToken);
+    void getUser_ExistingUser_SuccessResponse() {
+        Header authHeader = new Header("Authorization", "Bearer " + authToken);
 
         given()
-            .when()
-            .contentType("application/json")
-            .header(authHeader)
+                .when()
+                .contentType("application/json")
+                .header(authHeader)
                 .body("""
                         {
                             "email":"sampleemail@gmail.com"
                         }
                         """)
                 .get("/getUser")
-            .then()
+                .then()
                 .assertThat()
                 .statusCode(200)
                 .body("response", equalTo(true),
                         "message", equalTo("User Found"),
                         "data.username", equalTo("klopez"),
                         "data.email", equalTo("sampleemail@gmail.com"),
-                        "data.password",equalTo(null)
+                        "data.password", equalTo(null)
                 );
     }
 
     @Test
-    void getUser_NonExistingUser_NotFoundResponse(){
-        Header authHeader = new Header("Authorization", "Bearer "+authToken);
+    void getUser_NonExistingUser_NotFoundResponse() {
+        Header authHeader = new Header("Authorization", "Bearer " + authToken);
 
         given()
                 .when()
@@ -238,8 +239,8 @@ class UserControllerTest {
     }
 
     @Test
-    void getUser_EmptyReqBody_BadReqResponse(){
-        Header authHeader = new Header("Authorization", "Bearer "+authToken);
+    void getUser_EmptyReqBody_BadReqResponse() {
+        Header authHeader = new Header("Authorization", "Bearer " + authToken);
 
         given()
                 .when()
@@ -252,13 +253,13 @@ class UserControllerTest {
                 .statusCode(400);
     }
 
-    //////////////////////////////
+    /// ///////////////////////////
     /// UPDATE USER INFO TESTS ///
-    //////////////////////////////
+    /// ///////////////////////////
 
     @Test
     void updateEmail_ExisitingUser_SuccessResponse() {
-        Header authHeader = new Header("Authorization", "Bearer "+authToken);
+        Header authHeader = new Header("Authorization", "Bearer " + authToken);
 
         given()
                 .when()
@@ -278,7 +279,7 @@ class UserControllerTest {
 
     @Test
     void updateEmail_EmptyReqBody_BadResponse() {
-        Header authHeader = new Header("Authorization", "Bearer "+authToken);
+        Header authHeader = new Header("Authorization", "Bearer " + authToken);
 
         given()
                 .when()
@@ -309,14 +310,14 @@ class UserControllerTest {
                         .when()// action to be performed
                         .contentType("application/json")
                         .body("""
-                        {
-                            "email":"sampleemailtest@gmail.com",
-                            "userPassword":"qwertyisfun"
-                        }""")
+                                {
+                                    "email":"sampleemailtest@gmail.com",
+                                    "userPassword":"qwertyisfun"
+                                }""")
                         .post("/login")
                         .then() //what needs to be asserted/validated/tested for correctness
                         .extract().body().asString();
-        Header authHeaderEmailReset = new Header("Authorization", "Bearer "+updateToken);
+        Header authHeaderEmailReset = new Header("Authorization", "Bearer " + updateToken);
 
         given()
                 .when()
@@ -338,15 +339,15 @@ class UserControllerTest {
                         .when()// action to be performed
                         .contentType("application/json")
                         .body("""
-                        {
-                            "email":"sampleemail2@gmail.com",
-                            "userPassword":"qwertyisfun2"
-                        }""")
+                                {
+                                    "email":"sampleemail2@gmail.com",
+                                    "userPassword":"qwertyisfun2"
+                                }""")
                         .post("/login")
                         .then() //what needs to be asserted/validated/tested for correctness
                         .extract().body().asString();
 
-        Header authHeaderDelUser = new Header("Authorization", "Bearer "+delToken);
+        Header authHeaderDelUser = new Header("Authorization", "Bearer " + delToken);
 
         given()
                 .when()

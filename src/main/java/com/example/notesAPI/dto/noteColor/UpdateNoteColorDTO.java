@@ -11,16 +11,16 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UpdateNoteColorDTO {
 
-    @Schema(name = "colorID",example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "colorID", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
     private String colorID;
 
-    @Schema(name = "newColor",example = "#000080", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "newColor", example = "#000080", requiredMode = Schema.RequiredMode.REQUIRED)
     private String newColor;
 
     @JsonIgnore
-    public boolean isValid(){
-        if(colorID == null  || colorID.isBlank()
-                || newColor == null || newColor.isBlank()){
+    public boolean isValid() {
+        if (colorID == null || colorID.isBlank()
+                || newColor == null || newColor.isBlank()) {
             return false;
         }
         return true;

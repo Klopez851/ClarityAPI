@@ -42,12 +42,12 @@ public class NoteDTO {
                    Integer colorID, String cosmetics,
                    boolean pinned, boolean hidden,
                    LocalDateTime createdAt, LocalDateTime updatedAt,
-                   boolean deleted, LocalDateTime timeLeftBeforeDeletion){
+                   boolean deleted, LocalDateTime timeLeftBeforeDeletion) {
         this.id = id;
         this.title = title;
         this.textContent = content;
         this.label = labelId != null ? new LabelDTO(labelName, labelId.intValue()) : null;//big int bc it is nullable
-        this.noteColor = colorID != null ? new NoteColorDTO(colorHex, colorID.intValue()) : null;;
+        this.noteColor = colorID != null ? new NoteColorDTO(colorHex, colorID.intValue()) : null;
         this.cosmetics = cosmetics;
         this.pinned = pinned;
         this.hidden = hidden;
@@ -58,17 +58,17 @@ public class NoteDTO {
     }
 
     @JsonIgnore
-    public boolean isValid(){
-        if(pinned == true && hidden == true){
+    public boolean isValid() {
+        if (pinned && hidden) {
             return false;
         }
 
         if ((getTitle().isEmpty() || title.isBlank())
-                && getTextContent().isEmpty() || textContent.isBlank()){
+                && getTextContent().isEmpty() || textContent.isBlank()) {
             return false;
         }
 
-        if(id < 0){
+        if (id < 0) {
             return false;
         }
 

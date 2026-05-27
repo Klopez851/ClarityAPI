@@ -1,10 +1,8 @@
 package com.example.notesAPI.service;
 
 import com.example.notesAPI.dto.ApiResponseDTO;
-import com.example.notesAPI.dto.Note.UpdateBooleanStatusDTO;
 import com.example.notesAPI.dto.Note.*;
 import com.example.notesAPI.errorHandler.DatabaseErrorException;
-import com.example.notesAPI.errorHandler.ForbiddenRequestException;
 import com.example.notesAPI.errorHandler.IdNotFoundException;
 import com.example.notesAPI.errorHandler.ResourceNotFoundException;
 import com.example.notesAPI.model.Label;
@@ -29,7 +27,7 @@ import java.util.Optional;
 public class NoteService {
 
     /// CONSTANTS ///
-    private final int MAX_TITLE_SIZE= 100;
+    private final int MAX_TITLE_SIZE = 100;
     private final NotesRepository noteRepo;
     private final NoteColorRepository noteColorRepo;
     private final UserRepository userRepo;
@@ -51,14 +49,14 @@ public class NoteService {
         Optional<NoteColor> color = Optional.empty();
 
         //input validation
-        if(title != null && title.length()> MAX_TITLE_SIZE){
-            throw new IllegalArgumentException("Title can be a maximum of "+MAX_TITLE_SIZE+" characters");
+        if (title != null && title.length() > MAX_TITLE_SIZE) {
+            throw new IllegalArgumentException("Title can be a maximum of " + MAX_TITLE_SIZE + " characters");
         }
 
         //look up user
         Optional<UserTable> user = userRepo.findByEmail(email);
         if (user.isEmpty()) {
-            throw new ResourceNotFoundException("A user associated with the email "+email+" could not be found");
+            throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
         }
 
         //look up label if not null
@@ -106,10 +104,10 @@ public class NoteService {
 
         //fetch all notes
         List<NoteDTO> notes;
-        if(user.isPresent()) {
+        if (user.isPresent()) {
             notes = noteRepo.getAllNoteByUser(user.get().getUserID());
-        }else{
-            throw new ResourceNotFoundException("A user with the email "+email+" could not be found");
+        } else {
+            throw new ResourceNotFoundException("A user with the email " + email + " could not be found");
         }
 
         //return response
@@ -134,14 +132,20 @@ public class NoteService {
                     NoteDTO note = noteRepo.getNoteByUser(noteID);
                     return new ApiResponseDTO<>(true, "note successfully fetched", note);
 
-                }else{throw new ResourceNotFoundException("A note by that id associated with the provided user could not be found");}
-            }else{throw new ResourceNotFoundException("A user associated with the email "+email+" could not be found");}
-        }else{throw new IdNotFoundException("A note associated with that id could not be found");}
+                } else {
+                    throw new ResourceNotFoundException("A note by that id associated with the provided user could not be found");
+                }
+            } else {
+                throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
+            }
+        } else {
+            throw new IdNotFoundException("A note associated with that id could not be found");
+        }
     }
 
-    ///////////////////
+    /// ////////////////
     /// PUT METHODS ///
-    ///////////////////
+    /// ////////////////
 
     public ApiResponseDTO<String> updateNote(UpdateNoteDTO noteDTO, HttpServletRequest request) {
         //clean data
@@ -161,43 +165,43 @@ public class NoteService {
         Optional<NoteColor> color = noteColorRepo.findById(noteDTO.getNoteColor().getColorID());
 
         //make sure note is associated with the user
-        if(note.isPresent()){
-            if(user.isPresent()){
-                if(user.get().getUserID() == note.get().getUser().getUserID()){
+        if (note.isPresent()) {
+            if (user.isPresent()) {
+                if (user.get().getUserID() == note.get().getUser().getUserID()) {
                     //update whatever fields need to be updated
-                    if(!note.get().getTitle().equals(noteDTO.getTitle())){
+                    if (!note.get().getTitle().equals(noteDTO.getTitle())) {
                         note.get().setTitle(noteDTO.getTitle());
                     }
 
-                    if(!note.get().getTextContent().equals(noteDTO.getTextContent())){
+                    if (!note.get().getTextContent().equals(noteDTO.getTextContent())) {
                         note.get().setTextContent(noteDTO.getTextContent());
                     }
 
-                    if(!note.get().getLabel().equals(label.get())){
+                    if (!note.get().getLabel().equals(label.get())) {
                         note.get().setLabel(label.get());
                     }
 
-                    if(!note.get().getColor().equals(color.get())){
+                    if (!note.get().getColor().equals(color.get())) {
                         note.get().setColor(color.get());
                     }
 
-                    if(!note.get().getTitle().equals(noteDTO.getTitle())){
+                    if (!note.get().getTitle().equals(noteDTO.getTitle())) {
                         note.get().setTitle(noteDTO.getTitle());
                     }
 
-                    if(!note.get().getCosmetics().equals(noteDTO.getCosmetics())){
+                    if (!note.get().getCosmetics().equals(noteDTO.getCosmetics())) {
                         note.get().setCosmetics(noteDTO.getCosmetics());
                     }
 
-                    if(note.get().isPinned() != noteDTO.isPinned()){
+                    if (note.get().isPinned() != noteDTO.isPinned()) {
                         note.get().setPinned(noteDTO.isPinned());
                     }
 
-                    if(note.get().isHidden() != noteDTO.isHidden()){
+                    if (note.get().isHidden() != noteDTO.isHidden()) {
                         note.get().setHidden(noteDTO.isHidden());
                     }
 
-                    if(note.get().isDeleted() != noteDTO.isDeleted()){
+                    if (note.get().isDeleted() != noteDTO.isDeleted()) {
                         note.get().setDeleted(noteDTO.isDeleted());
                     }
 
@@ -206,16 +210,22 @@ public class NoteService {
                     //save entity
                     noteRepo.save(note.get());
 
-                    return new ApiResponseDTO<String>(true,"note succesfully updated", null);
+                    return new ApiResponseDTO<String>(true, "note succesfully updated", null);
 
-                }else{throw new ResourceNotFoundException("A note by that id associated with the provided user could not be found");}
-            }else{throw new ResourceNotFoundException("A user associated with the email "+email+" could not be found");}
-        }else{throw new IdNotFoundException("A note associated with that id could not be found");}
+                } else {
+                    throw new ResourceNotFoundException("A note by that id associated with the provided user could not be found");
+                }
+            } else {
+                throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
+            }
+        } else {
+            throw new IdNotFoundException("A note associated with that id could not be found");
+        }
     }
 
-    /////////////////////
+    /// //////////////////
     /// PATCH METHODS ///
-    /////////////////////
+    /// //////////////////
 
     public ApiResponseDTO<String> updatePinned(UpdateBooleanStatusDTO noteDTO, HttpServletRequest request) {
         //clean data
@@ -224,9 +234,9 @@ public class NoteService {
         Optional<Note> note = noteRepo.findById(noteDTO.getNoteID());
         Optional<UserTable> user = userRepo.findByEmail(email);
 
-        if(note.isPresent()){
-            if(user.isPresent()){
-                if(user.get().getUserID() == note.get().getUser().getUserID()){
+        if (note.isPresent()) {
+            if (user.isPresent()) {
+                if (user.get().getUserID() == note.get().getUser().getUserID()) {
                     //update pinned status
                     note.get().setPinned(noteDTO.isNewValue());
 
@@ -238,9 +248,15 @@ public class NoteService {
 
                     return new ApiResponseDTO<String>(true, "Note sucessfully updated", null);
 
-                }else{throw new ResourceNotFoundException("A note with that id associated with the provided user could not be found");}
-            }else{throw new ResourceNotFoundException("A user associated with the email "+email+" could not be found");}
-        }else{throw new IdNotFoundException("A note associated with that id could not be found");}
+                } else {
+                    throw new ResourceNotFoundException("A note with that id associated with the provided user could not be found");
+                }
+            } else {
+                throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
+            }
+        } else {
+            throw new IdNotFoundException("A note associated with that id could not be found");
+        }
     }
 
     public ApiResponseDTO<String> updateHidden(UpdateBooleanStatusDTO noteDTO, HttpServletRequest request) {
@@ -250,9 +266,9 @@ public class NoteService {
         Optional<Note> note = noteRepo.findById(noteDTO.getNoteID());
         Optional<UserTable> user = userRepo.findByEmail(email);
 
-        if(note.isPresent()){
-            if(user.isPresent()){
-                if(user.get().getUserID() == note.get().getUser().getUserID()){
+        if (note.isPresent()) {
+            if (user.isPresent()) {
+                if (user.get().getUserID() == note.get().getUser().getUserID()) {
                     //update hidden status
                     note.get().setHidden(noteDTO.isNewValue());
 
@@ -264,9 +280,15 @@ public class NoteService {
 
                     return new ApiResponseDTO<String>(true, "Note sucessfully updated", null);
 
-                }else{throw new ResourceNotFoundException("A note with that id associated with the provided user could not be found");}
-            }else{throw new ResourceNotFoundException("A user associated with the email "+email+" could not be found");}
-        }else{throw new IdNotFoundException("A note associated with that id could not be found");}
+                } else {
+                    throw new ResourceNotFoundException("A note with that id associated with the provided user could not be found");
+                }
+            } else {
+                throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
+            }
+        } else {
+            throw new IdNotFoundException("A note associated with that id could not be found");
+        }
     }
 
     public ApiResponseDTO<String> updateDeleted(UpdateBooleanStatusDTO noteDTO, HttpServletRequest request) {
@@ -276,9 +298,9 @@ public class NoteService {
         Optional<Note> note = noteRepo.findById(noteDTO.getNoteID());
         Optional<UserTable> user = userRepo.findByEmail(email);
 
-        if(note.isPresent()){
-            if(user.isPresent()){
-                if(user.get().getUserID() == note.get().getUser().getUserID()){
+        if (note.isPresent()) {
+            if (user.isPresent()) {
+                if (user.get().getUserID() == note.get().getUser().getUserID()) {
                     //update deleted status
                     note.get().setDeleted(noteDTO.isNewValue());
 
@@ -290,9 +312,15 @@ public class NoteService {
 
                     return new ApiResponseDTO<String>(true, "Note sucessfully updated", null);
 
-                }else{throw new ResourceNotFoundException("A note with that id associated with the provided user could not be found");}
-            }else{throw new ResourceNotFoundException("A user associated with the email "+email+" could not be found");}
-        }else{throw new IdNotFoundException("A note associated with that id could not be found");}
+                } else {
+                    throw new ResourceNotFoundException("A note with that id associated with the provided user could not be found");
+                }
+            } else {
+                throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
+            }
+        } else {
+            throw new IdNotFoundException("A note associated with that id could not be found");
+        }
     }
 
     public ApiResponseDTO<String> updateViewOnly(UpdateBooleanStatusDTO noteDTO, HttpServletRequest request) {
@@ -302,9 +330,9 @@ public class NoteService {
         Optional<Note> note = noteRepo.findById(noteDTO.getNoteID());
         Optional<UserTable> user = userRepo.findByEmail(email);
 
-        if(note.isPresent()){
-            if(user.isPresent()){
-                if(user.get().getUserID() == note.get().getUser().getUserID()){
+        if (note.isPresent()) {
+            if (user.isPresent()) {
+                if (user.get().getUserID() == note.get().getUser().getUserID()) {
                     //update viewonly status
                     note.get().setViewOnly(noteDTO.isNewValue());
 
@@ -316,9 +344,15 @@ public class NoteService {
 
                     return new ApiResponseDTO<String>(true, "Note sucessfully updated", null);
 
-                }else{throw new ResourceNotFoundException("A note with that id associated with the provided user could not be found");}
-            }else{throw new ResourceNotFoundException("A user associated with the email "+email+" could not be found");}
-        }else{throw new IdNotFoundException("A note associated with that id could not be found");}
+                } else {
+                    throw new ResourceNotFoundException("A note with that id associated with the provided user could not be found");
+                }
+            } else {
+                throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
+            }
+        } else {
+            throw new IdNotFoundException("A note associated with that id could not be found");
+        }
     }
 
     public ApiResponseDTO<String> updateCosmetics(UpdateCosmeticDTO cosmeticsDTO, HttpServletRequest request) {
@@ -328,9 +362,9 @@ public class NoteService {
         Optional<Note> note = noteRepo.findById(cosmeticsDTO.getNoteID());
         Optional<UserTable> user = userRepo.findByEmail(email);
 
-        if(note.isPresent()){
-            if(user.isPresent()){
-                if(user.get().getUserID() == note.get().getUser().getUserID()){
+        if (note.isPresent()) {
+            if (user.isPresent()) {
+                if (user.get().getUserID() == note.get().getUser().getUserID()) {
                     //update cosmetics
                     note.get().setCosmetics(cosmeticsDTO.getCosmetics());
 
@@ -342,9 +376,15 @@ public class NoteService {
 
                     return new ApiResponseDTO<String>(true, "Note sucessfully updated", null);
 
-                }else{throw new ResourceNotFoundException("A note with that id associated with the provided user could not be found");}
-            }else{throw new ResourceNotFoundException("A user associated with the email "+email+" could not be found");}
-        }else{throw new IdNotFoundException("A note associated with that id could not be found");}
+                } else {
+                    throw new ResourceNotFoundException("A note with that id associated with the provided user could not be found");
+                }
+            } else {
+                throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
+            }
+        } else {
+            throw new IdNotFoundException("A note associated with that id could not be found");
+        }
     }
 
     public ApiResponseDTO<String> updateLabel(UpdateNoteLabelDTO labelDTO, HttpServletRequest request) {
@@ -356,7 +396,7 @@ public class NoteService {
         Optional<Label> label = labelRepo.findById(labelDTO.getLabelID());
 
         //ensure all parts needed for the update exists
-        if(label.isPresent()) {
+        if (label.isPresent()) {
             if (note.isPresent()) {
                 if (user.isPresent()) {
                     if (user.get().getUserID() == note.get().getUser().getUserID()) {
@@ -371,10 +411,18 @@ public class NoteService {
 
                         return new ApiResponseDTO<String>(true, "Note sucessfully updated", null);
 
-                    } else {throw new ResourceNotFoundException("A note with that id associated with the provided user could not be found");}
-                } else {throw new ResourceNotFoundException("A user associated with the email "+email+" could not be found");}
-            } else {throw new IdNotFoundException("A note associated with that id could not be found");}
-        }else {throw new IdNotFoundException("A label associated with that id could not be found");}
+                    } else {
+                        throw new ResourceNotFoundException("A note with that id associated with the provided user could not be found");
+                    }
+                } else {
+                    throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
+                }
+            } else {
+                throw new IdNotFoundException("A note associated with that id could not be found");
+            }
+        } else {
+            throw new IdNotFoundException("A label associated with that id could not be found");
+        }
     }
 
     public ApiResponseDTO<String> updateNoteColor(UpdateColorDTO colorDTO, HttpServletRequest request) {
@@ -386,7 +434,7 @@ public class NoteService {
         Optional<NoteColor> color = noteColorRepo.findById(colorDTO.getColorID());
 
         //ensure all parts needed for the update exists
-        if(color.isPresent()) {
+        if (color.isPresent()) {
             if (note.isPresent()) {
                 if (user.isPresent()) {
                     if (user.get().getUserID() == note.get().getUser().getUserID()) {
@@ -401,15 +449,23 @@ public class NoteService {
 
                         return new ApiResponseDTO<String>(true, "Note sucessfully updated", null);
 
-                    } else {throw new ResourceNotFoundException("A note with that id associated with the provided user could not be found");}
-                } else {throw new ResourceNotFoundException("A user associated with the email "+email+" could not be found");}
-            } else {throw new IdNotFoundException("A note associated with that id could not be found");}
-        }else {throw new IdNotFoundException("A NoteColor associated with that id could not be found");}
+                    } else {
+                        throw new ResourceNotFoundException("A note with that id associated with the provided user could not be found");
+                    }
+                } else {
+                    throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
+                }
+            } else {
+                throw new IdNotFoundException("A note associated with that id could not be found");
+            }
+        } else {
+            throw new IdNotFoundException("A NoteColor associated with that id could not be found");
+        }
     }
 
-    //////////////////////
+    /// ///////////////////
     /// DELETE METHODS ///
-    //////////////////////
+    /// ///////////////////
 
     public ApiResponseDTO<String> deleteNote(DeleteNoteDTO noteDTO, HttpServletRequest request) {
         //clean data
@@ -419,16 +475,22 @@ public class NoteService {
         Optional<Note> note = noteRepo.findById(noteDTO.getNoteID());
         Optional<UserTable> user = userRepo.findByEmail(email);
 
-        if(note.isPresent()){
-            if(user.isPresent()){
-                if(user.get().getUserID() == note.get().getUser().getUserID()){
+        if (note.isPresent()) {
+            if (user.isPresent()) {
+                if (user.get().getUserID() == note.get().getUser().getUserID()) {
                     //delete note
                     noteRepo.delete(note.get());
                     return new ApiResponseDTO<String>(true, "Note sucessfully deleted", null);
 
-                }else {throw new ResourceNotFoundException("A note with that id associated with that user could not be found");}
-            }else {throw new ResourceNotFoundException("A user associated with the email "+email+" could not be found");}
-        }else {throw new IdNotFoundException("A note associated with that id could not be found");}
+                } else {
+                    throw new ResourceNotFoundException("A note with that id associated with that user could not be found");
+                }
+            } else {
+                throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
+            }
+        } else {
+            throw new IdNotFoundException("A note associated with that id could not be found");
+        }
     }
 
 }

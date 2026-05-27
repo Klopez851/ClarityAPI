@@ -10,15 +10,15 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class UserLoginDTO {
-    @Schema(name = "email",example = "sampleemail@gmail.com", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "email", example = "sampleemail@gmail.com", requiredMode = Schema.RequiredMode.REQUIRED)
     private String email;
 
-    @Schema(name = "password",example = "UserPassword@123", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "password", example = "UserPassword@123", requiredMode = Schema.RequiredMode.REQUIRED)
     private String userPassword;
 
     @JsonIgnore
-    public boolean isValid(){
-        if((email == null || email.isBlank()) ||
+    public boolean isValid() {
+        if ((email == null || email.isBlank()) ||
                 (userPassword == null || userPassword.isBlank())) {
             return false;
         }
