@@ -2,7 +2,7 @@ package com.example.notesAPI.controller;
 
 import com.example.notesAPI.dto.ApiResponseDTO;
 import com.example.notesAPI.dto.EmailDTO;
-import com.example.notesAPI.dto.Label.UpdateBooleanStatusDTO;
+import com.example.notesAPI.dto.Note.UpdateBooleanStatusDTO;
 import com.example.notesAPI.dto.Note.*;
 import com.example.notesAPI.service.NoteService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,12 +25,12 @@ public class NoteController {
     /// POST MAPPING/S ///
     /// ///////////////////
 
-    @Operation(summary = "creates a note", description = "creates a note and associated it with the given email, " +
-            "if labelID/noteColorID = null/\" \" those fields will be saved as null ")
+    @Operation(summary = "creates a note", description = "creates a note and associated it with the email provided by the " +
+            "jwt token, \"not requires\" means no value needs to be passed, but field itself must be present in request")
     @PostMapping("/createNote")
     public ApiResponseDTO<String> createNote(@RequestBody CreateNoteDTO note, HttpServletRequest request) {
         if (!note.isValid()) {
-            throw new IllegalArgumentException("Note must have a title or text content and a valid email");
+            throw new IllegalArgumentException("Note must have a title or text content");
         }
         return service.createNote(note, request);
     }
@@ -41,18 +41,15 @@ public class NoteController {
 
     @Operation(summary = "returns all user notes", description = "returns all the notes associated with the use email provided")
     @GetMapping("/getNotes")
-    public ApiResponseDTO<List<NoteDTO>> getNotes(@RequestBody EmailDTO email, HttpServletRequest request) {
-        if (!email.isValid()) {
-            throw new IllegalArgumentException("please provide a valid email");
-        }
-        return service.getNotes(email, request);
+    public ApiResponseDTO<List<NoteDTO>> getNotes(HttpServletRequest request) {
+        return service.getNotes(request);
     }
 
     @Operation(summary = "returns a single note", description = "Returns a single note with he provided email and note id")
     @GetMapping("/getNote")
     public ApiResponseDTO<NoteDTO> getNote(@RequestBody GetNoteDTO noteDTO, HttpServletRequest request) {
         if (!noteDTO.isValid()) {
-            throw new IllegalArgumentException("All fields (email, noteID) must be filled out");
+            throw new IllegalArgumentException("A noteID must be provided");
         }
         return service.getNote(noteDTO, request);
     }
@@ -81,7 +78,7 @@ public class NoteController {
     @PatchMapping("/updatePinned")
     public ApiResponseDTO<String> updatePinnedStatus(@RequestBody UpdateBooleanStatusDTO noteDTO, HttpServletRequest request) {
         if (!noteDTO.isValid()) {
-            throw new IllegalArgumentException("All fields (email, noteID, newValue) must be filled out");
+            throw new IllegalArgumentException("All fields (noteID, newValue) must be filled out");
         }
         return service.updatePinned(noteDTO, request);
     }
@@ -91,7 +88,7 @@ public class NoteController {
     @PatchMapping("/updateHidden")
     public ApiResponseDTO<String> updateHiddenStatus(@RequestBody UpdateBooleanStatusDTO noteDTO, HttpServletRequest request) {
         if (!noteDTO.isValid()) {
-            throw new IllegalArgumentException("All fields (email, noteID, newValue) must be filled out");
+            throw new IllegalArgumentException("All fields (noteID, newValue) must be filled out");
         }
         return service.updateHidden(noteDTO, request);
     }
@@ -100,7 +97,7 @@ public class NoteController {
     @PatchMapping("/updateDeleted")
     public ApiResponseDTO<String> updateDeletedStatus(@RequestBody UpdateBooleanStatusDTO noteDTO, HttpServletRequest request) {
         if (!noteDTO.isValid()) {
-            throw new IllegalArgumentException("All fields (email, noteID, newValue) must be filled out");
+            throw new IllegalArgumentException("All fields (noteID, newValue) must be filled out");
         }
         return service.updateDeleted(noteDTO, request);
     }
@@ -109,7 +106,7 @@ public class NoteController {
     @PatchMapping("/updateViewOnly")
     public ApiResponseDTO<String> updateViewOnlyStatus(@RequestBody UpdateBooleanStatusDTO noteDTO, HttpServletRequest request) {
         if (!noteDTO.isValid()) {
-            throw new IllegalArgumentException("All fields (email, noteID, newValue) must be filled out");
+            throw new IllegalArgumentException("All fields (noteID, newValue) must be filled out");
         }
         return service.updateViewOnly(noteDTO, request);
     }
@@ -118,7 +115,7 @@ public class NoteController {
     @PatchMapping("/updateLabel")
     public ApiResponseDTO<String> updateLabel(@RequestBody UpdateNoteLabelDTO labelDTO, HttpServletRequest request) {
         if (!labelDTO.isValid()) {
-            throw new IllegalArgumentException("All fields (email, noteID, labelID) must be filled out");
+            throw new IllegalArgumentException("All fields (noteID, labelID) must be filled out");
         }
         return service.updateLabel(labelDTO, request);
     }
@@ -127,7 +124,7 @@ public class NoteController {
     @PatchMapping("/updateNoteColor")
     public ApiResponseDTO<String> updateNoteColor(@RequestBody UpdateColorDTO colorDTO, HttpServletRequest request) {
         if (!colorDTO.isValid()) {
-            throw new IllegalArgumentException("All fields (email, noteID, colorID) must be filled out");
+            throw new IllegalArgumentException("All fields (noteID, colorID) must be filled out");
         }
         return service.updateNoteColor(colorDTO, request);
     }
@@ -136,7 +133,7 @@ public class NoteController {
     @PatchMapping("/updateCosmetics")
     public ApiResponseDTO<String> updateCosmetics(@RequestBody UpdateCosmeticDTO cosmeticsDTO, HttpServletRequest request) {
         if (!cosmeticsDTO.isValid()) {
-            throw new IllegalArgumentException("All fields (email, noteID, cosmetics) must be filled out");
+            throw new IllegalArgumentException("All fields (noteID, cosmetics) must be filled out");
         }
 
         return service.updateCosmetics(cosmeticsDTO, request);
@@ -150,7 +147,7 @@ public class NoteController {
     @DeleteMapping("/deleteNote")
     public ApiResponseDTO<String> deleteNote(@RequestBody DeleteNoteDTO noteDTO, HttpServletRequest request) {
         if (!noteDTO.isValid()) {
-            throw new IllegalArgumentException("All fields (email, noteID) must be filled out");
+            throw new IllegalArgumentException("A noteID must be provided");
         }
         return service.deleteNote(noteDTO, request);
     }
