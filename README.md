@@ -90,13 +90,13 @@ As far as api documentation goes, I used Swagger UI for interactive documentatio
 The application follows a layered architecture with stateless authentication through JWT, with separation of responsibilities across different sections (separation of concerna).
 
 DTO
-↕
+⇄
 Controller Layer
-↕
+⇄
 Service Layer
-↕
+⇄
 Repository Layer
-↕
+⇄
 MySQL Database
 
 A typical request flow is as follows:
