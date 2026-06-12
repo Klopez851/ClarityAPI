@@ -85,7 +85,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\":\"sampleemail@gmail.com\"\n}",
+              "raw": "// only jwt token is needed",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1065,7 +1065,7 @@
     "bearer": [
       {
         "key": "token",
-        "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYW1wbGVlbWFpbEBnbWFpbC5jb20iLCJpYXQiOjE3ODAzMDU0NjUsImV4cCI6MTc4MDMwNzI2NX0.5mBAzLyaPpBS6rCmthI6sCkFG3P6CRbg81T_KeKFIWY",
+        "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGljZUBleGFtcGxlLmNvbSIsImlhdCI6MTc4MTIzNDc0OSwiZXhwIjoxNzgxMjM2NTQ5fQ.YyI6OcmTFYsk9nYFqiDktov0K3oI6DUDvPlAbSCum2Y",
         "type": "string"
       }
     ]
