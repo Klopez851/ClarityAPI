@@ -3,8 +3,8 @@
 -- =========================
 INSERT INTO user_table (user_id, username, email, user_password, created_at)
 VALUES
-(1, 'alice', 'alice@example.com', '$2a$10$hashedpasswordalice', NOW()),
-(2, 'bob', 'bob@example.com', '$2a$10$hashedpasswordbob', NOW());
+(1, 'alice', 'alice@example.com', '$2a$10$vi.7epUCSUVnzzKrGZY9NOAbEHaAmBco5mHFCfYdP6/42mk02Fujm', NOW()),
+(2, 'bob', 'bob@example.com', '$2a$10$yIiZY370Qmy.IjeIAG9MH.7rFPW1eBwMVrRLZTvQ5a8/BM61nHj3.', NOW());
 
 -- =========================
 -- LABELS
@@ -43,7 +43,7 @@ VALUES
 (2, 1, 'Grocery List', 'Milk, eggs, bread', 2, 2, false, false, NULL, false, NOW(), NOW(), false, NULL),
 
 -- Bob notes
-(3, 2, 'Startup Idea', 'AI-powered habit tracker', 3, 3, true, false, NULL, false, NOW(), NOW(), false, NULL),
+(3, 2, 'Startup Idea', 'Habit tracker', 3, 3, true, false, NULL, false, NOW(), NOW(), false, NULL),
 (4, 2, 'Japan Trip', 'Visit Tokyo, Osaka, Kyoto', 4, 4, false, false, NULL, false, NOW(), NOW(), false, NULL);
 
 -- =========================
