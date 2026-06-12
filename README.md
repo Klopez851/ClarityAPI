@@ -170,7 +170,7 @@ I use Spring Data JPA to interact with the database, which includes Hibernate. T
 
 Here is a an overview of the database
 
-![Clarity Physical ERD PNG](documents/Database Physical ERD.png)
+![Clarity Physical ERD PNG](/documents/Database Physical ERD.png)
 
 ## Main Entities & Important Fields
 I tried to have as much of the data validation to be dont by the server to ensure data integrity. This also reduced the chances of faulty data bbeing stored due to poor data validation on the api, since any faulty information sent to the db would be denied.
