@@ -7,6 +7,7 @@ import com.example.notesAPI.dto.Label.LabelDTO;
 import com.example.notesAPI.dto.Label.UpdateLabelDTO;
 import com.example.notesAPI.service.LabelService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
+@SecurityRequirement(name="JwtAuth")
 @Tag(name = "Label Endpoints")
 @RequestMapping("/label")
 public class LabelController {

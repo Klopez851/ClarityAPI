@@ -7,6 +7,7 @@ import com.example.notesAPI.dto.UITemplate.GetTemplateDTO;
 import com.example.notesAPI.dto.UITemplate.UpdateTemplateDTO;
 import com.example.notesAPI.service.UITemplateService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @Tag(name = "UI Template Endpoints")
+@SecurityRequirement(name="JwtAuth")
 @RequestMapping("/uitemplate")
 public class UITemplateController {
 

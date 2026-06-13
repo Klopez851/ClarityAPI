@@ -7,6 +7,7 @@ import com.example.notesAPI.dto.User.UserInfoDTO;
 import com.example.notesAPI.dto.User.UserLoginDTO;
 import com.example.notesAPI.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -46,7 +47,9 @@ public class UserController {
     /// GET MAPPINGS ///
     /// /////////////////
 
+
     @Operation(summary = "fetches user information", description = "fetches user information using a valid jwt token")
+    @SecurityRequirement(name="JwtAuth")
     @GetMapping("/getUser")
     public ApiResponseDTO<UserInfoDTO> getUser(HttpServletRequest request) {
         return service.getUser(request);
@@ -57,6 +60,7 @@ public class UserController {
     /// ///////////////////
 
     @Operation(summary = "Allows user to update their email", description = "Allows user to update their email to a non-existing email")
+    @SecurityRequirement(name="JwtAuth")
     @PatchMapping("/updateEmail")
     public ApiResponseDTO<String> updateEmail(@RequestBody UpdateEmailDTO emailDTO, HttpServletRequest request) {
         if (!emailDTO.isValid()) {
@@ -66,6 +70,7 @@ public class UserController {
     }
 
     @Operation(summary = "Allows user to update their username", description = "Allows user to update their username")
+    @SecurityRequirement(name="JwtAuth")
     @PatchMapping("/updateUsername")
     public ApiResponseDTO<String> updateUsername(@RequestBody UpdateUserInfoDTO usernameDTO, HttpServletRequest request) {
         if (!usernameDTO.isValid()) {
@@ -75,6 +80,7 @@ public class UserController {
     }
 
     @Operation(summary = "Allows user to update their password", description = "Allows user to update their password")
+    @SecurityRequirement(name="JwtAuth")
     @PatchMapping("/updatePassword")
     public ApiResponseDTO<String> updatePassword(@RequestBody UpdateUserInfoDTO passwordDTO, HttpServletRequest request) {
         if (!passwordDTO.isValid()) {
@@ -87,6 +93,7 @@ public class UserController {
     /// DELETE MAPPING ///
     /// ///////////////////
     @Operation(summary = "Allows user to delete their account", description = "Allows user to delete their account and everything related to them using their jwt token")
+    @SecurityRequirement(name="JwtAuth")
     @DeleteMapping("/deleteUser")
     public ApiResponseDTO<String> deleteUser(HttpServletRequest request) {
         return service.deleteUser(request);

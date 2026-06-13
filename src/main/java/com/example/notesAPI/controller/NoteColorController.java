@@ -7,6 +7,7 @@ import com.example.notesAPI.dto.noteColor.NoteColorDTO;
 import com.example.notesAPI.dto.noteColor.UpdateNoteColorDTO;
 import com.example.notesAPI.service.NoteColorService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Tag(name = "Note Color Endpoints")
+@SecurityRequirement(name="JwtAuth")
 @RestController
 @RequestMapping(("/noteColor"))
 public class NoteColorController {

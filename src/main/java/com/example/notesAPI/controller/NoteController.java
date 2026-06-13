@@ -3,6 +3,7 @@ import com.example.notesAPI.dto.ApiResponseDTO;
 import com.example.notesAPI.dto.Note.*;
 import com.example.notesAPI.service.NoteService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @Tag(name = "Note Endpoints")
+@SecurityRequirement(name="JwtAuth")
 @AllArgsConstructor
 @RequestMapping("/note")
 public class NoteController {
