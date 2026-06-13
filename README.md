@@ -26,7 +26,6 @@ This API has basic CRUD operations for all the key entities, except for the User
 - Secure access to protected endpoints
   
 ## User
-This entity manages all user account information
 - User registration
 - User authentication
 - Retrieval of basic user info (for frontend use)
@@ -34,7 +33,6 @@ This entity manages all user account information
 - Deletion of user account
 
 ## Notes
-This entity manages all note related information with the help of supporting entities
 - Creation of notes
 - Updating of the note as a whole
 - Updating of individual note aspects (i.e. title, content, label, pinned status..etc)
@@ -43,21 +41,18 @@ This entity manages all note related information with the help of supporting ent
 - Deletion of notes
 
 ## Note Color
-This is a supporting entity for Notes, it stores all of the users saved colors
 - Creation of a color
 - Updating of a color associated with the user
 - Retrival of all colors associated with the user
 - Deletion of a color
 
 ## Label
-This entity manages all label related information
 - Creation of custom labels
 - Updating of labels
 - Retrieval of labels associated with the user
 - Deletion of labels
 
 ## UI Template
-This entity manages all UI templates, whether they be default or user-made
 - Creation of UI Templates
 - Updating of UI Templates
 - Retrieval of UI Templates
@@ -176,6 +171,7 @@ Here is a an overview of the database
 I tried to have as much of the data validation to be dont by the server to ensure data integrity. This also reduced the chances of faulty data bbeing stored due to poor data validation on the api, since any faulty information sent to the db would be denied.
 
 ### User
+This entity manages all user account information
 - Email
   - although all emails are unique by default, i decided to make the field unique to prevent duplicate users from being added, since emails are unique, there is no reason why two users should have the same email.
   - As for the size of the field, I did some research to figure out the standard field sizze for an email and landed on that number
@@ -194,6 +190,7 @@ Since this is a core entity, it has many relationships:
 
 
 ### Notes
+This entity manages all note related information with the help of supporting entities
 - Title
   - just like with the email field, I did some research to figure out the standard field sizze for a note title and landed on that number
 - Text Content & Cosmetics
@@ -209,7 +206,8 @@ Since this is also a core entity, it also has many relationships:
 - Optional 1:Many to Note Color
   -A Note can use 1 or no color, but a color can be used by many notes
 
-## Note Color
+### Note Color
+This is a supporting entity for Notes, it stores all of the users saved colors
 - Color Hex
   - 9 chars allow support for color hex with alpha transparency
 
@@ -219,7 +217,9 @@ Relationships:
 - Many:Optional 1 to Note
   - A color can be used by many notes, but Note can use 1 or no color
 
-## Label
+### Label
+This entity manages all label related information
+
 no notable fields/field types
 
 Relationships:
@@ -228,12 +228,42 @@ Relationships:
 - Many:Optional 1 to Note
   - a label can be used by many notes, but a note can use one or no label
 
-## UI Template
+### UI Template
+This entity manages all UI templates, whether they be default or user-made
 - Template Name
   - just like Text Content & Cosmetics, im the the middle of figuring out that the content of this field will look like in reality, so i choose the most optimal field.
  
 Relationships:
 - Optional 1:Many
   - a template can belong to 1 or no users, but a user can have many templates
+
+## Important Constraints
+`ALTER TABLE note ADD CONSTRAINT chk_values_are_different CHECK (NOT (pinned = TRUE AND hidden = TRUE ));`
+
+I created this constraint to ensure that a note isnt saved as pinned and hidden, since its impossible for both fields to be true. saves the front-end a lot of trouble
+ 
+`ALTER TABLE notecolor ADD CONSTRAINT unique_user_noteColor UNIQUE (user_id, color_hex);`
+
+This constraint ensures that a user doesnt save the same color twice, saves space in the long run as well as reduces the database maintanance load
+
+`ALTER TABLE uitemplate ADD CONSTRAINT unique_user_template UNIQUE (user_id, template_name);`
+
+this constraint ensure that a user doesnt save duplicate templates.
+
+### Indexes
+I added indexes to frequently browsed fields, such as:
+- User
+  - Email
+- Note
+  - User ID (Foreign key)
+  - Label ID (Foreign key)
+- Label
+  - User ID (Foreign key)
+- Note Color
+  - User ID (Foreign key)
+- IU Template
+  - User ID (Foreign key)
+Primary keys  are also indexed since MySql indexes PKs automatically.
+
 
 
