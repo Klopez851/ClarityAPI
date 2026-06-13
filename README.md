@@ -4,7 +4,7 @@
 
 This is a RESTful API for my personal note-taking web application. This project will allow users to create and customize notes to their liking, meeting both the aesthetic and functional needs a user might have. 
 
-I built this project to address the concerns with data privacy I face when using Google Keep, as well as my dissatisfaction with their ui customization options. I also built this project to gain hands-on experience with the Spring ecosystem and deepen my understanding of this framework, its available libraries, and standard backend development practices.
+I am building this project to address the concerns with data privacy I face when using Google Keep, as well as my dissatisfaction with their ui customization options. Im also building this project to gain hands-on experience with the Spring ecosystem and deepen my understanding of this framework, its available libraries, and standard backend development practices.
 
 This project demonstrates my current understanding of
 - RESTful API design
@@ -26,7 +26,6 @@ This API has basic CRUD operations for all the key entities, except for the User
 - Secure access to protected endpoints
   
 ## User
-This entity manages all user account information
 - User registration
 - User authentication
 - Retrieval of basic user info (for frontend use)
@@ -34,7 +33,6 @@ This entity manages all user account information
 - Deletion of user account
 
 ## Notes
-This entity manages all note related information with the help of supporting entities
 - Creation of notes
 - Updating of the note as a whole
 - Updating of individual note aspects (i.e. title, content, label, pinned status..etc)
@@ -43,21 +41,18 @@ This entity manages all note related information with the help of supporting ent
 - Deletion of notes
 
 ## Note Color
-This is a supporting entity for Notes, it stores all of the users saved colors
 - Creation of a color
 - Updating of a color associated with the user
 - Retrival of all colors associated with the user
 - Deletion of a color
 
 ## Label
-This entity manages all label related information
 - Creation of custom labels
 - Updating of labels
 - Retrieval of labels associated with the user
 - Deletion of labels
 
 ## UI Template
-This entity manages all UI templates, whether they be default or user-made
 - Creation of UI Templates
 - Updating of UI Templates
 - Retrieval of UI Templates
@@ -153,3 +148,122 @@ The JWT secret is stored as an environmental variable, this allows me to still u
 the current env.example provides all the crutial variables needed for the application to work; these being
 - the Database username and password
 - A sample JWT secret, this secret is for local testing and development only. A secure secret should always be generated for production environment.
+
+
+# Database Design
+I used a local MySql database for all testing and conteinarized one as well, dummy data has been provided for the following users:
+
+alice,
+alice@example.com,
+UserPassword@123
+
+Bob,
+bob@example.com,
+SamplePassword@123
+
+I use Spring Data JPA to interact with the database, which includes Hibernate. The database is manually managed through the schema.sql file in resources. I did this so that i could deepen my understanding of ddl and db management.
+
+Here is a an overview of the database
+
+![Clarity Physical ERD PNG](/documents/Database Physical ERD.png)
+
+## Main Entities & Important Fields
+I tried to have as much of the data validation to be dont by the server to ensure data integrity. This also reduced the chances of faulty data bbeing stored due to poor data validation on the api, since any faulty information sent to the db would be denied.
+
+### User
+This entity manages all user account information
+- Email
+  - although all emails are unique by default, i decided to make the field unique to prevent duplicate users from being added, since emails are unique, there is no reason why two users should have the same email.
+  - As for the size of the field, I did some research to figure out the standard field sizze for an email and landed on that number
+- Password
+  - Since im using Bcrypt to hash my passwords, I made the field as big as the usual Bcrypt output to not use up unnecesary storage space, as well as being able to catch errors, since if a password added is longer tha 60 chars, ill know something is up with my hashing process.
+
+Since this is a core entity, it has many relationships:
+- Many:Optional 1 to UI Template
+  - A user can own/create many templates, but a template can belong to 1 or no users (allows room for system provided templates)
+- Many:1 to Note Color
+  - A user can own/create many colors, but a color can belong to only one user
+- Many:1 to Label
+  - A user can own/create many labes, but a label can only belong to one user
+- Many:1 to Note
+  - A user can own/create many notes, but a note can only belong to one user
+
+
+### Notes
+This entity manages all note related information with the help of supporting entities
+- Title
+  - just like with the email field, I did some research to figure out the standard field sizze for a note title and landed on that number
+- Text Content & Cosmetics
+  - Since im still in the process of figuring out what the content of these fields will look like (will figure it out after frontend is done) i opted to make then text fields, sice this is the most likely data type that ill need, however these field types are subject to change in the future
+- Deleted & Time Left Before Before Deletion
+  - I have these two fields to be able to have a 30 day soft delete before fully deleting a note, allowing it to be restored at any point before the 30 days are over. I plan on adding a trigger to the db to update the Time Left Before Before Deletion based on changes to the Deleted field.
+
+Since this is also a core entity, it also has many relationships:
+- 1:Many to User
+  - A Note can belong to only 1 user, but a User can own many notes
+- Optional 1:Many to Label
+  - A Note can use 1 or no label, but a label can be used by many notes
+- Optional 1:Many to Note Color
+  -A Note can use 1 or no color, but a color can be used by many notes
+
+### Note Color
+This is a supporting entity for Notes, it stores all of the users saved colors
+- Color Hex
+  - 9 chars allow support for color hex with alpha transparency
+
+Relationships:
+- 1:Many to User
+  - A color can belong to 1 user, but a user can own/create many colors
+- Many:Optional 1 to Note
+  - A color can be used by many notes, but Note can use 1 or no color
+
+### Label
+This entity manages all label related information
+
+no notable fields/field types
+
+Relationships:
+- 1:Many to User
+  -A Label can belong to one user, but a user can own many labels
+- Many:Optional 1 to Note
+  - a label can be used by many notes, but a note can use one or no label
+
+### UI Template
+This entity manages all UI templates, whether they be default or user-made
+- Template Name
+  - just like Text Content & Cosmetics, im the the middle of figuring out that the content of this field will look like in reality, so i choose the most optimal field.
+ 
+Relationships:
+- Optional 1:Many
+  - a template can belong to 1 or no users, but a user can have many templates
+
+## Important Constraints
+`ALTER TABLE note ADD CONSTRAINT chk_values_are_different CHECK (NOT (pinned = TRUE AND hidden = TRUE ));`
+
+I created this constraint to ensure that a note isnt saved as pinned and hidden, since its impossible for both fields to be true. saves the front-end a lot of trouble
+ 
+`ALTER TABLE notecolor ADD CONSTRAINT unique_user_noteColor UNIQUE (user_id, color_hex);`
+
+This constraint ensures that a user doesnt save the same color twice, saves space in the long run as well as reduces the database maintanance load
+
+`ALTER TABLE uitemplate ADD CONSTRAINT unique_user_template UNIQUE (user_id, template_name);`
+
+this constraint ensure that a user doesnt save duplicate templates.
+
+### Indexes
+I added indexes to frequently browsed fields, such as:
+- User
+  - Email
+- Note
+  - User ID (Foreign key)
+  - Label ID (Foreign key)
+- Label
+  - User ID (Foreign key)
+- Note Color
+  - User ID (Foreign key)
+- IU Template
+  - User ID (Foreign key)
+Primary keys  are also indexed since MySql indexes PKs automatically.
+
+
+
