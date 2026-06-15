@@ -265,5 +265,18 @@ I added indexes to frequently browsed fields, such as:
   - User ID (Foreign key)
 Primary keys  are also indexed since MySql indexes PKs automatically.
 
+## API Documentation
+For Api documentation i decided to use SpringDoc OpenAPI + Swagger Ui for clean and consistent documentation. I chose to use these two because a) it reduces thes ammount of time spent writing documentation since its automated, making it more maintainable B) allows developes to quickly test the api and C) alllows developers to quickly understand the endpoints and request bodies needed, reducing the amount og time reading documentation vs actual development.
+
+As mentioned earlier, to access the api documentation is publicly acessible after starting the docker container and then going to http://localhost:8080/swagger-ui/index.html#/
+
+because of SpringDoc OpenAPI, all endpoints are documented automatically, with additional information being added via annotations in the code. All DTOs are also available in the shcemas section at the bottom of the page
+
+All endpoints can be tested directly on the swagger website, however to access protected endpoints the tester would have to get a token and add it to the requests via the authorize button, allowing for auth w/n swagger
+
+although swagger allows for testing w/n the website, postman collections are still needed for more indepth testing. Swagger request bodies are determined by annotations in the code, so if one wanted to test sifferent information the code would need to be edited and the server restarted over and over, meanwhile with postman one needs to start the server once and then edit the request body as needed, allowing for faster and easiert testing
+
+the documentation is not fully vomplete, error responses still need to be documented.
+
 
 
