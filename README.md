@@ -291,7 +291,30 @@ The easiest and simplest way to test this api is through docker
 - Linux: https://docs.docker.com/desktop/setup/install/linux/
 
 2) Clone this repository
-3) run `docker compose up`
+3) edit password env variables.
+4) remove .example extention from .env.example
+5) run `docker compose up`
 
 wait patiently for the container to start, as long as port 8080 is open this should happen with no errors.
 to verify that it has started successfully navegate to the [Swagger ui](http://localhost:8080/swagger-ui/index.html#/)
+
+
+## Challenges and lessons learned
+### JWT
+By far my biggest hurdle to overcome during the beginning stages of this project. Implementing JWT was specially difficult becuase i didnt have an indepth understanding of how spring worked in the backgorund. it took a lot of research, reading of official documents, and reading/watching tutorials on this implementation to truly understand the flow of authentification and how spring components work together to accept and process request/responses.
+
+The most challenging part of implementing JWT was learning about the necessary classes and their methods, although i had gained detailed theoretical underding of the aauthentication flow, actually implementing this concept was difficult
+
+However this long learning process was extremely fulfilling, specially seeing the requests be properly process after i was dont implementing them. this hurdle solidified my resolve to finish this project regardless of how dificult it was at the moment, as well as increasing my pride and confident as a developer.
+
+### Docker & Docker compose
+as this was my first time conteinerizing an application i ran into a lot of problems. first i needed to understand docker and how it workes, i read the official documentation and read online articles on docker, i learned about the layer to a container, how env variables are passed into a container, as well as how to tinker with spring spplication properties to do what i needed.
+
+After i studied up on docker and docker compose actually implementing these was also a hurdle. my main issue was that my db image in the container started wasy to late, maning that my api was strying to stablish a connection to database that wasnt up a running. after implementing health checks as well as a 'depends on' requirement, everything worked as intended.
+
+this process taught me so much about Docker as a platform and helped me truly appreciate how impressive and useful of a tool it is.
+
+### Models, JPA, and Hibernate
+Understanding how models and tables ina a database relate took a bit at the begining. at first i was failing to understand that i was supposed to model the intities exactly as they were on the database, specially since i didnt want to let Hibernate automatically create the tables based on my models. I simply didnt feel confident enough in my models to let that happen. But after a lot of research into how to model entitiy relationships in spring i was able to succesfully model my database, and only let hibernate validate my model against the db. everytime my project ran flawlessly (well in relation to entitites) i felt such a huge feeling of satisfaction and once again i felt my confidence as a developer increase.
+
+### Debugging
