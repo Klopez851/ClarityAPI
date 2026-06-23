@@ -109,7 +109,6 @@ After starting the application, the documentation can be accessed at:
 
 The application follows a layered architecture with stateless authentication using JWTs. Responsibilities are separated across different layers to maintain separation of concerns and keep the application modular and easier to maintain.
 
-```text
 DTO
  ⇄
 Controller Layer
@@ -119,7 +118,6 @@ Service Layer
 Repository Layer
  ⇄
 MySQL Database
-```
 
 A typical request flow is as follows:
 
@@ -231,7 +229,8 @@ I use Spring Data JPA (Hibernate) to interact with the database. The schema itse
 
 Here is an overview of the database:
 
-¡[Clarity Physical ERD PNG](/documents/Database Physical ERD.png)\)
+![Clarity Physical ERD PNG](./documents/Database%20Physical%20ERD.png)
+
 ## Main Entities & Important Fields
 
 I tried to push as much validation as possible down to the database level to help ensure data integrity. This reduces the chances of invalid data being stored due to bugs or insufficient validation elsewhere in the application.
