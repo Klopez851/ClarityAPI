@@ -9,7 +9,7 @@
 - [Authentication & Security](#authentication--security)
 - [Database Design](#database-design)
 - [API Documentation](#api-documentation)
-- [Testing](#testing)
+- [Testing](#testing-approach)
 - [Getting Started](#getting-started)
 - [Stopping the Application](#stopping-the-application)
 - [Challenges and Lessons Learned](#challenges-and-lessons-learned)
@@ -410,7 +410,7 @@ I added indexes to fields that are expected to be queried frequently:
 
 Primary keys are also indexed automatically by MySQL.
 
-# TESTING
+# Testing Approach
 
 Testing is currently in the very early stages of development and I’m treating it as its own phase of the project moving forward.
 
