@@ -1,4 +1,3 @@
-!! README IS A WIP !!
 # Table of Contents
 
 - [Clarity API](#clarity-api)
