@@ -2,6 +2,7 @@ package com.example.notesAPI.config;
 
 import com.example.notesAPI.filters.JWTFilter;
 import com.example.notesAPI.service.MyUserDetailsService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,8 +47,12 @@ public class AuthenticationConfig {
                                 "/webjars/**",
                                 "/swagger-ui.html")//let these urls be open resources
                         .permitAll()
-                        .anyRequest().authenticated()) //else (aka url isnt in prev list), require authentication
-                .httpBasic(Customizer.withDefaults()) // requires login w/ postman
+                        .anyRequest().authenticated())//else (aka url isnt in prev list), require authentication
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+                        })
+                )
                 .sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

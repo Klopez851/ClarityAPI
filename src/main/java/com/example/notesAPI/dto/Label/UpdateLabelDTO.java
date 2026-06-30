@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UpdateLabelDTO {
 
-    @Schema(name = "labelID", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "labelID", example = "5", requiredMode = Schema.RequiredMode.REQUIRED)
     private String labelID;
 
     @Schema(name = "labelName", example = "interesting facts", requiredMode = Schema.RequiredMode.REQUIRED)

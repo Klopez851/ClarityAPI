@@ -44,13 +44,10 @@ public class NoteController {
         return service.getNotes(request);
     }
 
-    @Operation(summary = "returns a single note", description = "Returns a single note with he provided email and note id")
-    @GetMapping("/getNote")
-    public ApiResponseDTO<NoteDTO> getNote(@RequestBody GetNoteDTO noteDTO, HttpServletRequest request) {
-        if (!noteDTO.isValid()) {
-            throw new IllegalArgumentException("A noteID must be provided");
-        }
-        return service.getNote(noteDTO, request);
+    @Operation(summary = "returns a single note", description = "Returns a single note with the provided note id")
+    @GetMapping("/getNote/{noteID}")
+    public ApiResponseDTO<NoteDTO> getNote(@PathVariable int noteID, HttpServletRequest request) {
+        return service.getNote(noteID, request);
     }
 
     /// ///////////////////

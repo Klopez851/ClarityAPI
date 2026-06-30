@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UpdateTemplateDTO {
 
-    @Schema(name = "templateID", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "templateID", example = "5", requiredMode = Schema.RequiredMode.REQUIRED)
     private String templateID;
 
     @Schema(name = "newInfo", example = "<TBD>", requiredMode = Schema.RequiredMode.REQUIRED)

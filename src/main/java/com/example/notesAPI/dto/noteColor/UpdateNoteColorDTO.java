@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UpdateNoteColorDTO {
 
-    @Schema(name = "colorID", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "colorID", example = "5", requiredMode = Schema.RequiredMode.REQUIRED)
     private String colorID;
 
     @Schema(name = "newColor", example = "#000080", requiredMode = Schema.RequiredMode.REQUIRED)

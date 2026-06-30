@@ -19,10 +19,10 @@ public class CreateNoteDTO {
     @Schema(name = "content",example = "<TBD>", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Optional<String> content;
 
-    @Schema(name = "labelID",example = "1", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "labelID",example = "null", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Optional<Integer> labelID;
 
-    @Schema(name = "noteColorID",example = "1", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "noteColorID",example = "null", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Optional<Integer> noteColorID;
 
     @JsonIgnore

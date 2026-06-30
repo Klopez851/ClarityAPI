@@ -14,7 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateNoteDTO {
-    @Schema(name = "id", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "id", example = "5", requiredMode = Schema.RequiredMode.REQUIRED)
     private int id;
 
     @Schema(name = "title", example = "Sample Note Title", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
@@ -25,13 +25,13 @@ public class UpdateNoteDTO {
 
     @Schema(name = "label", example = "{\n" +
             "            \"labelName\": \"sample label\",\n" +
-            "            \"labelID\": 1\n" +
+            "            \"labelID\": 5\n" +
             "        }", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private LabelDTO label;
 
     @Schema(name = "noteColor", example = "{\n" +
             "            \"colorHEX\": \"#b5a2c8\",\n" +
-            "            \"colorID\": 1\n" +
+            "            \"colorID\": 5\n" +
             "        }", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private NoteColorDTO noteColor;
 

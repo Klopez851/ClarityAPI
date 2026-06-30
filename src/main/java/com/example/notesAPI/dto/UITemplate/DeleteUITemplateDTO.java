@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class DeleteUITemplateDTO {
-    @Schema(name = "templateID", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "templateID", example = "5", requiredMode = Schema.RequiredMode.REQUIRED)
     private String templateID;
 
     @JsonIgnore

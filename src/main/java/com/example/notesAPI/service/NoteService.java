@@ -3,6 +3,7 @@ package com.example.notesAPI.service;
 import com.example.notesAPI.dto.ApiResponseDTO;
 import com.example.notesAPI.dto.Note.*;
 import com.example.notesAPI.errorHandler.DatabaseErrorException;
+import com.example.notesAPI.errorHandler.ForbiddenRequestException;
 import com.example.notesAPI.errorHandler.IdNotFoundException;
 import com.example.notesAPI.errorHandler.ResourceNotFoundException;
 import com.example.notesAPI.model.Label;
@@ -63,11 +64,19 @@ public class NoteService {
         //look up label if not null
         if (noteDTO.getLabelID().isPresent()) {
             label = labelRepo.findById(noteDTO.getLabelID().get());
+            //ensure label belongs to user
+            if(!(label.get().getUser().getUserID() == user.get().getUserID())){
+                throw new ForbiddenRequestException("The provided labelID does not belong to the authenticated user.");
+            }
         }
 
         //look up color if not null
         if (noteDTO.getNoteColorID().isPresent()) {
             color = noteColorRepo.findById(noteDTO.getNoteColorID().get());
+            //ensure color belongs to user
+            if(!(color.get().getUser().getUserID() == user.get().getUserID())){
+                throw new ForbiddenRequestException("The provided noteColorID does not belong to the authenticated user.");
+            }
         }
 
         //create note
@@ -115,10 +124,9 @@ public class NoteService {
         return new ApiResponseDTO<>(true, "Notes successfully fetched", notes);
     }
 
-    public ApiResponseDTO<NoteDTO> getNote(GetNoteDTO noteDTO, HttpServletRequest request) {
-        //clean data
+    public ApiResponseDTO<NoteDTO> getNote(int noteID, HttpServletRequest request) {
+        //get data
         String email = requestUtil.extractEmailClaim(request);
-        int noteID = noteDTO.getNoteID();
 
         //ensure email exists
         Optional<UserTable> user = userRepo.findByEmail(email);
@@ -132,7 +140,6 @@ public class NoteService {
                 if (user.get().getUserID() == reqNote.get().getUser().getUserID()) {
                     NoteDTO note = noteRepo.getNoteByUser(noteID);
                     return new ApiResponseDTO<>(true, "note successfully fetched", note);
-
                 } else {
                     throw new ResourceNotFoundException("A note by that id associated with the provided user could not be found");
                 }
