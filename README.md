@@ -458,7 +458,7 @@ Some endpoint sample requests depend on resources created by earlier steps. For 
 2. Log in (`/user/login`)
 
    * Feel free to explore the rest of the User endpoints. Just keep in mind that any changes you make to the sample user (such as updating the email or password) will affect subsequent requests.
-3. Copy the generated JWT and authorize your requests using the **Authorize** button in Swagger.
+3. Copy the generated JWT and authorize your requests using the **Authorize** towards the top right of the Swagger UI.
 4. Create a label (`/label/createLabel`)
 
    * Feel free to explore the rest of the Label endpoints. I recommend saving the delete endpoint until after Step 7. If you delete the label earlier, simply create another one and update the label ID in any subsequent sample requests.
