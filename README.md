@@ -378,7 +378,7 @@ This constraint ensures users cannot save the same color multiple times, reducin
 ```sql
 ALTER TABLE uitemplate
 ADD CONSTRAINT unique_user_template
-UNIQUE (user_id, template_name);
+UNIQUE (user_id, template_details);
 ```
 
 This constraint ensures users cannot save duplicate templates.
