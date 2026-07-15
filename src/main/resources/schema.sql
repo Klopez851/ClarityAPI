@@ -61,7 +61,7 @@ ALTER TABLE notecolor ADD CONSTRAINT fk_notecolor_userID FOREIGN KEY (user_id) R
 ALTER TABLE notecolor ADD CONSTRAINT unique_user_noteColor UNIQUE (user_id, color_hex);
 
 ALTER TABLE uitemplate ADD CONSTRAINT fk_uitemplate_user_id FOREIGN KEY (user_id) REFERENCES user_table(user_id) ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE uitemplate ADD CONSTRAINT unique_user_template UNIQUE (user_id, template_name);
+ALTER TABLE uitemplate ADD CONSTRAINT unique_user_template UNIQUE (user_id, template_details);
 
 CREATE INDEX idx_user_table_email ON user_table (email);
 
