@@ -467,6 +467,7 @@ Some endpoint sample requests depend on resources created by earlier steps. For 
    * Feel free to explore the rest of the Note Color endpoints. As with labels, I recommend leaving the delete endpoint until after Step 7. If you delete the color earlier, recreate it and update the note color ID in any subsequent sample requests.
 6. Create a note (`/note/createNote`)
 7. Update the note (`/note/updateNote`)
+   - For this step, simply send the request. The sample request already includes changes to the note, including the previously created label and note color. If you deleted either of those resources earlier, update the corresponding ID fields in the request.
 
 Since the UI Template feature is not part of the typical user workflow, I did not include it in the recommended testing order. After completing the steps above, feel free to explore the remaining endpoints. The various `GET` endpoints are useful for confirming that your changes were applied as expected.
 
