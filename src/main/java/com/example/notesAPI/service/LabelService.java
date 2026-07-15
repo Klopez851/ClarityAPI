@@ -47,6 +47,7 @@ public class LabelService {
         if (user.isEmpty()) {
             throw new IllegalArgumentException("Valid email needed to create label");
         }
+        //ensure label is proper length
         if (labelName.length() > MAX_LABEL_NAME_SIZE) {
             throw new IllegalArgumentException("label is too long, it can be a maximum of " + MAX_LABEL_NAME_SIZE + " characters");
         } else {
@@ -58,7 +59,8 @@ public class LabelService {
 
         return new ApiResponseDTO<>(
                 true,
-                "label successfully created", null);
+                "label successfully created",
+                null);
     }
 
     /// ////////////////
@@ -139,7 +141,7 @@ public class LabelService {
                     return new ApiResponseDTO<String>(true, "label successfully deleted", null);
 
                 } else {
-                    throw new ResourceNotFoundException("Could not such label associated with that user");
+                    throw new ResourceNotFoundException("Could not find such label associated with that user");
                 }
             } else {
                 throw new ResourceNotFoundException("A user with the email " + email + " could not be found");
@@ -148,4 +150,5 @@ public class LabelService {
             throw new IdNotFoundException("A label with that id could not be found");
         }
     }
+
 }
