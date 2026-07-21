@@ -1,6 +1,7 @@
 package com.example.notesAPI.controller;
 
 import com.example.notesAPI.dto.noteColor.CreateNoteColorDTO;
+import com.example.notesAPI.dto.noteColor.DeleteNoteColorDTO;
 import com.example.notesAPI.dto.noteColor.UpdateNoteColorDTO;
 import com.example.notesAPI.service.NoteColorService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -108,6 +109,84 @@ class NoteColorControllerTest {
     }
 
     @Test
-    void deleteNoteColor() {
+    void updateNoteColor_ColorIDisBlank_IllegalArgumentExceptionGetsThrown() {
+        //ARRANGE//
+        UpdateNoteColorDTO updateDTO = new UpdateNoteColorDTO(" ", "#b5a2c8");
+
+        //ACT & ASSERT//
+        assertThrows(IllegalArgumentException.class,()->{
+            noteColorController.updateNoteColor(updateDTO,request);
+        });
+    }
+
+    @Test
+    void updateNoteColor_ColorIDisNull_IllegalArgumentExceptionGetsThrown() {
+        //ARRANGE//
+        UpdateNoteColorDTO updateDTO = new UpdateNoteColorDTO(null, "#b5a2c8");
+
+        //ACT & ASSERT//
+        assertThrows(IllegalArgumentException.class,()->{
+            noteColorController.updateNoteColor(updateDTO,request);
+        });
+    }
+
+    @Test
+    void updateNoteColor_NewColorIsBlank_IllegalArgumentExceptionGetsThrown() {
+        //ARRANGE//
+        UpdateNoteColorDTO updateDTO = new UpdateNoteColorDTO("1", " ");
+
+        //ACT & ASSERT//
+        assertThrows(IllegalArgumentException.class,()->{
+            noteColorController.updateNoteColor(updateDTO,request);
+        });
+    }
+
+    @Test
+    void updateNoteColor_NewColorIsNull_IllegalArgumentExceptionGetsThrown() {
+        //ARRANGE//
+        UpdateNoteColorDTO updateDTO = new UpdateNoteColorDTO("1", null);
+
+        //ACT & ASSERT//
+        assertThrows(IllegalArgumentException.class,()->{
+            noteColorController.updateNoteColor(updateDTO,request);
+        });
+    }
+
+    /////////////////////////
+    /// DeleteNoteColor() ///
+    /////////////////////////
+
+    @Test
+    void deleteNoteColor_RequestBodyIsProperlyFormed_ServiceGetsCalledOnce() {
+        //ARRANGE//
+        DeleteNoteColorDTO deleteDTO = new DeleteNoteColorDTO("1");
+
+        //ACT//
+        noteColorController.deleteNoteColor(deleteDTO,request);
+
+        //ASSERT//
+        verify(noteColorService,times(1)).deleteCoteColor(deleteDTO,request);
+    }
+
+    @Test
+    void deleteNoteColor_ColorIDIsBlank_IllegalArgumentExceptionGetsThrown() {
+        //ARRANGE//
+        DeleteNoteColorDTO deleteDTO = new DeleteNoteColorDTO(" ");
+
+        //ACT & ASSERT//
+        assertThrows(IllegalArgumentException.class,()->{
+            noteColorController.deleteNoteColor(deleteDTO,request);
+        });
+    }
+
+    @Test
+    void deleteNoteColor_ColorIDNull_IllegalArgumentExceptionGetsThrown() {
+        //ARRANGE//
+        DeleteNoteColorDTO deleteDTO = new DeleteNoteColorDTO(null);
+
+        //ACT & ASSERT//
+        assertThrows(IllegalArgumentException.class,()->{
+            noteColorController.deleteNoteColor(deleteDTO,request);
+        });
     }
 }
