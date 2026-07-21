@@ -1,6 +1,7 @@
 package com.example.notesAPI.controller;
 
 import com.example.notesAPI.dto.noteColor.CreateNoteColorDTO;
+import com.example.notesAPI.dto.noteColor.UpdateNoteColorDTO;
 import com.example.notesAPI.service.NoteColorService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeAll;
@@ -35,7 +36,7 @@ class NoteColorControllerTest {
     /////////////////////////
 
     @Test
-    void createNoteColor_RequestBodyIsProperlyFormed_ServiceGetsCallesOnce(){
+    void createNoteColor_RequestBodyIsProperlyFormed_ServiceGetsCalledOnce(){
         //ARRANGE//
         CreateNoteColorDTO colorDTO = new CreateNoteColorDTO("#b5a2c8");
 
@@ -74,12 +75,36 @@ class NoteColorControllerTest {
 
     }
 
-    @Test
-    void getNoteColors() {
-    }
+    ///////////////////////
+    /// GetNoteColors() ///
+    ///////////////////////
 
     @Test
-    void updateNoteColor() {
+    void getNoteColors() {
+        //ARRANGE//
+            //mock request already created
+
+        //ACT//
+        noteColorController.getNoteColors(request);
+
+        //VERIFY//
+        verify(noteColorService, times(1)).getNoteColors(request);
+    }
+
+    /////////////////////////
+    /// UpdateNoteColor() ///
+    /////////////////////////
+
+    @Test
+    void updateNoteColor__RequestBodyIsProperlyFormed_ServiceGetsCalledOnce() {
+        //ARRANGE//
+        UpdateNoteColorDTO updateDTO = new UpdateNoteColorDTO("1", "#b5a2c8");
+
+        //ACT//
+        noteColorController.updateNoteColor(updateDTO,request);
+
+        //ASSERT//
+        verify(noteColorService,times(1)).updateNoteColor(updateDTO,request);
     }
 
     @Test
