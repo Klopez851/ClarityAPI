@@ -23,6 +23,9 @@ public class UpdateNoteColorDTO {
                 || newColor == null || newColor.isBlank()) {
             return false;
         }
+        if(newColor == null || newColor.isBlank()){
+            return false;
+        }
         return true;
     }
 }
