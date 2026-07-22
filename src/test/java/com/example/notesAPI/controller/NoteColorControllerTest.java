@@ -32,12 +32,12 @@ class NoteColorControllerTest {
 
 //TEST NAMING CONVENTION: "method_scenario_expected"//
 
-    /////////////////////////
+    /// //////////////////////
     /// CreateNoteColor() ///
-    /////////////////////////
+    /// //////////////////////
 
     @Test
-    void createNoteColor_RequestBodyIsProperlyFormed_ServiceGetsCalledOnce(){
+    void createNoteColor_RequestBodyIsProperlyFormed_ServiceGetsCalledOnce() {
         //ARRANGE//
         CreateNoteColorDTO colorDTO = new CreateNoteColorDTO("#b5a2c8");
 
@@ -47,43 +47,43 @@ class NoteColorControllerTest {
 
         //ASSERT//
         //verify service gets called once
-        verify(noteColorService, times(1)).createNoteColor(colorDTO,request);
+        verify(noteColorService, times(1)).createNoteColor(colorDTO, request);
     }
 
     @Test
-    void createNoteColor_RequestBodyIsBlank_IllegalArgumentExceptionGetsThrown(){
+    void createNoteColor_RequestBodyIsBlank_IllegalArgumentExceptionGetsThrown() {
         //ARRANGE//
         CreateNoteColorDTO colorDTO = new CreateNoteColorDTO(" ");
 
         //ACT & ASSERT//
         //assert exception gets thrown
-        assertThrows(IllegalArgumentException.class, ()->{
-            noteColorController.createNoteColor(colorDTO,request);
+        assertThrows(IllegalArgumentException.class, () -> {
+            noteColorController.createNoteColor(colorDTO, request);
         });
 
     }
 
     @Test
-    void createNoteColor_RequestBodyIsNull_IllegalArgumentExceptionGetsThrown(){
+    void createNoteColor_RequestBodyIsNull_IllegalArgumentExceptionGetsThrown() {
         //ARRANGE//
         CreateNoteColorDTO colorDTO = new CreateNoteColorDTO(null);
 
         //ACT & ASSERT//
         //assert exception gets thrown
-        assertThrows(IllegalArgumentException.class, ()->{
-            noteColorController.createNoteColor(colorDTO,request);
+        assertThrows(IllegalArgumentException.class, () -> {
+            noteColorController.createNoteColor(colorDTO, request);
         });
 
     }
 
-    ///////////////////////
+    /// ////////////////////
     /// GetNoteColors() ///
-    ///////////////////////
+    /// ////////////////////
 
     @Test
-    void getNoteColors() {
+    void getNoteColors_RequestProperlyFormed_ServiceCalledOnce() {
         //ARRANGE//
-            //mock request already created
+        //mock request already created
 
         //ACT//
         noteColorController.getNoteColors(request);
@@ -92,9 +92,9 @@ class NoteColorControllerTest {
         verify(noteColorService, times(1)).getNoteColors(request);
     }
 
-    /////////////////////////
+    /// //////////////////////
     /// UpdateNoteColor() ///
-    /////////////////////////
+    /// //////////////////////
 
     @Test
     void updateNoteColor__RequestBodyIsProperlyFormed_ServiceGetsCalledOnce() {
@@ -102,10 +102,10 @@ class NoteColorControllerTest {
         UpdateNoteColorDTO updateDTO = new UpdateNoteColorDTO("1", "#b5a2c8");
 
         //ACT//
-        noteColorController.updateNoteColor(updateDTO,request);
+        noteColorController.updateNoteColor(updateDTO, request);
 
         //ASSERT//
-        verify(noteColorService,times(1)).updateNoteColor(updateDTO,request);
+        verify(noteColorService, times(1)).updateNoteColor(updateDTO, request);
     }
 
     @Test
@@ -114,8 +114,8 @@ class NoteColorControllerTest {
         UpdateNoteColorDTO updateDTO = new UpdateNoteColorDTO(" ", "#b5a2c8");
 
         //ACT & ASSERT//
-        assertThrows(IllegalArgumentException.class,()->{
-            noteColorController.updateNoteColor(updateDTO,request);
+        assertThrows(IllegalArgumentException.class, () -> {
+            noteColorController.updateNoteColor(updateDTO, request);
         });
     }
 
@@ -125,8 +125,8 @@ class NoteColorControllerTest {
         UpdateNoteColorDTO updateDTO = new UpdateNoteColorDTO(null, "#b5a2c8");
 
         //ACT & ASSERT//
-        assertThrows(IllegalArgumentException.class,()->{
-            noteColorController.updateNoteColor(updateDTO,request);
+        assertThrows(IllegalArgumentException.class, () -> {
+            noteColorController.updateNoteColor(updateDTO, request);
         });
     }
 
@@ -136,8 +136,8 @@ class NoteColorControllerTest {
         UpdateNoteColorDTO updateDTO = new UpdateNoteColorDTO("1", " ");
 
         //ACT & ASSERT//
-        assertThrows(IllegalArgumentException.class,()->{
-            noteColorController.updateNoteColor(updateDTO,request);
+        assertThrows(IllegalArgumentException.class, () -> {
+            noteColorController.updateNoteColor(updateDTO, request);
         });
     }
 
@@ -147,14 +147,14 @@ class NoteColorControllerTest {
         UpdateNoteColorDTO updateDTO = new UpdateNoteColorDTO("1", null);
 
         //ACT & ASSERT//
-        assertThrows(IllegalArgumentException.class,()->{
-            noteColorController.updateNoteColor(updateDTO,request);
+        assertThrows(IllegalArgumentException.class, () -> {
+            noteColorController.updateNoteColor(updateDTO, request);
         });
     }
 
-    /////////////////////////
+    /// //////////////////////
     /// DeleteNoteColor() ///
-    /////////////////////////
+    /// //////////////////////
 
     @Test
     void deleteNoteColor_RequestBodyIsProperlyFormed_ServiceGetsCalledOnce() {
@@ -162,10 +162,10 @@ class NoteColorControllerTest {
         DeleteNoteColorDTO deleteDTO = new DeleteNoteColorDTO("1");
 
         //ACT//
-        noteColorController.deleteNoteColor(deleteDTO,request);
+        noteColorController.deleteNoteColor(deleteDTO, request);
 
         //ASSERT//
-        verify(noteColorService,times(1)).deleteCoteColor(deleteDTO,request);
+        verify(noteColorService, times(1)).deleteCoteColor(deleteDTO, request);
     }
 
     @Test
@@ -174,8 +174,8 @@ class NoteColorControllerTest {
         DeleteNoteColorDTO deleteDTO = new DeleteNoteColorDTO(" ");
 
         //ACT & ASSERT//
-        assertThrows(IllegalArgumentException.class,()->{
-            noteColorController.deleteNoteColor(deleteDTO,request);
+        assertThrows(IllegalArgumentException.class, () -> {
+            noteColorController.deleteNoteColor(deleteDTO, request);
         });
     }
 
@@ -185,8 +185,8 @@ class NoteColorControllerTest {
         DeleteNoteColorDTO deleteDTO = new DeleteNoteColorDTO(null);
 
         //ACT & ASSERT//
-        assertThrows(IllegalArgumentException.class,()->{
-            noteColorController.deleteNoteColor(deleteDTO,request);
+        assertThrows(IllegalArgumentException.class, () -> {
+            noteColorController.deleteNoteColor(deleteDTO, request);
         });
     }
 }
