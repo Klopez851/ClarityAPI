@@ -100,11 +100,11 @@ public class LabelController {
 
     @Operation(summary = "updates a label", description = "allows users to update any of the labels associated with them as long as a different label name from the name stored is provided")
     @PatchMapping("/updateLabel")
-    public ApiResponseDTO<String> updateLabel(@RequestBody UpdateLabelDTO reqLabel) {
+    public ApiResponseDTO<String> updateLabel(@RequestBody UpdateLabelDTO reqLabel, HttpServletRequest request) {
         if (!reqLabel.isValid()) {
             throw new IllegalArgumentException("All fields (labelID, labelName) must be filled");
         }
-        return service.updateLabel(reqLabel);
+        return service.updateLabel(reqLabel, request);
     }
 
     /// /////////////////////
