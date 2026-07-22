@@ -89,13 +89,17 @@ public class LabelService {
     /// PATCH METHODS ///
     /// //////////////////
 
-    public ApiResponseDTO<String> updateLabel(UpdateLabelDTO reqLabel) {
+    public ApiResponseDTO<String> updateLabel(UpdateLabelDTO reqLabel, HttpServletRequest request) {
         //clean data
         String reqLabelName = reqLabel.getLabelName().strip();
         int reqLabelID = Integer.parseInt(reqLabel.getLabelID());
+        String email = requestUtil.extractEmailClaim(request);
 
         //get label from db
         Optional<Label> label = labelRepo.findById(reqLabelID);
+
+        //get user from db
+        Optional<UserTable> user = userRepo.findByEmail(email);
 
         //make sure label exists the same
         if (label.isEmpty()) {
@@ -108,15 +112,24 @@ public class LabelService {
                     "The label name in your request matches the existing name in the database.", null);
         }
         //update label
-        label.get().setLabelName(reqLabelName);
+        if (user.isPresent()) {
+            if (label.get().getUser().getUserID() == user.get().getUserID()) {
+                //update label name
+                label.get().setLabelName(reqLabelName);
+                //save label
+                labelRepo.save(label.get());
 
-        //save label
-        labelRepo.save(label.get());
-
-        return new ApiResponseDTO<String>(
-                true,
-                "Label successfully updated",
-                null);
+                return new ApiResponseDTO<String>(
+                        true,
+                        "Label successfully updated",
+                        null
+                );
+            } else {
+                throw new ResourceNotFoundException("A label by that id associated with the provided user could not be found");
+            }
+        } else {
+            throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
+        }
     }
 
     /// ///////////////////
