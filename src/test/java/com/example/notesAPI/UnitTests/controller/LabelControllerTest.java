@@ -1,4 +1,4 @@
-package com.example.notesAPI.controller;
+package com.example.notesAPI.UnitTests.controller;
 
 import com.example.notesAPI.dto.Label.CreateLabelDTO;
 import com.example.notesAPI.dto.Label.DeleteLabelDTO;
