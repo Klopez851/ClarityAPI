@@ -36,7 +36,8 @@ public class LabelController {
     //this is for swagger error documentation only
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Label successfully created",
-                    content = @Content(//the *content* of the http response body should be the fields in *ProblemDetail*
+                    //the *content* of the http response body should be the fields in *ApiResponseDTO*
+                    content = @Content(
                             schema = @Schema(implementation = ApiResponseDTO.class)
                     )),
             @ApiResponse(responseCode = "400", description = "No valid user provided or label name is too long",
