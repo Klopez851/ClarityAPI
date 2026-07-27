@@ -110,10 +110,17 @@ public class UITemplateService {
                 if (user.get().getUserID() == template.get().getUser().getUserID()) {
                     //save new template details
                     template.get().setTemplateDetails(newTemplateDetails);
-                    templateRepo.save(template.get());
+                    try {
+                        templateRepo.save(template.get());
+                    } catch (Exception e) {
+                        throw new DatabaseErrorException(e.getMessage());
+                    }
 
-                    return new ApiResponseDTO<String>(true,
-                            "template successfully updated", null);
+                    return new ApiResponseDTO<String>(
+                            true,
+                            "template successfully updated",
+                            null
+                    );
 
                 } else {
                     throw new ResourceNotFoundException("Could not find ui template associated with that user");
@@ -151,7 +158,11 @@ public class UITemplateService {
                     //update and save template
                     template.get().setTemplateName(newName);
 
-                    templateRepo.save(template.get());
+                    try {
+                        templateRepo.save(template.get());
+                    } catch (Exception e) {
+                        throw new DatabaseErrorException(e.getMessage());
+                    }
 
                     return new ApiResponseDTO<String>(
                             true,

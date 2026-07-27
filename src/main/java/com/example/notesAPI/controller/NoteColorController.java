@@ -41,6 +41,7 @@ public class NoteColorController {
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "400", description = "ColorHex exceeds allowed maximum", //TODO: explain DatabaseException after fixing that exception
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401",description = "Invalid JWT"),
             @ApiResponse(responseCode = "200", description = "color successfully saved",
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class)))
     })
@@ -60,6 +61,7 @@ public class NoteColorController {
     @ApiResponses({
             @ApiResponse(responseCode = "404", description = "Invalid Email in JWT",
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401",description = "Invalid JWT"),
             @ApiResponse(responseCode = "200", description = "NoteColors successfully fetched",
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class)))
     })
@@ -78,6 +80,7 @@ public class NoteColorController {
                 content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "400", description = "Color hex provided exceeds character limit, or database error",
                         content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401",description = "Invalid JWT"),
             @ApiResponse(responseCode = "200", description = "NoteColor successfully updated",
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class)))
     })
@@ -98,7 +101,8 @@ public class NoteColorController {
             @ApiResponse(responseCode = "200", description = " Color successfully deleted",
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
             @ApiResponse(responseCode = "404", description = "Color ID doesnt exist, that ID isnt associated with the given user, Or the Email in the JWT is invalid",
-                    content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401",description = "Invalid JWT")
     })
     @Operation(summary = "Deletes a color", description = "deletes an existing custom color associated with the provided email")
     @DeleteMapping("/deleteColor")
