@@ -3,10 +3,15 @@ import com.example.notesAPI.dto.ApiResponseDTO;
 import com.example.notesAPI.dto.Note.*;
 import com.example.notesAPI.service.NoteService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,9 +28,28 @@ public class NoteController {
     /// ///////////////////
     /// POST MAPPING/S ///
     /// ///////////////////
+//    @ApiResponses({
+//            @ApiResponse(responseCode = "", description = "",
+//                    content = @Content(schema = @Schema(implementation = ""))),
+//    })
 
+    //this is for swagger error documentation only
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Note was successfully created",
+                    content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Title max character limit exceeded, note could not be " +
+                    "saved to database, or error in request body",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
+            @ApiResponse(responseCode = "404", description = "User associated with email in JWT could not be found",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "403", description = "LabelID or NoteColorID provided isnt associated with " +
+                    "the email in the JWT",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401", description = "Invalid JWT")
+    })
     @Operation(summary = "creates a note", description = "creates a note and associated it with the email provided by the " +
             "jwt token, \"not required\" means no value needs to be passed, but field itself must be present in request")
+
     @PostMapping("/createNote")
     public ApiResponseDTO<String> createNote(@RequestBody CreateNoteDTO note, HttpServletRequest request) {
         if (!note.isValid()) {
@@ -38,13 +62,32 @@ public class NoteController {
     /// GET MAPPING/S ////
     /// ///////////////////
 
+    //this is for swagger error documentation only
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Notes were successfully fetched",
+                    content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
+            @ApiResponse(responseCode = "404", description = "User associated with email in JWT could not be found",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401", description = "Invalid JWT")
+    })
     @Operation(summary = "returns all user notes", description = "returns all the notes associated with the use email provided")
+
     @GetMapping("/getNotes")
     public ApiResponseDTO<List<NoteDTO>> getNotes(HttpServletRequest request) {
         return service.getNotes(request);
     }
 
+    //this is for swagger error documentation only
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Note was successfully fetched",
+                    content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
+            @ApiResponse(responseCode = "404", description = "User associated with email in JWT could not be found, " +
+                    "Note ID doesn't exist, or note ID is not associated with the email provided",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401", description = "Invalid JWT")
+    })
     @Operation(summary = "returns a single note", description = "Returns a single note with the provided note id")
+
     @GetMapping("/getNote/{noteID}")
     public ApiResponseDTO<NoteDTO> getNote(@PathVariable int noteID, HttpServletRequest request) {
         return service.getNote(noteID, request);
@@ -54,6 +97,21 @@ public class NoteController {
     /// PUT MAPPING/S ////
     /// ///////////////////
 
+    //this is for swagger error documentation only
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Note was successfully updated",
+                    content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Note could not be " +
+                    "saved to database, or error in request body",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
+            @ApiResponse(responseCode = "404", description = "User associated with email in JWT could not be found, " +
+                    "Note Id doesn't exist, or note Id isnt associated with the provided user",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "403", description = "LabelID or NoteColorID provided isnt associated with " +
+                    "the email in the JWT",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401", description = "Invalid JWT")
+    })
     @Operation(summary = "updates a note", description = "updates a users note")
     @PutMapping("/updateNote")
     public ApiResponseDTO<String> updateNote(@RequestBody UpdateNoteDTO noteDTO, HttpServletRequest request) {
