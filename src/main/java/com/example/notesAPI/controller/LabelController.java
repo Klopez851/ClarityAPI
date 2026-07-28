@@ -39,8 +39,8 @@ public class LabelController {
                     //the *content* of the http response body should be the fields in *ApiResponseDTO*
                     content = @Content(
                             schema = @Schema(implementation = ApiResponseDTO.class))),
-            @ApiResponse(responseCode = "400", description = "No valid user provided or label name is too long, " +
-                    "or error in request body",
+            @ApiResponse(responseCode = "400", description = "No valid user provided, label name is too long, " +
+                    "could not save label to database, or error in request body",
                     content = @Content(
                             schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "401", description = "Unauthorized access/Invalid JWT")

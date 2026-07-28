@@ -5,6 +5,7 @@ import com.example.notesAPI.dto.Label.CreateLabelDTO;
 import com.example.notesAPI.dto.Label.DeleteLabelDTO;
 import com.example.notesAPI.dto.Label.LabelDTO;
 import com.example.notesAPI.dto.Label.UpdateLabelDTO;
+import com.example.notesAPI.errorHandler.DatabaseErrorException;
 import com.example.notesAPI.errorHandler.ResourceNotFoundException;
 import com.example.notesAPI.model.Label;
 import com.example.notesAPI.model.UserTable;
@@ -54,7 +55,11 @@ public class LabelService {
         }
 
         //store label
-        labelRepo.save(label);
+        try {
+            labelRepo.save(label);
+        } catch (Exception e) {
+            throw new DatabaseErrorException(e.getMessage());
+        }
 
         return new ApiResponseDTO<>(
                 true,
@@ -107,8 +112,11 @@ public class LabelService {
 
         //make sure the labels are the same
         if (label.get().getLabelName().equals(reqLabelName)) {
-            return new ApiResponseDTO<String>(true,
-                    "The label name in your request matches the existing name in the database.", null);
+            return new ApiResponseDTO<String>(
+                    true,
+                    "The label name in your request matches the existing name in the database.",
+                    null
+            );
         }
         //update label
         if (user.isPresent()) {
