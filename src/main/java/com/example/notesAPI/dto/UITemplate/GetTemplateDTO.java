@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-@JsonPropertyOrder({"templateID","templateName","templateDetails"})
+@JsonPropertyOrder({"templateID", "templateName", "templateDetails"})
 public class GetTemplateDTO {
     private String templateName, templateDetails;
     private int templateID;

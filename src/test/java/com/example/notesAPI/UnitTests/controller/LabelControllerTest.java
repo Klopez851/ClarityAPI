@@ -1,4 +1,4 @@
-package com.example.notesAPI.controller;
+package com.example.notesAPI.UnitTests.controller;
 
 import com.example.notesAPI.dto.Label.CreateLabelDTO;
 import com.example.notesAPI.dto.Label.DeleteLabelDTO;
@@ -9,11 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class LabelControllerTest {
@@ -42,7 +42,7 @@ class LabelControllerTest {
         labelController.createLabel(labelDTO, request);
 
         //ASSERT//
-        verify(labelService, times(1)).createLabel(labelDTO,request);
+        verify(labelService, times(1)).createLabel(labelDTO, request);
     }
 
     @Test
@@ -51,8 +51,8 @@ class LabelControllerTest {
         CreateLabelDTO labelDTO = new CreateLabelDTO(" ");
 
         //ACT & ASSERT//
-        assertThrows(IllegalArgumentException.class,()->{
-            labelController.createLabel(labelDTO,request);
+        assertThrows(IllegalArgumentException.class, () -> {
+            labelController.createLabel(labelDTO, request);
         });
     }
 
@@ -62,8 +62,8 @@ class LabelControllerTest {
         CreateLabelDTO labelDTO = new CreateLabelDTO(null);
 
         //ACT & ASSERT//
-        assertThrows(IllegalArgumentException.class,()->{
-            labelController.createLabel(labelDTO,request);
+        assertThrows(IllegalArgumentException.class, () -> {
+            labelController.createLabel(labelDTO, request);
         });
     }
 
@@ -74,7 +74,7 @@ class LabelControllerTest {
     @Test
     void getLabels_RequestIsProperlyFormed_ServiceGetsCalledOnce() {
         //ARRANGE//
-            //Mock request has already been made
+        //Mock request has already been made
 
         //ACT//
         labelController.getLabels(request);
@@ -90,7 +90,7 @@ class LabelControllerTest {
     @Test
     void updateLabel_RequestBodyIsProperlyFormed_ServiceGetsCalledOnce() {
         //ARRANGE//
-        UpdateLabelDTO updateDTO = new UpdateLabelDTO("1","Test Label Name");
+        UpdateLabelDTO updateDTO = new UpdateLabelDTO("1", "Test Label Name");
 
         //ACT//
         labelController.updateLabel(updateDTO, request);
@@ -102,44 +102,44 @@ class LabelControllerTest {
     @Test
     void updateLabel_LabelIDisBlank_ThrowsIllegalArgumentException() {
         //ARRANGE//
-        UpdateLabelDTO updateDTO = new UpdateLabelDTO(" ","Test Label Name");
+        UpdateLabelDTO updateDTO = new UpdateLabelDTO(" ", "Test Label Name");
 
         //ACT & ASSERT//
-        assertThrows(IllegalArgumentException.class,()->{
-            labelController.updateLabel(updateDTO,request);
+        assertThrows(IllegalArgumentException.class, () -> {
+            labelController.updateLabel(updateDTO, request);
         });
     }
 
     @Test
     void updateLabel_LabelIDisNull_ThrowsIllegalArgumentException() {
         //ARRANGE//
-        UpdateLabelDTO updateDTO = new UpdateLabelDTO(null,"Test Label Name");
+        UpdateLabelDTO updateDTO = new UpdateLabelDTO(null, "Test Label Name");
 
         //ACT & ASSERT//
-        assertThrows(IllegalArgumentException.class,()->{
-            labelController.updateLabel(updateDTO,request);
+        assertThrows(IllegalArgumentException.class, () -> {
+            labelController.updateLabel(updateDTO, request);
         });
     }
 
     @Test
     void updateLabel_LabelNameisBlank_ThrowsIllegalArgumentException() {
         //ARRANGE//
-        UpdateLabelDTO updateDTO = new UpdateLabelDTO("1"," ");
+        UpdateLabelDTO updateDTO = new UpdateLabelDTO("1", " ");
 
         //ACT & ASSERT//
-        assertThrows(IllegalArgumentException.class,()->{
-            labelController.updateLabel(updateDTO,request);
+        assertThrows(IllegalArgumentException.class, () -> {
+            labelController.updateLabel(updateDTO, request);
         });
     }
 
     @Test
     void updateLabel_LabelNameisNull_ThrowsIllegalArgumentException() {
         //ARRANGE//
-        UpdateLabelDTO updateDTO = new UpdateLabelDTO("1",null);
+        UpdateLabelDTO updateDTO = new UpdateLabelDTO("1", null);
 
         //ACT & ASSERT//
-        assertThrows(IllegalArgumentException.class,()->{
-            labelController.updateLabel(updateDTO,request);
+        assertThrows(IllegalArgumentException.class, () -> {
+            labelController.updateLabel(updateDTO, request);
         });
     }
 
@@ -153,10 +153,10 @@ class LabelControllerTest {
         DeleteLabelDTO deleteDTO = new DeleteLabelDTO("1");
 
         //ACT//
-        labelController.deleteLabel(deleteDTO,request);
+        labelController.deleteLabel(deleteDTO, request);
 
         //ASSERT//
-        verify(labelService,times(1)).deleteLabel(deleteDTO, request);
+        verify(labelService, times(1)).deleteLabel(deleteDTO, request);
     }
 
     @Test
@@ -165,8 +165,8 @@ class LabelControllerTest {
         DeleteLabelDTO deleteDTO = new DeleteLabelDTO(" ");
 
         //ACT & ASSERT//
-        assertThrows(IllegalArgumentException.class,()->{
-            labelController.deleteLabel(deleteDTO,request);
+        assertThrows(IllegalArgumentException.class, () -> {
+            labelController.deleteLabel(deleteDTO, request);
         });
     }
 
@@ -176,8 +176,8 @@ class LabelControllerTest {
         DeleteLabelDTO deleteDTO = new DeleteLabelDTO(null);
 
         //ACT & ASSERT//
-        assertThrows(IllegalArgumentException.class,()->{
-            labelController.deleteLabel(deleteDTO,request);
+        assertThrows(IllegalArgumentException.class, () -> {
+            labelController.deleteLabel(deleteDTO, request);
         });
     }
 

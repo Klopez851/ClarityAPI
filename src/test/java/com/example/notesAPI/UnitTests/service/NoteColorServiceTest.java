@@ -10,8 +10,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @ExtendWith(MockitoExtension.class)
 class NoteColorServiceTest {
 
@@ -26,7 +24,7 @@ class NoteColorServiceTest {
     @InjectMocks
     NoteColorService noteColorService;
 
-//test naming convention "method_scenario_expected"
+    //test naming convention "method_scenario_expected"
     @Test
     void createNoteColor() {
         //Arrange

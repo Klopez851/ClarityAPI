@@ -27,7 +27,7 @@ import java.util.List;
 @RequestMapping("/label")
 public class LabelController {
 
-    private LabelService service;
+    private final LabelService service;
 
     /// ///////////////////
     /// POST MAPPING/S ///
@@ -36,18 +36,18 @@ public class LabelController {
     //this is for swagger error documentation only
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Label successfully created",
-                    content = @Content(//the *content* of the http response body should be the fields in *ProblemDetail*
-                            schema = @Schema(implementation = ApiResponseDTO.class)
-                    )),
-            @ApiResponse(responseCode = "400", description = "No valid user provided or label name is too long",
+                    //the *content* of the http response body should be the fields in *ApiResponseDTO*
                     content = @Content(
-                            schema = @Schema(implementation = ProblemDetail.class)
-                    )),
-            @ApiResponse(responseCode = "401", description = "Unauthorized access/Invalid JWT", content = @Content)
+                            schema = @Schema(implementation = ApiResponseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "No valid user provided or label name is too long, " +
+                    "or error in request body",
+                    content = @Content(
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401", description = "Unauthorized access/Invalid JWT")
             //"content = @Content" necessary for this error code to shows up w/ no response body in swagger ui
     })
-
     @Operation(summary = "Creates a label", description = "Allows user to create a label")
+
     @PostMapping("/createLabel")
     public ApiResponseDTO<String> createLabel(@RequestBody CreateLabelDTO userLabel, HttpServletRequest request) {
         if (!userLabel.isValid()) {
@@ -64,16 +64,14 @@ public class LabelController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Labels successfully fetched",
                     content = @Content(
-                            schema = @Schema(implementation = ApiResponseDTO.class)
-                    )),
+                            schema = @Schema(implementation = ApiResponseDTO.class))),
             @ApiResponse(responseCode = "404", description = "Invalid email in JWT claim",
                     content = @Content(
-                            schema = @Schema(implementation = ProblemDetail.class)
-                    )),
-            @ApiResponse(responseCode = "401", description = "Unauthorized access/Invalid JWT", content = @Content)
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401", description = "Unauthorized access/Invalid JWT")
     })
-
     @Operation(summary = "fetches labels", description = "fetches all labels associated with the provided email in the jwt token")
+
     @GetMapping("/getLabels")
     public ApiResponseDTO<List<LabelDTO>> getLabels(HttpServletRequest request) {
         return service.getLabels(request);
@@ -89,16 +87,17 @@ public class LabelController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "label successfully updated, or no update was needed because the existing label name was send as request body",
                     content = @Content(
-                            schema = @Schema(implementation = ApiResponseDTO.class)
-                    )),
+                            schema = @Schema(implementation = ApiResponseDTO.class))),
             @ApiResponse(responseCode = "404", description = "Label with provided ID could not be found",
                     content = @Content(
-                            schema = @Schema(implementation = ApiResponseDTO.class)
-                    )),
-            @ApiResponse(responseCode = "401", description = "Unauthorized access/Invalid JWT", content = @Content)
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "400", description = "Error in request body",
+                    content = @Content(
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401", description = "Unauthorized access/Invalid JWT")
     })
-
     @Operation(summary = "updates a label", description = "allows users to update any of the labels associated with them as long as a different label name from the name stored is provided")
+
     @PatchMapping("/updateLabel")
     public ApiResponseDTO<String> updateLabel(@RequestBody UpdateLabelDTO reqLabel, HttpServletRequest request) {
         if (!reqLabel.isValid()) {
@@ -115,18 +114,19 @@ public class LabelController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Label successfully deleted",
                     content = @Content(
-                            schema = @Schema(implementation = ApiResponseDTO.class)
-                    )),
+                            schema = @Schema(implementation = ApiResponseDTO.class))),
             @ApiResponse(responseCode = "404", description = "A label with that ID could not be found, " +
                     "a user with the provided email could not be found, " +
                     "or the label ID provided is not associated with the provided user ",
                     content = @Content(
-                            schema = @Schema(implementation = ApiResponseDTO.class)
-                    )),
-            @ApiResponse(responseCode = "401", description = "Unauthorized access/Invalid JWT", content = @Content)
+                            schema = @Schema(implementation = ApiResponseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Error in request body",
+                    content = @Content(
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401", description = "Unauthorized access/Invalid JWT")
     })
-
     @Operation(summary = "deletes a label", description = "Allows users to delete any of their labels as long as they exists in the db")
+
     @DeleteMapping("/deleteLabel")
     public ApiResponseDTO<String> deleteLabel(@RequestBody DeleteLabelDTO label, HttpServletRequest request) {
         if (!label.isValid()) {

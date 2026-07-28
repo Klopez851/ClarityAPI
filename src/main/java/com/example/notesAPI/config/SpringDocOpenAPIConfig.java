@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 
-//this allows swagger-ui to render a field for auth in the endpoints, if the value in the field "name" is chnage, all
+//this allows swagger-ui to render a field for auth in the endpoints, if the value in the field "name" is change, all
 // @SecurityRequirement tags must be updated as well
 @SecurityScheme(
         name = "JwtAuth",

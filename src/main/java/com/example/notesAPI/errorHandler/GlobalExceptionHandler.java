@@ -36,14 +36,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return problemDetail;
     }
 
-    //Id not found
-    @ExceptionHandler(IdNotFoundException.class)
-    public ProblemDetail handleIdNotFound(IdNotFoundException ex, WebRequest request) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
-        problemDetail.setInstance(URI.create(request.getDescription(false)));
-        return problemDetail;
-    }
-
     //user making request and user record being afffected dont match
     @ExceptionHandler(ForbiddenRequestException.class)
     public ProblemDetail handleInvalidRequest(ForbiddenRequestException ex, WebRequest request) {

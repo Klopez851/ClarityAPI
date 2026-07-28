@@ -5,7 +5,6 @@ import com.example.notesAPI.dto.Label.CreateLabelDTO;
 import com.example.notesAPI.dto.Label.DeleteLabelDTO;
 import com.example.notesAPI.dto.Label.LabelDTO;
 import com.example.notesAPI.dto.Label.UpdateLabelDTO;
-import com.example.notesAPI.errorHandler.IdNotFoundException;
 import com.example.notesAPI.errorHandler.ResourceNotFoundException;
 import com.example.notesAPI.model.Label;
 import com.example.notesAPI.model.UserTable;
@@ -103,7 +102,7 @@ public class LabelService {
 
         //make sure label exists the same
         if (label.isEmpty()) {
-            throw new IdNotFoundException("A label with that ID doesn't exist");
+            throw new ResourceNotFoundException("A label with that ID doesn't exist");
         }
 
         //make sure the labels are the same
@@ -160,7 +159,7 @@ public class LabelService {
                 throw new ResourceNotFoundException("A user with the email " + email + " could not be found");
             }
         } else {
-            throw new IdNotFoundException("A label with that id could not be found");
+            throw new ResourceNotFoundException("A label with that id could not be found");
         }
     }
 
