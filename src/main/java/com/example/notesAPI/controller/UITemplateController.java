@@ -35,7 +35,8 @@ public class UITemplateController {
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = " UI template has been successfully created",
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class ))),
-            @ApiResponse(responseCode = "400",description = "Template name exceeds character limit or unable to add template to database, or",
+            @ApiResponse(responseCode = "400",description = "Template name exceeds character limit or unable to add " +
+                    "template to database, or error in request body",
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
             @ApiResponse(responseCode = "404",description = "Invalid User provided by JWT",
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
@@ -58,8 +59,7 @@ public class UITemplateController {
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
             @ApiResponse(responseCode = "200",description = "",
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
-            @ApiResponse(responseCode = "401",description = "Invalid JWT",
-                    content = @Content(schema = @Schema(implementation = ProblemDetail.class )))
+            @ApiResponse(responseCode = "401",description = "Invalid JWT")
     })
     @Operation(summary = "fetches ui templates", description = "fetches all ui templates associated with the provided email")
     @GetMapping("/getTemplates")
