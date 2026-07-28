@@ -28,10 +28,6 @@ public class NoteController {
     /// ///////////////////
     /// POST MAPPING/S ///
     /// ///////////////////
-//    @ApiResponses({
-//            @ApiResponse(responseCode = "", description = "",
-//                    content = @Content(schema = @Schema(implementation = ""))),
-//    })
 
     //this is for swagger error documentation only
     @ApiResponses({
@@ -101,7 +97,7 @@ public class NoteController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Note was successfully updated",
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
-            @ApiResponse(responseCode = "400", description = "Note could not be " +
+            @ApiResponse(responseCode = "400", description = "Updated note could not be " +
                     "saved to database, or error in request body",
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
             @ApiResponse(responseCode = "404", description = "User associated with email in JWT could not be found, " +
@@ -113,6 +109,7 @@ public class NoteController {
             @ApiResponse(responseCode = "401", description = "Invalid JWT")
     })
     @Operation(summary = "updates a note", description = "updates a users note")
+
     @PutMapping("/updateNote")
     public ApiResponseDTO<String> updateNote(@RequestBody UpdateNoteDTO noteDTO, HttpServletRequest request) {
         if (!noteDTO.isValid()) {
@@ -128,7 +125,20 @@ public class NoteController {
     /// PATCH MAPPING/S ////
     /// /////////////////////
 
+    //this is for swagger error documentation only
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Pinned status was successfully updated",
+                    content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Updated note could not be saved to database, or error in " +
+                    "request body",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
+            @ApiResponse(responseCode = "404", description = "User associated with email in JWT could not be found, " +
+                    "provided Note ID could not be found, provided Note ID isn't associated with the provided email",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401", description = "Invalid JWT")
+    })
     @Operation(summary = "updates a notes pinned status")
+
     @PatchMapping("/updatePinned")
     public ApiResponseDTO<String> updatePinnedStatus(@RequestBody UpdateBooleanStatusDTO noteDTO, HttpServletRequest request) {
         if (!noteDTO.isValid()) {
@@ -137,8 +147,20 @@ public class NoteController {
         return service.updatePinned(noteDTO, request);
     }
 
-
+    //this is for swagger error documentation only
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Hidden status was successfully updated",
+                    content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Updated note could not be saved to database, or error in " +
+                    "request body",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
+            @ApiResponse(responseCode = "404", description = "User associated with email in JWT could not be found, " +
+                    "provided Note ID could not be found, provided Note ID isn't associated with the provided email",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401", description = "Invalid JWT")
+    })
     @Operation(summary = "updates a notes hidden status")
+
     @PatchMapping("/updateHidden")
     public ApiResponseDTO<String> updateHiddenStatus(@RequestBody UpdateBooleanStatusDTO noteDTO, HttpServletRequest request) {
         if (!noteDTO.isValid()) {
@@ -147,7 +169,20 @@ public class NoteController {
         return service.updateHidden(noteDTO, request);
     }
 
+    //this is for swagger error documentation only
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Deleted status was successfully updated",
+                    content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Updated note could not be saved to database, or error in " +
+                    "request body",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
+            @ApiResponse(responseCode = "404", description = "User associated with email in JWT could not be found, " +
+                    "provided Note ID could not be found, provided Note ID isn't associated with the provided email",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401", description = "Invalid JWT")
+    })
     @Operation(summary = "updates a notes deleted status")
+
     @PatchMapping("/updateDeleted")
     public ApiResponseDTO<String> updateDeletedStatus(@RequestBody UpdateBooleanStatusDTO noteDTO, HttpServletRequest request) {
         if (!noteDTO.isValid()) {
@@ -156,7 +191,20 @@ public class NoteController {
         return service.updateDeleted(noteDTO, request);
     }
 
+    //this is for swagger error documentation only
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "ViewOnly status was successfully updated",
+                    content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Updated note could not be saved to database, or error in " +
+                    "request body",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
+            @ApiResponse(responseCode = "404", description = "User associated with email in JWT could not be found, " +
+                    "provided Note ID could not be found, provided Note ID isn't associated with the provided email",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401", description = "Invalid JWT")
+    })
     @Operation(summary = "updates a notes view only status")
+
     @PatchMapping("/updateViewOnly")
     public ApiResponseDTO<String> updateViewOnlyStatus(@RequestBody UpdateBooleanStatusDTO noteDTO, HttpServletRequest request) {
         if (!noteDTO.isValid()) {
@@ -165,7 +213,21 @@ public class NoteController {
         return service.updateViewOnly(noteDTO, request);
     }
 
+    //this is for swagger error documentation only
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Note label was successfully updated",
+                    content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Updated note could not be saved to database, or error in " +
+                    "request body",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
+            @ApiResponse(responseCode = "404", description = "User associated with email in JWT could not be found, " +
+                    "provided Note ID could not be found, provided label ID could not be found, or provided Note " +
+                    "ID isn't associated with the provided email",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401", description = "Invalid JWT")
+    })
     @Operation(summary = "updates a note's label")
+
     @PatchMapping("/updateLabel")
     public ApiResponseDTO<String> updateLabel(@RequestBody UpdateNoteLabelDTO labelDTO, HttpServletRequest request) {
         if (!labelDTO.isValid()) {
@@ -174,7 +236,21 @@ public class NoteController {
         return service.updateLabel(labelDTO, request);
     }
 
+    //this is for swagger error documentation only
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Note color was successfully updated",
+                    content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Updated note could not be saved to database, or error in " +
+                    "request body",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
+            @ApiResponse(responseCode = "404", description = "User associated with email in JWT could not be found, " +
+                    "provided Note ID could not be found, provided Note ID isn't associated with the provided email," +
+                    " or provided note color ID could not be found",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401", description = "Invalid JWT")
+    })
     @Operation(summary = "updates a note's color")
+
     @PatchMapping("/updateNoteColor")
     public ApiResponseDTO<String> updateNoteColor(@RequestBody UpdateColorDTO colorDTO, HttpServletRequest request) {
         if (!colorDTO.isValid()) {
@@ -183,7 +259,20 @@ public class NoteController {
         return service.updateNoteColor(colorDTO, request);
     }
 
+    //this is for swagger error documentation only
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Note cosmetics was successfully updated",
+                    content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Updated note could not be saved to database, or error in " +
+                    "request body",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
+            @ApiResponse(responseCode = "404", description = "User associated with email in JWT could not be found, " +
+                    "provided Note ID could not be found, provided Note ID isn't associated with the provided email",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401", description = "Invalid JWT")
+    })
     @Operation(summary = "updates a note's cosmetics")
+
     @PatchMapping("/updateCosmetics")
     public ApiResponseDTO<String> updateCosmetics(@RequestBody UpdateCosmeticDTO cosmeticsDTO, HttpServletRequest request) {
         if (!cosmeticsDTO.isValid()) {
@@ -197,7 +286,20 @@ public class NoteController {
     /// DELETE MAPPING/S ////
     /// //////////////////////
 
+    //this is for swagger error documentation only
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Note Was successfully deleted",
+                    content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "note could not be deleted, or error in " +
+                    "request body",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
+            @ApiResponse(responseCode = "404", description = "User associated with email in JWT could not be found, " +
+                    "provided Note ID could not be found, provided Note ID isn't associated with the provided email",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401", description = "Invalid JWT")
+    })
     @Operation(summary = "deletes a note")
+
     @DeleteMapping("/deleteNote")
     public ApiResponseDTO<String> deleteNote(@RequestBody DeleteNoteDTO noteDTO, HttpServletRequest request) {
         if (!noteDTO.isValid()) {

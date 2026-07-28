@@ -319,9 +319,17 @@ public class NoteService {
                     note.get().setUpdatedAt(LocalDateTime.now());
 
                     //save entity
-                    noteRepo.save(note.get());
+                    try {
+                        noteRepo.save(note.get());
+                    } catch (Exception e) {
+                        throw new DatabaseErrorException(e.getMessage());
+                    }
 
-                    return new ApiResponseDTO<String>(true, "Note sucessfully updated", null);
+                    return new ApiResponseDTO<String>(
+                            true,
+                            "Note sucessfully updated",
+                            null
+                    );
 
                 } else {
                     throw new ResourceNotFoundException("A note with that id associated with the provided user could not be found");
@@ -351,7 +359,11 @@ public class NoteService {
                     note.get().setUpdatedAt(LocalDateTime.now());
 
                     //save entity
-                    noteRepo.save(note.get());
+                    try {
+                        noteRepo.save(note.get());
+                    } catch (Exception e) {
+                        throw new DatabaseErrorException(e.getMessage());
+                    }
 
                     return new ApiResponseDTO<String>(true, "Note sucessfully updated", null);
 
@@ -383,9 +395,17 @@ public class NoteService {
                     note.get().setUpdatedAt(LocalDateTime.now());
 
                     //save entity
-                    noteRepo.save(note.get());
+                    try {
+                        noteRepo.save(note.get());
+                    } catch (Exception e) {
+                        throw new DatabaseErrorException(e.getMessage());
+                    }
 
-                    return new ApiResponseDTO<String>(true, "Note sucessfully updated", null);
+                    return new ApiResponseDTO<String>(
+                            true,
+                            "Note sucessfully updated",
+                            null
+                    );
 
                 } else {
                     throw new ResourceNotFoundException("A note with that id associated with the provided user could not be found");
@@ -415,9 +435,17 @@ public class NoteService {
                     note.get().setUpdatedAt(LocalDateTime.now());
 
                     //save entity
-                    noteRepo.save(note.get());
+                    try {
+                        noteRepo.save(note.get());
+                    } catch (Exception e) {
+                        throw new DatabaseErrorException(e.getMessage());
+                    }
 
-                    return new ApiResponseDTO<String>(true, "Note sucessfully updated", null);
+                    return new ApiResponseDTO<String>(
+                            true,
+                            "Note sucessfully updated",
+                            null
+                    );
 
                 } else {
                     throw new ResourceNotFoundException("A note with that id associated with the provided user could not be found");
@@ -447,7 +475,11 @@ public class NoteService {
                     note.get().setUpdatedAt(LocalDateTime.now());
 
                     //save entity
-                    noteRepo.save(note.get());
+                    try {
+                        noteRepo.save(note.get());
+                    } catch (Exception e) {
+                        throw new DatabaseErrorException(e.getMessage());
+                    }
 
                     return new ApiResponseDTO<String>(true, "Note sucessfully updated", null);
 
@@ -482,7 +514,11 @@ public class NoteService {
                         note.get().setUpdatedAt(LocalDateTime.now());
 
                         //save entity
-                        noteRepo.save(note.get());
+                        try {
+                            noteRepo.save(note.get());
+                        } catch (Exception e) {
+                            throw new DatabaseErrorException(e.getMessage());
+                        }
 
                         return new ApiResponseDTO<String>(true, "Note sucessfully updated", null);
 
@@ -520,7 +556,11 @@ public class NoteService {
                         note.get().setUpdatedAt(LocalDateTime.now());
 
                         //save entity
-                        noteRepo.save(note.get());
+                        try {
+                            noteRepo.save(note.get());
+                        } catch (Exception e) {
+                            throw new DatabaseErrorException(e.getMessage());
+                        }
 
                         return new ApiResponseDTO<String>(true, "Note sucessfully updated", null);
 
@@ -554,8 +594,16 @@ public class NoteService {
             if (user.isPresent()) {
                 if (user.get().getUserID() == note.get().getUser().getUserID()) {
                     //delete note
-                    noteRepo.delete(note.get());
-                    return new ApiResponseDTO<String>(true, "Note sucessfully deleted", null);
+                    try {
+                        noteRepo.delete(note.get());
+                    } catch (Exception e) {
+                        throw new DatabaseErrorException(e.getMessage());
+                    }
+
+                    return new ApiResponseDTO<String>(
+                            true,
+                            "Note sucessfully deleted",
+                            null);
 
                 } else {
                     throw new ResourceNotFoundException("A note with that id associated with that user could not be found");

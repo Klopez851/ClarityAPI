@@ -27,7 +27,7 @@ import java.util.List;
 @RequestMapping("/label")
 public class LabelController {
 
-    private LabelService service;
+    private final LabelService service;
 
     /// ///////////////////
     /// POST MAPPING/S ///
