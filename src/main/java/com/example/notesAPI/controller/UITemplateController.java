@@ -94,7 +94,7 @@ public class UITemplateController {
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "template name successfully updated",
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class ))),
-            @ApiResponse(responseCode = "404",description = "Non-existent template ID, provided ID isnt associated " +
+            @ApiResponse(responseCode = "404",description = "Non-existent template ID, provided ID isn't associated " +
                     "with the given email, or invalid email provided by Jwt",
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "401",description = "Invalid JWT"),
@@ -114,6 +114,16 @@ public class UITemplateController {
     /// DELETE METHODS ///
     /// ///////////////////
 
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "template was successfully deleted",
+                    content = @Content(schema = @Schema(implementation = ApiResponseDTO.class ))),
+            @ApiResponse(responseCode = "404",description = "Non-existent template ID, provided ID isnt associated " +
+                    "with the given email, or invalid email provided by Jwt",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401",description = "Invalid JWT"),
+            @ApiResponse(responseCode = "400",description = "Unable to delete template from database",
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class )))
+    })
     @Operation(summary = "deletes a ui template", description = "deletes a given ui template as long as its associated with the given email")
     @DeleteMapping("/deleteUserTemplate")
     public ApiResponseDTO<String> deleteTemplate(@RequestBody DeleteUITemplateDTO template, HttpServletRequest request) {

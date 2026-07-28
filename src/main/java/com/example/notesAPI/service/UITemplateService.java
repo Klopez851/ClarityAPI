@@ -199,19 +199,23 @@ public class UITemplateService {
             if (user.isPresent()) {
                 if (uiTemplate.get().getUser().getUserID() == user.get().getUserID()) {
                     //delete template
-                    templateRepo.deleteById(uiTemplate.get().getTemplateID());
+                    try {
+                        templateRepo.deleteById(uiTemplate.get().getTemplateID());
+                    } catch (Exception e) {
+                        throw new DatabaseErrorException(e.getMessage());
+                    }
 
                     //return a response
                     return new ApiResponseDTO<>(
                             true,
-                            "template succesfully deleted",
+                            "template successfully deleted",
                             null);
 
                 } else {
                     throw new ResourceNotFoundException("Could not find a UI template associated with that user");
                 }
             } else {
-                throw new ResourceNotFoundException("A user associated with that email could not be found");
+                throw new ResourceNotFoundException("A user associated with the email "+email+" could not be found");
             }
         } else {
             throw new IdNotFoundException("A template associated with that ID could not be found");
