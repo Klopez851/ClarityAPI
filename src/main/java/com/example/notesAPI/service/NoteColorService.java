@@ -6,7 +6,6 @@ import com.example.notesAPI.dto.noteColor.DeleteNoteColorDTO;
 import com.example.notesAPI.dto.noteColor.NoteColorDTO;
 import com.example.notesAPI.dto.noteColor.UpdateNoteColorDTO;
 import com.example.notesAPI.errorHandler.DatabaseErrorException;
-import com.example.notesAPI.errorHandler.IdNotFoundException;
 import com.example.notesAPI.errorHandler.ResourceAlreadyExistsException;
 import com.example.notesAPI.errorHandler.ResourceNotFoundException;
 import com.example.notesAPI.model.NoteColor;
@@ -143,7 +142,7 @@ public class NoteColorService {
                 throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
             }
         } else {
-            throw new IdNotFoundException("A color associated with that ID could not be found");
+            throw new ResourceNotFoundException("A color associated with that ID could not be found");
         }
     }
 
@@ -178,7 +177,7 @@ public class NoteColorService {
                 throw new ResourceNotFoundException("A user by the email "+email+" could not be found");
             }
         } else {
-            throw new IdNotFoundException("A color by that ID could not be found");
+            throw new ResourceNotFoundException("A color by that ID could not be found");
         }
     }
 }

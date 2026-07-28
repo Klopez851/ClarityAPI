@@ -30,6 +30,7 @@ public class UserController {
     /// POST MAPPINGS ///
     /// //////////////////
 
+    //this is for swagger error documentation only
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "User successfully created",
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
@@ -40,6 +41,7 @@ public class UserController {
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class )))
     })
     @Operation(summary = "Creates a new user", description = "Creates a new user if provided with a non-existent email")
+
     @PostMapping("/createUser")
     public ApiResponseDTO createUser(@RequestBody UserInfoDTO user) {
         if (!user.isValid()) {
@@ -48,6 +50,7 @@ public class UserController {
         return (service.createUser(user));
     }
 
+    //this is for swagger error documentation only
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "User verified successfully"),
             @ApiResponse(responseCode = "404", description = "User does not exists",
@@ -55,7 +58,9 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "Error in request body",
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class )))
     })
-    @Operation(summary = "Allows user to login", description = "Allows user to log in and returns a custom JWT token with lowercase email")
+    @Operation(summary = "Allows user to login", description = "Allows user to log in and returns a custom JWT token " +
+            "with lowercase email")
+
     @PostMapping("/login")
     public String login(@RequestBody UserLoginDTO user) {
         if (!user.isValid()) {
@@ -68,6 +73,7 @@ public class UserController {
     /// GET MAPPINGS ///
     /// /////////////////
 
+    //this is for swagger error documentation only
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "User sucessfully fetched",
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class ))),
@@ -76,7 +82,10 @@ public class UserController {
             @ApiResponse(responseCode = "401", description = "Invalid JWT")
     })
     @Operation(summary = "fetches user information", description = "fetches user information using a valid jwt token")
+    // Other controllers define security at the class level; this controller requires endpoint-level annotations due
+    // to mixed access
     @SecurityRequirement(name="JwtAuth")
+
     @GetMapping("/getUser")
     public ApiResponseDTO<UserInfoDTO> getUser(HttpServletRequest request) {
         return service.getUser(request);
@@ -86,6 +95,7 @@ public class UserController {
     /// PATCH MAPPINGS ///
     /// ///////////////////
 
+    //this is for swagger error documentation only
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Email successfully updated",
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
@@ -96,6 +106,7 @@ public class UserController {
     })
     @Operation(summary = "Allows user to update their email", description = "Allows user to update their email to a non-existing email")
     @SecurityRequirement(name="JwtAuth")
+
     @PatchMapping("/updateEmail")
     public ApiResponseDTO<String> updateEmail(@RequestBody UpdateEmailDTO emailDTO, HttpServletRequest request) {
         if (!emailDTO.isValid()) {
@@ -104,6 +115,7 @@ public class UserController {
         return service.updateEmail(emailDTO, request);
     }
 
+    //this is for swagger error documentation only
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Username successfully updated",
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
@@ -117,6 +129,7 @@ public class UserController {
     })
     @Operation(summary = "Allows user to update their username", description = "Allows user to update their username")
     @SecurityRequirement(name="JwtAuth")
+
     @PatchMapping("/updateUsername")
     public ApiResponseDTO<String> updateUsername(@RequestBody UpdateUserInfoDTO usernameDTO, HttpServletRequest request) {
         if (!usernameDTO.isValid()) {
@@ -125,6 +138,7 @@ public class UserController {
         return service.updateUsername(usernameDTO, request);
     }
 
+    //this is for swagger error documentation only
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Password updated successfully",
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
@@ -138,6 +152,7 @@ public class UserController {
     })
     @Operation(summary = "Allows user to update their password", description = "Allows user to update their password")
     @SecurityRequirement(name="JwtAuth")
+
     @PatchMapping("/updatePassword")
     public ApiResponseDTO<String> updatePassword(@RequestBody UpdateUserInfoDTO passwordDTO, HttpServletRequest request) {
         if (!passwordDTO.isValid()) {
@@ -150,6 +165,7 @@ public class UserController {
     /// DELETE MAPPING ///
     /// ///////////////////
 
+    //this is for swagger error documentation only
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "User successfully deleted",
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
@@ -161,6 +177,7 @@ public class UserController {
     })
     @Operation(summary = "Allows user to delete their account", description = "Allows user to delete their account and everything related to them using their jwt token")
     @SecurityRequirement(name="JwtAuth")
+
     @DeleteMapping("/deleteUser")
     public ApiResponseDTO<String> deleteUser(HttpServletRequest request) {
         return service.deleteUser(request);

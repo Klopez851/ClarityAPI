@@ -33,7 +33,7 @@ public class NoteColorController {
     /// POST MAPPING/S ///
     /// ///////////////////
 
-
+    //this is for swagger error documentation only
     @ApiResponses({
             @ApiResponse(responseCode = "404", description = "Invalid Email in JWT ",
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
@@ -46,6 +46,7 @@ public class NoteColorController {
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class)))
     })
     @Operation(summary = "stores a color", description = "stores a custom color by hex number")
+
     @PostMapping("/createColor")
     public ApiResponseDTO<String> createNoteColor(@RequestBody CreateNoteColorDTO colorDTO, HttpServletRequest request) {
         if (!colorDTO.isValid()) {
@@ -58,6 +59,7 @@ public class NoteColorController {
     /// GET MAPPING/S ///
     /// /////////////////
 
+    //this is for swagger error documentation only
     @ApiResponses({
             @ApiResponse(responseCode = "404", description = "Invalid Email in JWT",
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
@@ -66,6 +68,7 @@ public class NoteColorController {
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class)))
     })
     @Operation(summary = "fetch colors", description = " fetch all colors associated with the email provided by the jwt token")
+
     @GetMapping("/getColors")
     public ApiResponseDTO<List<NoteColorDTO>> getNoteColors(HttpServletRequest request) {
         return service.getNoteColors(request);
@@ -75,6 +78,7 @@ public class NoteColorController {
     /// PATCH MAPPING/S ///
     /// ////////////////////
 
+    //this is for swagger error documentation only
     @ApiResponses({
             @ApiResponse(responseCode = "404", description = "Color ID provided doesnt exist, that ID isnt associated with the provided user, or the Email in the JWT is invalid",
                 content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
@@ -86,6 +90,7 @@ public class NoteColorController {
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class)))
     })
     @Operation(summary = "updates an existing color", description = "updates an existing color")
+
     @PatchMapping("/updateColor")
     public ApiResponseDTO<String> updateNoteColor(@RequestBody UpdateNoteColorDTO colorDTO, HttpServletRequest request) {
         if (!colorDTO.isValid()) {
@@ -98,6 +103,7 @@ public class NoteColorController {
     /// DELETE MAPPING/S ///
     /// /////////////////////
 
+    //this is for swagger error documentation only
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = " Color successfully deleted",
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
@@ -108,6 +114,7 @@ public class NoteColorController {
             @ApiResponse(responseCode = "401",description = "Invalid JWT")
     })
     @Operation(summary = "Deletes a color", description = "deletes an existing custom color associated with the provided email")
+
     @DeleteMapping("/deleteColor")
     public ApiResponseDTO<String> deleteNoteColor(@RequestBody DeleteNoteColorDTO colorDTO, HttpServletRequest request) {
         if (!colorDTO.isValid()) {

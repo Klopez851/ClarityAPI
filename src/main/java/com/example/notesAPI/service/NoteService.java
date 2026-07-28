@@ -4,7 +4,6 @@ import com.example.notesAPI.dto.ApiResponseDTO;
 import com.example.notesAPI.dto.Note.*;
 import com.example.notesAPI.errorHandler.DatabaseErrorException;
 import com.example.notesAPI.errorHandler.ForbiddenRequestException;
-import com.example.notesAPI.errorHandler.IdNotFoundException;
 import com.example.notesAPI.errorHandler.ResourceNotFoundException;
 import com.example.notesAPI.model.Label;
 import com.example.notesAPI.model.Note;
@@ -147,7 +146,7 @@ public class NoteService {
                 throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
             }
         } else {
-            throw new IdNotFoundException("A note associated with that id could not be found");
+            throw new ResourceNotFoundException("A note associated with that id could not be found");
         }
     }
 
@@ -265,7 +264,7 @@ public class NoteService {
                 throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
             }
         } else {
-            throw new IdNotFoundException("A note associated with that id could not be found");
+            throw new ResourceNotFoundException("A note associated with that id could not be found");
         }
     }
 
@@ -301,7 +300,7 @@ public class NoteService {
                 throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
             }
         } else {
-            throw new IdNotFoundException("A note associated with that id could not be found");
+            throw new ResourceNotFoundException("A note associated with that id could not be found");
         }
     }
 
@@ -333,7 +332,7 @@ public class NoteService {
                 throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
             }
         } else {
-            throw new IdNotFoundException("A note associated with that id could not be found");
+            throw new ResourceNotFoundException("A note associated with that id could not be found");
         }
     }
 
@@ -365,7 +364,7 @@ public class NoteService {
                 throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
             }
         } else {
-            throw new IdNotFoundException("A note associated with that id could not be found");
+            throw new ResourceNotFoundException("A note associated with that id could not be found");
         }
     }
 
@@ -397,7 +396,7 @@ public class NoteService {
                 throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
             }
         } else {
-            throw new IdNotFoundException("A note associated with that id could not be found");
+            throw new ResourceNotFoundException("A note associated with that id could not be found");
         }
     }
 
@@ -429,7 +428,7 @@ public class NoteService {
                 throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
             }
         } else {
-            throw new IdNotFoundException("A note associated with that id could not be found");
+            throw new ResourceNotFoundException("A note associated with that id could not be found");
         }
     }
 
@@ -464,10 +463,10 @@ public class NoteService {
                     throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
                 }
             } else {
-                throw new IdNotFoundException("A note associated with that id could not be found");
+                throw new ResourceNotFoundException("A note associated with that id could not be found");
             }
         } else {
-            throw new IdNotFoundException("A label associated with that id could not be found");
+            throw new ResourceNotFoundException("A label associated with that id could not be found");
         }
     }
 
@@ -502,10 +501,10 @@ public class NoteService {
                     throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
                 }
             } else {
-                throw new IdNotFoundException("A note associated with that id could not be found");
+                throw new ResourceNotFoundException("A note associated with that id could not be found");
             }
         } else {
-            throw new IdNotFoundException("A NoteColor associated with that id could not be found");
+            throw new ResourceNotFoundException("A NoteColor associated with that id could not be found");
         }
     }
 
@@ -535,7 +534,7 @@ public class NoteService {
                 throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
             }
         } else {
-            throw new IdNotFoundException("A note associated with that id could not be found");
+            throw new ResourceNotFoundException("A note associated with that id could not be found");
         }
     }
 

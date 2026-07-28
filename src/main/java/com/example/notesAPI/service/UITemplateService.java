@@ -6,7 +6,6 @@ import com.example.notesAPI.dto.UITemplate.DeleteUITemplateDTO;
 import com.example.notesAPI.dto.UITemplate.GetTemplateDTO;
 import com.example.notesAPI.dto.UITemplate.UpdateTemplateDTO;
 import com.example.notesAPI.errorHandler.DatabaseErrorException;
-import com.example.notesAPI.errorHandler.IdNotFoundException;
 import com.example.notesAPI.errorHandler.ResourceNotFoundException;
 import com.example.notesAPI.model.UITemplate;
 import com.example.notesAPI.model.UserTable;
@@ -218,7 +217,7 @@ public class UITemplateService {
                 throw new ResourceNotFoundException("A user associated with the email "+email+" could not be found");
             }
         } else {
-            throw new IdNotFoundException("A template associated with that ID could not be found");
+            throw new ResourceNotFoundException("A template associated with that ID could not be found");
         }
     }
 

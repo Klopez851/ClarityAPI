@@ -32,6 +32,8 @@ public class UITemplateController {
     /// /////////////////
     /// POST METHODS ///
     /// /////////////////
+
+    //this is for swagger error documentation only
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = " UI template has been successfully created",
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class ))),
@@ -43,6 +45,7 @@ public class UITemplateController {
             @ApiResponse(responseCode = "401",description = "Invalid JWT")
     })
     @Operation(summary = "creates ui templates", description = "allows users to store their custom ui templates")
+
     @PostMapping("/create")
     public ApiResponseDTO<String> createTemplate(@RequestBody CreateTemplateDTO template, HttpServletRequest request) {
         if (!template.isValid()) {
@@ -54,6 +57,8 @@ public class UITemplateController {
     /// /////////////////
     /// GET METHODS ///
     /// /////////////////
+
+    //this is for swagger error documentation only
     @ApiResponses({
             @ApiResponse(responseCode = "404",description = "Invalid email in JWT",
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
@@ -62,6 +67,7 @@ public class UITemplateController {
             @ApiResponse(responseCode = "401",description = "Invalid JWT")
     })
     @Operation(summary = "fetches ui templates", description = "fetches all ui templates associated with the provided email")
+
     @GetMapping("/getTemplates")
     public ApiResponseDTO<List<GetTemplateDTO>> getTemplates(HttpServletRequest request) {
         return service.getTemplates(request);
@@ -71,6 +77,7 @@ public class UITemplateController {
     /// PATCH METHODS ///
     /// /////////////////
 
+    //this is for swagger error documentation only
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "template details successfully updated",
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class ))),
@@ -82,6 +89,7 @@ public class UITemplateController {
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class )))
     })
     @Operation(summary = "updates a template's details", description = "updates a ui template's details")
+
     @PatchMapping("/updateTemplateDetails")
     public ApiResponseDTO<String> updateTemplateDetails(@RequestBody UpdateTemplateDTO template, HttpServletRequest request) {
         if (!template.isValid()) {
@@ -91,6 +99,7 @@ public class UITemplateController {
         return service.updateTemplateDetails(template, request);
     }
 
+    //this is for swagger error documentation only
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "template name successfully updated",
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class ))),
@@ -102,6 +111,7 @@ public class UITemplateController {
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class )))
     })
     @Operation(summary = "updates a template's name", description = "updates a ui template's name")
+
     @PatchMapping("/updateTemplateName")
     public ApiResponseDTO<String> updateTemplateName(@RequestBody UpdateTemplateDTO templateDTO, HttpServletRequest request) {
         if (!templateDTO.isValid()) {
@@ -114,6 +124,7 @@ public class UITemplateController {
     /// DELETE METHODS ///
     /// ///////////////////
 
+    //this is for swagger error documentation only
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "template was successfully deleted",
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class ))),
@@ -125,6 +136,7 @@ public class UITemplateController {
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class )))
     })
     @Operation(summary = "deletes a ui template", description = "deletes a given ui template as long as its associated with the given email")
+
     @DeleteMapping("/deleteUserTemplate")
     public ApiResponseDTO<String> deleteTemplate(@RequestBody DeleteUITemplateDTO template, HttpServletRequest request) {
         //make sure data is valid

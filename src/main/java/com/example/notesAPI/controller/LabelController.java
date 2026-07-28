@@ -46,8 +46,8 @@ public class LabelController {
             @ApiResponse(responseCode = "401", description = "Unauthorized access/Invalid JWT")
             //"content = @Content" necessary for this error code to shows up w/ no response body in swagger ui
     })
-
     @Operation(summary = "Creates a label", description = "Allows user to create a label")
+
     @PostMapping("/createLabel")
     public ApiResponseDTO<String> createLabel(@RequestBody CreateLabelDTO userLabel, HttpServletRequest request) {
         if (!userLabel.isValid()) {
@@ -70,8 +70,8 @@ public class LabelController {
                             schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "401", description = "Unauthorized access/Invalid JWT")
     })
-
     @Operation(summary = "fetches labels", description = "fetches all labels associated with the provided email in the jwt token")
+
     @GetMapping("/getLabels")
     public ApiResponseDTO<List<LabelDTO>> getLabels(HttpServletRequest request) {
         return service.getLabels(request);
@@ -96,8 +96,8 @@ public class LabelController {
                             schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "401", description = "Unauthorized access/Invalid JWT")
     })
-
     @Operation(summary = "updates a label", description = "allows users to update any of the labels associated with them as long as a different label name from the name stored is provided")
+
     @PatchMapping("/updateLabel")
     public ApiResponseDTO<String> updateLabel(@RequestBody UpdateLabelDTO reqLabel, HttpServletRequest request) {
         if (!reqLabel.isValid()) {
@@ -125,8 +125,8 @@ public class LabelController {
                             schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "401", description = "Unauthorized access/Invalid JWT")
     })
-
     @Operation(summary = "deletes a label", description = "Allows users to delete any of their labels as long as they exists in the db")
+
     @DeleteMapping("/deleteLabel")
     public ApiResponseDTO<String> deleteLabel(@RequestBody DeleteLabelDTO label, HttpServletRequest request) {
         if (!label.isValid()) {
