@@ -2,8 +2,6 @@ package com.example.notesAPI.service;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class LabelServiceTest {
 
     @Test

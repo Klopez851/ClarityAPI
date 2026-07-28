@@ -63,10 +63,10 @@ public class NoteColorService {
                         "color successfully saved",
                         null);
 
-            }else {
+            } else {
                 throw new ResourceAlreadyExistsException("Such color already exists");
             }
-        }else {
+        } else {
             throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
         }
     }
@@ -90,7 +90,7 @@ public class NoteColorService {
                     noteColorRepo.findAllByUser(user.get().getUserID())
             );
 
-        }else {
+        } else {
             throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
         }
     }
@@ -174,7 +174,7 @@ public class NoteColorService {
                     throw new ResourceNotFoundException("A color by that ID associated with the provided email could not be found");
                 }
             } else {
-                throw new ResourceNotFoundException("A user by the email "+email+" could not be found");
+                throw new ResourceNotFoundException("A user by the email " + email + " could not be found");
             }
         } else {
             throw new ResourceNotFoundException("A color by that ID could not be found");

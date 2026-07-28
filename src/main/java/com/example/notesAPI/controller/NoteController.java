@@ -1,4 +1,5 @@
 package com.example.notesAPI.controller;
+
 import com.example.notesAPI.dto.ApiResponseDTO;
 import com.example.notesAPI.dto.Note.*;
 import com.example.notesAPI.service.NoteService;
@@ -18,7 +19,7 @@ import java.util.List;
 
 @RestController
 @Tag(name = "Note Endpoints")
-@SecurityRequirement(name="JwtAuth")
+@SecurityRequirement(name = "JwtAuth")
 @AllArgsConstructor
 @RequestMapping("/note")
 public class NoteController {
@@ -35,7 +36,7 @@ public class NoteController {
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Title max character limit exceeded, note could not be " +
                     "saved to database, or error in request body",
-                    content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "404", description = "User associated with email in JWT could not be found",
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "403", description = "LabelID or NoteColorID provided isnt associated with " +
@@ -99,7 +100,7 @@ public class NoteController {
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Updated note could not be " +
                     "saved to database, or error in request body",
-                    content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "404", description = "User associated with email in JWT could not be found, " +
                     "Note Id doesn't exist, or note Id isnt associated with the provided user",
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
@@ -131,7 +132,7 @@ public class NoteController {
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Updated note could not be saved to database, or error in " +
                     "request body",
-                    content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "404", description = "User associated with email in JWT could not be found, " +
                     "provided Note ID could not be found, provided Note ID isn't associated with the provided email",
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
@@ -153,7 +154,7 @@ public class NoteController {
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Updated note could not be saved to database, or error in " +
                     "request body",
-                    content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "404", description = "User associated with email in JWT could not be found, " +
                     "provided Note ID could not be found, provided Note ID isn't associated with the provided email",
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
@@ -175,7 +176,7 @@ public class NoteController {
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Updated note could not be saved to database, or error in " +
                     "request body",
-                    content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "404", description = "User associated with email in JWT could not be found, " +
                     "provided Note ID could not be found, provided Note ID isn't associated with the provided email",
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
@@ -197,7 +198,7 @@ public class NoteController {
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Updated note could not be saved to database, or error in " +
                     "request body",
-                    content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "404", description = "User associated with email in JWT could not be found, " +
                     "provided Note ID could not be found, provided Note ID isn't associated with the provided email",
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
@@ -219,7 +220,7 @@ public class NoteController {
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Updated note could not be saved to database, or error in " +
                     "request body",
-                    content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "404", description = "User associated with email in JWT could not be found, " +
                     "provided Note ID could not be found, provided label ID could not be found, or provided Note " +
                     "ID isn't associated with the provided email",
@@ -242,7 +243,7 @@ public class NoteController {
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Updated note could not be saved to database, or error in " +
                     "request body",
-                    content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "404", description = "User associated with email in JWT could not be found, " +
                     "provided Note ID could not be found, provided Note ID isn't associated with the provided email," +
                     " or provided note color ID could not be found",
@@ -265,7 +266,7 @@ public class NoteController {
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Updated note could not be saved to database, or error in " +
                     "request body",
-                    content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "404", description = "User associated with email in JWT could not be found, " +
                     "provided Note ID could not be found, provided Note ID isn't associated with the provided email",
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
@@ -292,7 +293,7 @@ public class NoteController {
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "note could not be deleted, or error in " +
                     "request body",
-                    content = @Content(schema = @Schema(implementation = ProblemDetail.class ))),
+                    content = @Content(schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "404", description = "User associated with email in JWT could not be found, " +
                     "provided Note ID could not be found, provided Note ID isn't associated with the provided email",
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class))),

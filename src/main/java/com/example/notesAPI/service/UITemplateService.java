@@ -214,7 +214,7 @@ public class UITemplateService {
                     throw new ResourceNotFoundException("Could not find a UI template associated with that user");
                 }
             } else {
-                throw new ResourceNotFoundException("A user associated with the email "+email+" could not be found");
+                throw new ResourceNotFoundException("A user associated with the email " + email + " could not be found");
             }
         } else {
             throw new ResourceNotFoundException("A template associated with that ID could not be found");

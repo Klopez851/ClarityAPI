@@ -8,9 +8,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -65,6 +63,7 @@ public class JWTService {
                 .getPayload();
         return claims;
     }
+
     public boolean validateToken(String token, MyUserDetails userDetails) {
         final String email = extractEmail(token);
 
@@ -83,9 +82,9 @@ public class JWTService {
         return claims.getExpiration();
     }
 
-    ///////////////////////
+    /// ////////////////////
     /// PRIVATE METHODS ///
-    ///////////////////////
+    /// ////////////////////
     private SecretKey getKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey); //key is encoded in Base64, then decoded and used where needed
         return Keys.hmacShaKeyFor(keyBytes);
