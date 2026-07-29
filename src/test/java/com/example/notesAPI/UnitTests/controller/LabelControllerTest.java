@@ -1,5 +1,6 @@
 package com.example.notesAPI.UnitTests.controller;
 
+import com.example.notesAPI.controller.LabelController;
 import com.example.notesAPI.dto.Label.CreateLabelDTO;
 import com.example.notesAPI.dto.Label.DeleteLabelDTO;
 import com.example.notesAPI.dto.Label.UpdateLabelDTO;
@@ -20,9 +21,9 @@ class LabelControllerTest {
 
     //Mock Objects/Dependencies
     @Mock
-    LabelService labelService;
+    private LabelService service;
     @InjectMocks
-    LabelController labelController;
+    private LabelController controller;
 
     @Mock
     private static HttpServletRequest request;
@@ -39,10 +40,10 @@ class LabelControllerTest {
         CreateLabelDTO labelDTO = new CreateLabelDTO("Test Label Name");
 
         //ACT//
-        labelController.createLabel(labelDTO, request);
+        controller.createLabel(labelDTO, request);
 
         //ASSERT//
-        verify(labelService, times(1)).createLabel(labelDTO, request);
+        verify(service, times(1)).createLabel(labelDTO, request);
     }
 
     @Test
@@ -52,7 +53,7 @@ class LabelControllerTest {
 
         //ACT & ASSERT//
         assertThrows(IllegalArgumentException.class, () -> {
-            labelController.createLabel(labelDTO, request);
+            controller.createLabel(labelDTO, request);
         });
     }
 
@@ -63,7 +64,7 @@ class LabelControllerTest {
 
         //ACT & ASSERT//
         assertThrows(IllegalArgumentException.class, () -> {
-            labelController.createLabel(labelDTO, request);
+            controller.createLabel(labelDTO, request);
         });
     }
 
@@ -77,10 +78,10 @@ class LabelControllerTest {
         //Mock request has already been made
 
         //ACT//
-        labelController.getLabels(request);
+        controller.getLabels(request);
 
         //ASSERT//
-        verify(labelService, times(1)).getLabels(request);
+        verify(service, times(1)).getLabels(request);
     }
 
     /// /////////////////
@@ -93,10 +94,10 @@ class LabelControllerTest {
         UpdateLabelDTO updateDTO = new UpdateLabelDTO("1", "Test Label Name");
 
         //ACT//
-        labelController.updateLabel(updateDTO, request);
+        controller.updateLabel(updateDTO, request);
 
         //ASSERT//
-        verify(labelService, times(1)).updateLabel(updateDTO, request);
+        verify(service, times(1)).updateLabel(updateDTO, request);
     }
 
     @Test
@@ -106,7 +107,7 @@ class LabelControllerTest {
 
         //ACT & ASSERT//
         assertThrows(IllegalArgumentException.class, () -> {
-            labelController.updateLabel(updateDTO, request);
+            controller.updateLabel(updateDTO, request);
         });
     }
 
@@ -117,7 +118,7 @@ class LabelControllerTest {
 
         //ACT & ASSERT//
         assertThrows(IllegalArgumentException.class, () -> {
-            labelController.updateLabel(updateDTO, request);
+            controller.updateLabel(updateDTO, request);
         });
     }
 
@@ -128,7 +129,7 @@ class LabelControllerTest {
 
         //ACT & ASSERT//
         assertThrows(IllegalArgumentException.class, () -> {
-            labelController.updateLabel(updateDTO, request);
+            controller.updateLabel(updateDTO, request);
         });
     }
 
@@ -139,7 +140,7 @@ class LabelControllerTest {
 
         //ACT & ASSERT//
         assertThrows(IllegalArgumentException.class, () -> {
-            labelController.updateLabel(updateDTO, request);
+            controller.updateLabel(updateDTO, request);
         });
     }
 
@@ -153,10 +154,10 @@ class LabelControllerTest {
         DeleteLabelDTO deleteDTO = new DeleteLabelDTO("1");
 
         //ACT//
-        labelController.deleteLabel(deleteDTO, request);
+        controller.deleteLabel(deleteDTO, request);
 
         //ASSERT//
-        verify(labelService, times(1)).deleteLabel(deleteDTO, request);
+        verify(service, times(1)).deleteLabel(deleteDTO, request);
     }
 
     @Test
@@ -166,7 +167,7 @@ class LabelControllerTest {
 
         //ACT & ASSERT//
         assertThrows(IllegalArgumentException.class, () -> {
-            labelController.deleteLabel(deleteDTO, request);
+            controller.deleteLabel(deleteDTO, request);
         });
     }
 
@@ -177,7 +178,7 @@ class LabelControllerTest {
 
         //ACT & ASSERT//
         assertThrows(IllegalArgumentException.class, () -> {
-            labelController.deleteLabel(deleteDTO, request);
+            controller.deleteLabel(deleteDTO, request);
         });
     }
 
