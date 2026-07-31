@@ -1,0 +1,27 @@
+# Name of the Action
+name: Docker Image CI
+
+# When Action will run
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+   
+    # build the docker image
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag klopez081/clarity-api:latest
+      
+      #push the docker image
+    - name: Push image to 
+      run: |
+        docker login -u klopez081 -p ${{secrets.DOCKER_HUB_TOKEN}}
+        docker push klopez081/clarity-api:latest
+# "|" allows multi-line commands
