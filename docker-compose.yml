@@ -1,12 +1,13 @@
 services:
   app:
-    image: klopez081/notes-web-app-api
+    image: klopez081/clarity-api
 #    build: .
 
     ports:
       - "8080:8080"
 
     environment:
+      SPRING_PROFILES_ACTIVE: docker # specifies the resources/applications-docker.properties file
       SPRING_DATASOURCE_URL: ${DB_URL}
       SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
@@ -26,6 +27,7 @@ services:
       MYSQL_DATABASE: noteswebapp
 
     ports:
+      #Local port:Container Port
       - "3307:3306"
 
     healthcheck:
