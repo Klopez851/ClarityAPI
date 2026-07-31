@@ -66,7 +66,8 @@ public class UITemplateController {
                     content = @Content(schema = @Schema(implementation = ApiResponseDTO.class))),
             @ApiResponse(responseCode = "401", description = "Invalid JWT")
     })
-    @Operation(summary = "fetches ui templates", description = "fetches all ui templates associated with the provided email")
+    @Operation(summary = "fetches ui templates", description = "fetches all ui templates associated with the provided " +
+            "email")
 
     @GetMapping("/getTemplates")
     public ApiResponseDTO<List<GetTemplateDTO>> getTemplates(HttpServletRequest request) {
