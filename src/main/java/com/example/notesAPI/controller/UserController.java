@@ -59,7 +59,7 @@ public class UserController {
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
     })
     @Operation(summary = "Allows user to login", description = "Allows user to log in and returns a custom JWT token " +
-            "with lowercase email")
+            "with lowercase email as claim")
 
     @PostMapping("/login")
     public String login(@RequestBody UserLoginDTO user) {
