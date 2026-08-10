@@ -27,7 +27,8 @@ public class CreateNoteDTO {
 
     @JsonIgnore
     public boolean isValid() {
-        if (title.isEmpty() && content.isEmpty()) {
+        if ((title.get().isBlank() && content.get().isBlank())
+                || (title.isEmpty() && content.isEmpty())) {
             return false;
         }
         return true;

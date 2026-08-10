@@ -70,7 +70,7 @@ public class UpdateNoteDTO {
         }
 
         if ((title.isEmpty() || title.isBlank())
-                && getTextContent().isEmpty() || textContent.isBlank()) {
+                && (getTextContent().isEmpty() || textContent.isBlank())) {
             return false;
         }
 

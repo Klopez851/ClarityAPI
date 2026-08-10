@@ -45,7 +45,8 @@ public class NoteController {
             @ApiResponse(responseCode = "401", description = "Invalid JWT")
     })
     @Operation(summary = "creates a note", description = "creates a note and associated it with the email provided by the " +
-            "jwt token, \"not required\" means no value needs to be passed, but field itself must be present in request")
+            "jwt token, \"not required\" means if no value needs to be passed, the field itself with an empty string as " +
+            "a value must be still present in request")
 
     @PostMapping("/createNote")
     public ApiResponseDTO<String> createNote(@RequestBody CreateNoteDTO note, HttpServletRequest request) {
