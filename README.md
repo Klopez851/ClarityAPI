@@ -19,7 +19,7 @@
 
 This is a RESTful API for my personal note-taking web application. The goal of this project is to allow users to create and customize notes to their liking, meeting both the aesthetic and functional needs they may have.
 
-I am building this project to address the data privacy concerns I have when using Google Keep, as well as my dissatisfaction with its UI customization options. I'm also building this project to gain hands-on experience with the Spring ecosystem and deepen my understanding of the framework, its libraries, and standard backend development practices.
+I am building this project to address the data privacy concerns I have when using Google Keep, as well as my dissatisfaction with its UI customization options. I'm also building this project to gain hands-on experience with the Spring Boot ecosystem and deepen my understanding of the framework, its libraries, and standard backend development practices.
 
 This project demonstrates my current understanding of:
 
@@ -36,7 +36,7 @@ This project demonstrates my current understanding of:
 
 # FEATURES
 
-This API supports basic CRUD operations for all key entities, with the exception of the User entity. Instead, users authenticate through a login endpoint that returns a valid JWT, which can then be used to access protected endpoints.
+This API supports basic CRUD operations for all key entities. Users authenticate through a login endpoint that returns a valid JWT, which can then be used to access protected endpoints.
 
 ## Authentication
 
@@ -107,7 +107,8 @@ After starting the application, the documentation can be accessed at:
 ## Testing
 
 * JUnit 5
-* Rest Assured (unit testing)
+* Mockito (Unit Testing)
+* Rest Assured (API testing)
 
 ## DevOps
 
