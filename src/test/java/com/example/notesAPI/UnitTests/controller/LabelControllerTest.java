@@ -1,9 +1,9 @@
 package com.example.notesAPI.UnitTests.controller;
 
 import com.example.notesAPI.controller.LabelController;
-import com.example.notesAPI.dto.Label.CreateLabelDTO;
-import com.example.notesAPI.dto.Label.DeleteLabelDTO;
-import com.example.notesAPI.dto.Label.UpdateLabelDTO;
+import com.example.notesAPI.DTOs.Label.CreateLabelDTO;
+import com.example.notesAPI.DTOs.Label.DeleteLabelDTO;
+import com.example.notesAPI.DTOs.Label.UpdateLabelDTO;
 import com.example.notesAPI.service.LabelService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Test;

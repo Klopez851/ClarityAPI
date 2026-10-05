@@ -1,14 +1,13 @@
 package com.example.notesAPI.UnitTests.controller;
 
 import com.example.notesAPI.controller.NoteController;
-import com.example.notesAPI.dto.Note.CreateNoteDTO;
+import com.example.notesAPI.DTOs.Note.CreateNoteDTO;
 import com.example.notesAPI.service.NoteService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;

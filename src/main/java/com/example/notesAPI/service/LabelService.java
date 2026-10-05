@@ -1,10 +1,10 @@
 package com.example.notesAPI.service;
 
-import com.example.notesAPI.dto.ApiResponseDTO;
-import com.example.notesAPI.dto.Label.CreateLabelDTO;
-import com.example.notesAPI.dto.Label.DeleteLabelDTO;
-import com.example.notesAPI.dto.Label.LabelDTO;
-import com.example.notesAPI.dto.Label.UpdateLabelDTO;
+import com.example.notesAPI.DTOs.ApiResponseDTO;
+import com.example.notesAPI.DTOs.Label.CreateLabelDTO;
+import com.example.notesAPI.DTOs.Label.DeleteLabelDTO;
+import com.example.notesAPI.DTOs.Label.LabelDTO;
+import com.example.notesAPI.DTOs.Label.UpdateLabelDTO;
 import com.example.notesAPI.errorHandler.DatabaseErrorException;
 import com.example.notesAPI.errorHandler.ResourceNotFoundException;
 import com.example.notesAPI.model.Label;

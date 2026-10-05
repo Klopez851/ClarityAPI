@@ -1,17 +1,16 @@
 package com.example.notesAPI.UnitTests.controller;
 
 import com.example.notesAPI.controller.UserController;
-import com.example.notesAPI.dto.User.UpdateEmailDTO;
-import com.example.notesAPI.dto.User.UpdateUserInfoDTO;
-import com.example.notesAPI.dto.User.UserInfoDTO;
-import com.example.notesAPI.dto.User.UserLoginDTO;
+import com.example.notesAPI.DTOs.User.UpdateEmailDTO;
+import com.example.notesAPI.DTOs.User.UpdateUserInfoDTO;
+import com.example.notesAPI.DTOs.User.UserInfoDTO;
+import com.example.notesAPI.DTOs.User.UserLoginDTO;
 import com.example.notesAPI.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;

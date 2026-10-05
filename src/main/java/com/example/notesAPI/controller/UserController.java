@@ -1,10 +1,10 @@
 package com.example.notesAPI.controller;
 
-import com.example.notesAPI.dto.ApiResponseDTO;
-import com.example.notesAPI.dto.User.UpdateEmailDTO;
-import com.example.notesAPI.dto.User.UpdateUserInfoDTO;
-import com.example.notesAPI.dto.User.UserInfoDTO;
-import com.example.notesAPI.dto.User.UserLoginDTO;
+import com.example.notesAPI.DTOs.ApiResponseDTO;
+import com.example.notesAPI.DTOs.User.UpdateEmailDTO;
+import com.example.notesAPI.DTOs.User.UpdateUserInfoDTO;
+import com.example.notesAPI.DTOs.User.UserInfoDTO;
+import com.example.notesAPI.DTOs.User.UserLoginDTO;
 import com.example.notesAPI.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

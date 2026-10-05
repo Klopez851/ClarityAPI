@@ -1,10 +1,10 @@
 package com.example.notesAPI.controller;
 
-import com.example.notesAPI.dto.ApiResponseDTO;
-import com.example.notesAPI.dto.UITemplate.CreateTemplateDTO;
-import com.example.notesAPI.dto.UITemplate.DeleteUITemplateDTO;
-import com.example.notesAPI.dto.UITemplate.GetTemplateDTO;
-import com.example.notesAPI.dto.UITemplate.UpdateTemplateDTO;
+import com.example.notesAPI.DTOs.ApiResponseDTO;
+import com.example.notesAPI.DTOs.UITemplate.CreateTemplateDTO;
+import com.example.notesAPI.DTOs.UITemplate.DeleteUITemplateDTO;
+import com.example.notesAPI.DTOs.UITemplate.GetTemplateDTO;
+import com.example.notesAPI.DTOs.UITemplate.UpdateTemplateDTO;
 import com.example.notesAPI.service.UITemplateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
