@@ -1,9 +1,9 @@
 package com.example.notesAPI.UnitTests.controller;
 
 import com.example.notesAPI.controller.NoteColorController;
-import com.example.notesAPI.dto.noteColor.CreateNoteColorDTO;
-import com.example.notesAPI.dto.noteColor.DeleteNoteColorDTO;
-import com.example.notesAPI.dto.noteColor.UpdateNoteColorDTO;
+import com.example.notesAPI.DTOs.noteColor.CreateNoteColorDTO;
+import com.example.notesAPI.DTOs.noteColor.DeleteNoteColorDTO;
+import com.example.notesAPI.DTOs.noteColor.UpdateNoteColorDTO;
 import com.example.notesAPI.service.NoteColorService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Test;

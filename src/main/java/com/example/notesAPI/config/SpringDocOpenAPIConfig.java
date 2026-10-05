@@ -23,7 +23,7 @@ public class SpringDocOpenAPIConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Notes Web App API")
+                        .title("Clarity API")
                         .version("1.0")
                         .description("API documentation for my notes web app"));
     }

@@ -158,34 +158,19 @@
             {
               "listen": "test",
               "script": {
-                "exec": [
-                  "pm.test(\"Successful PUT request\", function () {",
-                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
-                  "});",
-                  ""
-                ],
                 "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "exec": [
+                  "pm.test(\"Successful PUT request\", function () {\n    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);\n});\n"
+                ]
               }
             }
           ],
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYW1wbGVlbWFpbHRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzc3Mjc5Mzc5LCJleHAiOjE3NzcyODExNzl9.jkm2y0HjH8H-AheQGvwohnnBJJH5-nd3gQNWMqXSKss",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "PATCH",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"oldEmail\":\"sampleemailtest@gmail.com\",\n    \"newEmail\":\"sampleemail@gmail.com\"\n}",
+              "raw": "{\n    \"oldEmail\":\"sampleemail@gmail.com\",\n    \"newEmail\":\"sampleemailtest@gmail.com\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -282,7 +267,8 @@
           },
           "response": []
         }
-      ]
+      ],
+      "description": "This folder contains all endpoints related to user account management within the NotesRestfulAPI. It covers the full lifecycle of a user, from registration and authentication to profile updates and account deletion.\n\n**Endpoints included:**\n- **Create User** `POST /user/createUser` — Registers a new user account.\n- **User Login** `POST /user/login` — Authenticates an existing user.\n- **Get User** `GET /user/getUser` — Retrieves the details of a user.\n- **Update Username** `PATCH /user/updateUsername` — Updates the user's username.\n- **Update Email** `PATCH /user/updateEmail` — Updates the user's email address.\n- **Update Password** `PATCH /user/updatePassword` — Updates the user's password.\n- **Delete User** `DELETE /user/deleteUser` — Permanently removes a user account."
     },
     {
       "name": "Note",
@@ -358,7 +344,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"noteID\": 5\n}",
+              "raw": "// note ID is path variable",
               "options": {
                 "raw": {
                   "language": "json"
@@ -366,7 +352,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8080/note/getNote",
+              "raw": "http://localhost:8080/note/getNote/5",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -374,7 +360,8 @@
               "port": "8080",
               "path": [
                 "note",
-                "getNote"
+                "getNote",
+                "5"
               ]
             }
           },
@@ -445,7 +432,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"noteID\": 1,\n  \"newValue\": true\n}",
+              "raw": "{\n  \"noteID\": 5,\n  \"newValue\": true\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -612,7 +599,8 @@
           },
           "response": []
         }
-      ]
+      ],
+      "description": "This folder contains all endpoints related to **Note** management. It covers the full lifecycle of a note, including:\n\n- **Creating** a new note (`POST /note/createNote`)\n    \n- **Retrieving** a single note or a list of notes (`GET /note/getNote`, `GET /note/getNotes`)\n    \n- **Updating** note content (`PUT /note/updateNote`) as well as individual properties such as color, label, cosmetics, pinned status, hidden status, and deleted status (via `PATCH` endpoints)\n    \n- **Deleting** a note (`DELETE /note/deleteNote`)\n    \n\nUse these requests to interact with the Notes REST API running locally on `http://localhost:8080`."
     },
     {
       "name": "Label",
@@ -760,7 +748,8 @@
           },
           "response": []
         }
-      ]
+      ],
+      "description": "This folder contains all endpoints for managing labels within the application. It covers the full lifecycle of a label resource, including:\n\n- **Create** a new label (`POST /label/createLabel`)\n- **Update** an existing label (`PATCH /label/updateLabel`)\n- **Retrieve** all labels (`GET /label/getLabels`)\n- **Delete** a label (`DELETE /label/deleteLabel`)\n\nAll requests target the local server at `http://localhost:8080`."
     },
     {
       "name": "UITemplate",
@@ -913,7 +902,8 @@
           },
           "response": []
         }
-      ]
+      ],
+      "description": "This folder contains all endpoints for managing UI Templates within the application. It provides full CRUD functionality, allowing clients to create, retrieve, update, and delete templates.\n\n**Available Operations:**\n- **Create** (`POST /uitemplate/create`) — Create a new UI template.\n- **Read** (`GET /uitemplate/getTemplates`) — Retrieve a list of all available UI templates.\n- **Update Details** (`PATCH /uitemplate/updateTemplateDetails`) — Modify the details/content of an existing template.\n- **Update Name** (`PATCH /uitemplate/updateTemplateName`) — Rename an existing template.\n- **Delete** (`DELETE /uitemplate/deleteUserTemplate`) — Remove a UI template from the system.\n\nAll requests target the base URL `http://localhost:8080`."
     },
     {
       "name": "NoteColor",
@@ -925,7 +915,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"sampleemail@gmail.com\",\n    \"colorHex\":\"#b5a2c8\"\n}",
+              "raw": "{\n    \"colorHex\":\"#b5a2c8\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -982,16 +972,6 @@
         {
           "name": "update color",
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYW1wbGVlbWFpbEBnbWFpbC5jb20iLCJpYXQiOjE3NzczNjMwMDYsImV4cCI6MTc3NzM2NDgwNn0.UgfVvj539wZoePJjiJjnnRPwVnqg0Qp528VTM3ZJLYU",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "PATCH",
             "header": [],
             "body": {
@@ -1021,21 +1001,11 @@
         {
           "name": "delete color",
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYW1wbGVlbWFpbEBnbWFpbC5jb20iLCJpYXQiOjE3NzczNjMwMDYsImV4cCI6MTc3NzM2NDgwNn0.UgfVvj539wZoePJjiJjnnRPwVnqg0Qp528VTM3ZJLYU",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "DELETE",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"email\": \"sampleemail@gmail.com\",\r\n    \"colorID\":\"3\"\r\n}",
+              "raw": "{\r\n    \"colorID\":\"3\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1057,18 +1027,12 @@
           },
           "response": []
         }
-      ]
+      ],
+      "description": "Manages the lifecycle of note color resources in the Notes REST API. This folder groups all endpoints related to note colors, covering the four core operations:\n\n- **Create** — `POST /noteColor/createColor` — Add a new color to the system.\n    \n- **Read** — `GET /noteColor/getColors` — Retrieve the list of all available colors.\n    \n- **Update** — `PATCH /noteColor/updateColor` — Modify an existing color's details.\n    \n- **Delete** — `DELETE /noteColor/deleteColor` — Remove a color from the system."
     }
   ],
   "auth": {
-    "type": "bearer",
-    "bearer": [
-      {
-        "key": "token",
-        "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGljZUBleGFtcGxlLmNvbSIsImlhdCI6MTc4MTIzNDc0OSwiZXhwIjoxNzgxMjM2NTQ5fQ.YyI6OcmTFYsk9nYFqiDktov0K3oI6DUDvPlAbSCum2Y",
-        "type": "string"
-      }
-    ]
+    "type": "bearer"
   },
   "event": [
     {
@@ -1100,6 +1064,10 @@
     {
       "key": "base_url",
       "value": "https://template.postman-echo.com"
+    },
+    {
+      "key": "auth_secret_0lq5",
+      "secret": true
     }
   ]
 }

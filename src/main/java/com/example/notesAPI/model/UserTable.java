@@ -22,6 +22,7 @@ public class UserTable {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UITemplate> uiTemplate;
+
     //refers to the field name in the child entity (Java class)
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<NoteColor> noteColor;

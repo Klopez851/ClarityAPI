@@ -1,6 +1,6 @@
 package com.example.notesAPI.repository;
 
-import com.example.notesAPI.dto.Note.NoteDTO;
+import com.example.notesAPI.DTOs.Note.NoteDTO;
 import com.example.notesAPI.model.Note;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,7 +10,7 @@ import java.util.List;
 public interface NotesRepository extends JpaRepository<Note, Integer> {
 
     @Query("""
-                SELECT new com.example.notesAPI.dto.Note.NoteDTO(
+                SELECT new com.example.notesAPI.DTOs.Note.NoteDTO(
                     n.noteID,
                     n.title,
                     n.textContent,
@@ -34,7 +34,7 @@ public interface NotesRepository extends JpaRepository<Note, Integer> {
     List<NoteDTO> getAllNoteByUser(int userID);
 
     @Query("""
-                SELECT new com.example.notesAPI.dto.Note.NoteDTO(
+                SELECT new com.example.notesAPI.DTOs.Note.NoteDTO(
                     n.noteID,
                     n.title,
                     n.textContent,
