@@ -13,6 +13,7 @@
 - [Getting Started](#getting-started)
 - [Stopping the Application](#stopping-the-application)
 - [Challenges and Lessons Learned](#challenges-and-lessons-learned)
+- [Future Development](#future-development)
 ----
 
 # CLARITY API
@@ -576,3 +577,56 @@ After researching entity relationships implementations, I was able to successful
 Debugging a system while also trying to understand it was one of the most challenging parts of this project.
 
 Being able to see how data moves line by line through the system; how it is received, transformed, and returned across layers, was extremely valuable. It helped me understand how all the components work together in practice rather than just in theory.
+
+# Future Development
+
+Here is a list of some of the things I plan on implementing as the project continues to develop.
+
+### Expand automated testing
+
+This is my current priority. I want to add more unit and API tests, especially for authentication, validation, error 
+handling, and making sure users cannot access resources belonging to other users.
+
+### Add password requirements and system validation
+
+I'd like to require users to choose a reasonably secure password and have the backend enforce these requirements 
+rather than relying only on frontend validation.
+
+### Implement a refresh token system
+
+Currently, there is no way for a user to get a new access token after their JWT expires without logging in again.
+
+A refresh token would allow the application to issue new short-lived access tokens without requiring the user to 
+authenticate again.
+
+This would require changes across multiple layers of the system, solidifying the need for a robust testing suite.
+
+### Introduce database migrations
+
+I'd like to move away from manually managing the database through schema.sql and use a migration tool such as Flyway 
+or Liquibase.
+
+This would make it easier to keep track of database changes and eventually deploy updates to a live database.
+
+### Add a logout endpoint and token revocation
+
+I'd like to add a proper logout system once the refresh token system is implemented.
+
+I originally planned on using a token blacklist, but I want to look into refresh-token revocation and rotation first 
+to determine which approach makes the most sense for the application.
+
+### Build a frontend
+
+I'd like to build a frontend for the API so I can turn Clarity into a complete application rather than only having 
+the backend.
+
+This will also give me an opportunity to put the customization features and overall UI design that motivated this 
+project into practice.
+
+### Add encryption for user data
+
+This application was created with user privacy as one of its main goals, but notes and labels are currently stored as 
+plaintext in the database.
+
+I plan to research more about application-level encryption for sensitive user data so that the implementation 
+better reflects the privacy goals of the project.
