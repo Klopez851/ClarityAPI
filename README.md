@@ -152,7 +152,24 @@ A typical request flow is as follows:
 
 # Key Design Decisions
 
-### DTO Pattern
+## Design Patterns
+
+### Builder
+I decided to implement the Builder pattern for the Note entity because creating a Note can involve several optional 
+parameters. I found that using a constructor with all of these parameters made the creation logic harder to read and 
+therefore harder to maintain, especially when only some of the fields need to be provided during the creation process.
+
+Using the Builder pattern made the creation logic within my Note Service much cleaner while also making the entity 
+easier to expand in the future. If I wanted to add a new field to the Note entity, I would not have to update every 
+existing constructor or change the creation logic throughout the application. Instead, I can add a new method to the 
+builder and only include it in the method chain where it is needed.
+
+This is especially useful when adding optional fields, as I can give the field a default value within the builder and 
+only need to make changes to the builder itself rather than updating every place where a Note is created.
+
+## Implementation Decisions
+
+### DTOs
 
 I use DTOs to protect sensitive user information and to avoid overwhelming the frontend with unnecessary data every time a request is made. Not all information needs to be sent with every request, and DTOs give me fine-grained control over what data is transferred to and from the backend.
 
