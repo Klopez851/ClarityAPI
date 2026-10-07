@@ -630,3 +630,15 @@ plaintext in the database.
 
 I plan to research more about application-level encryption for sensitive user data so that the implementation 
 better reflects the privacy goals of the project.
+
+### Proper Documentation
+
+The current documentation is enough for me while I'm developing the project, but it probably wouldn't be enough for 
+someone else who wanted to contribute.
+
+As the project grows, I'd like to put together a larger documentation guide that explains things like the project 
+structure, architecture, database design, authentication, testing, how everything fits together, and small but 
+important implementation details.
+
+The goal is to make it easier for someone new to the project to understand how everything works without having to dig 
+through the entire codebase or ask me for an explanation.
