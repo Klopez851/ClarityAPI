@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "78e46e5f-036e-4466-8f6d-726cd74a7884",
     "name": "NotesRestfulAPI",
-    "description": "# 🚀 Get started here\n\nThis template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Scripts\" tab**\n\nAdding tests to your requests can help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/fa30ea0a-373d-4545-a668-e7b283cca343/aW1hZ2UucG5n\" width=\"2162\" height=\"1530\">\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n    \n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) to verify if the API works as expected and execute workflows.\n    \n\n## 💡Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)",
+    "description": "# Authorization\n\nThe endpoints in this collection inherit authorization from their parent directory. Before testing protected endpoints, log in using `/user/login` and copy the JWT returned in the response.\n\nYou can then either save the JWT as a local variable in the Postman Vault or paste it directly into the authorization field.\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Scripts\" tab**\n\nAdding tests to your requests can help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/fa30ea0a-373d-4545-a668-e7b283cca343/aW1hZ2UucG5n\" width=\"2162\" height=\"1530\">\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n    \n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) to verify if the API works as expected and execute workflows.\n    \n\n## 💡Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "50242164",
     "_collection_link": "https://go.postman.co/collection/50242164-78e46e5f-036e-4466-8f6d-726cd74a7884?source=collection_link"
@@ -112,15 +112,10 @@
             {
               "listen": "test",
               "script": {
-                "exec": [
-                  "pm.test(\"Successful PUT request\", function () {",
-                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
-                  "});",
-                  ""
-                ],
                 "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "exec": [
+                  "pm.test(\"Successful PUT request\", function () {\n    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);\n});\n"
+                ]
               }
             }
           ],
@@ -158,34 +153,19 @@
             {
               "listen": "test",
               "script": {
-                "exec": [
-                  "pm.test(\"Successful PUT request\", function () {",
-                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
-                  "});",
-                  ""
-                ],
                 "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "exec": [
+                  "pm.test(\"Successful PUT request\", function () {\n    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);\n});\n"
+                ]
               }
             }
           ],
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYW1wbGVlbWFpbHRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzc3Mjc5Mzc5LCJleHAiOjE3NzcyODExNzl9.jkm2y0HjH8H-AheQGvwohnnBJJH5-nd3gQNWMqXSKss",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "PATCH",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"oldEmail\":\"sampleemailtest@gmail.com\",\n    \"newEmail\":\"sampleemail@gmail.com\"\n}",
+              "raw": "{\n    \"newEmail\":\"sampleemailtest@gmail.com\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -261,7 +241,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"email\":\"sampleemailtest@gmail.com\"\r\n}",
+              "raw": "// only jwt token is needed",
               "options": {
                 "raw": {
                   "language": "json"
@@ -282,7 +262,8 @@
           },
           "response": []
         }
-      ]
+      ],
+      "description": "This folder contains all endpoints related to user account management within the NotesRestfulAPI. It covers the full lifecycle of a user, from registration and authentication to profile updates and account deletion.\n\n**Endpoints included:**\n- **Create User** `POST /user/createUser` — Registers a new user account.\n- **User Login** `POST /user/login` — Authenticates an existing user.\n- **Get User** `GET /user/getUser` — Retrieves the details of a user.\n- **Update Username** `PATCH /user/updateUsername` — Updates the user's username.\n- **Update Email** `PATCH /user/updateEmail` — Updates the user's email address.\n- **Update Password** `PATCH /user/updatePassword` — Updates the user's password.\n- **Delete User** `DELETE /user/deleteUser` — Permanently removes a user account."
     },
     {
       "name": "Note",
@@ -358,7 +339,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"noteID\": 5\n}",
+              "raw": "// note ID is path variable",
               "options": {
                 "raw": {
                   "language": "json"
@@ -366,7 +347,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8080/note/getNote",
+              "raw": "http://localhost:8080/note/getNote/5",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -374,7 +355,8 @@
               "port": "8080",
               "path": [
                 "note",
-                "getNote"
+                "getNote",
+                "5"
               ]
             }
           },
@@ -445,7 +427,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"noteID\": 1,\n  \"newValue\": true\n}",
+              "raw": "{\n  \"noteID\": 5,\n  \"newValue\": true\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -612,7 +594,8 @@
           },
           "response": []
         }
-      ]
+      ],
+      "description": "This folder contains all endpoints related to **Note** management. It covers the full lifecycle of a note, including:\n\n- **Creating** a new note (`POST /note/createNote`)\n    \n- **Retrieving** a single note or a list of notes (`GET /note/getNote`, `GET /note/getNotes`)\n    \n- **Updating** note content (`PUT /note/updateNote`) as well as individual properties such as color, label, cosmetics, pinned status, hidden status, and deleted status (via `PATCH` endpoints)\n    \n- **Deleting** a note (`DELETE /note/deleteNote`)\n    \n\nUse these requests to interact with the Notes REST API running locally on `http://localhost:8080`."
     },
     {
       "name": "Label",
@@ -760,7 +743,8 @@
           },
           "response": []
         }
-      ]
+      ],
+      "description": "This folder contains all endpoints for managing labels within the application. It covers the full lifecycle of a label resource, including:\n\n- **Create** a new label (`POST /label/createLabel`)\n- **Update** an existing label (`PATCH /label/updateLabel`)\n- **Retrieve** all labels (`GET /label/getLabels`)\n- **Delete** a label (`DELETE /label/deleteLabel`)\n\nAll requests target the local server at `http://localhost:8080`."
     },
     {
       "name": "UITemplate",
@@ -913,7 +897,8 @@
           },
           "response": []
         }
-      ]
+      ],
+      "description": "This folder contains all endpoints for managing UI Templates within the application. It provides full CRUD functionality, allowing clients to create, retrieve, update, and delete templates.\n\n**Available Operations:**\n- **Create** (`POST /uitemplate/create`) — Create a new UI template.\n- **Read** (`GET /uitemplate/getTemplates`) — Retrieve a list of all available UI templates.\n- **Update Details** (`PATCH /uitemplate/updateTemplateDetails`) — Modify the details/content of an existing template.\n- **Update Name** (`PATCH /uitemplate/updateTemplateName`) — Rename an existing template.\n- **Delete** (`DELETE /uitemplate/deleteUserTemplate`) — Remove a UI template from the system.\n\nAll requests target the base URL `http://localhost:8080`."
     },
     {
       "name": "NoteColor",
@@ -925,7 +910,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"sampleemail@gmail.com\",\n    \"colorHex\":\"#b5a2c8\"\n}",
+              "raw": "{\n    \"colorHex\":\"#b5a2c8\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -982,16 +967,6 @@
         {
           "name": "update color",
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYW1wbGVlbWFpbEBnbWFpbC5jb20iLCJpYXQiOjE3NzczNjMwMDYsImV4cCI6MTc3NzM2NDgwNn0.UgfVvj539wZoePJjiJjnnRPwVnqg0Qp528VTM3ZJLYU",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "PATCH",
             "header": [],
             "body": {
@@ -1021,21 +996,11 @@
         {
           "name": "delete color",
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYW1wbGVlbWFpbEBnbWFpbC5jb20iLCJpYXQiOjE3NzczNjMwMDYsImV4cCI6MTc3NzM2NDgwNn0.UgfVvj539wZoePJjiJjnnRPwVnqg0Qp528VTM3ZJLYU",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "DELETE",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"email\": \"sampleemail@gmail.com\",\r\n    \"colorID\":\"3\"\r\n}",
+              "raw": "{\r\n    \"colorID\":\"3\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1057,7 +1022,8 @@
           },
           "response": []
         }
-      ]
+      ],
+      "description": "Manages the lifecycle of note color resources in the Notes REST API. This folder groups all endpoints related to note colors, covering the four core operations:\n\n- **Create** — `POST /noteColor/createColor` — Add a new color to the system.\n    \n- **Read** — `GET /noteColor/getColors` — Retrieve the list of all available colors.\n    \n- **Update** — `PATCH /noteColor/updateColor` — Modify an existing color's details.\n    \n- **Delete** — `DELETE /noteColor/deleteColor` — Remove a color from the system."
     }
   ],
   "auth": {
@@ -1065,7 +1031,7 @@
     "bearer": [
       {
         "key": "token",
-        "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGljZUBleGFtcGxlLmNvbSIsImlhdCI6MTc4MTIzNDc0OSwiZXhwIjoxNzgxMjM2NTQ5fQ.YyI6OcmTFYsk9nYFqiDktov0K3oI6DUDvPlAbSCum2Y",
+        "value": "{{auth_secret_0lq5}}",
         "type": "string"
       }
     ]
@@ -1100,6 +1066,10 @@
     {
       "key": "base_url",
       "value": "https://template.postman-echo.com"
+    },
+    {
+      "key": "auth_secret_0lq5",
+      "secret": true
     }
   ]
 }

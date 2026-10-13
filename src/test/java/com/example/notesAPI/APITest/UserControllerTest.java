@@ -1,6 +1,7 @@
-package com.example.notesAPI.controller;
+package com.example.notesAPI.APITest;
 
 import io.restassured.http.Header;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 
 import static io.restassured.RestAssured.baseURI;
@@ -12,26 +13,13 @@ class UserControllerTest {
 
     //test naming convention "method_scenario_expected"
 
-    private static String authToken;
+    private static Header authHeader;
 
     @BeforeAll
     static void setup() {
         //specify base uri
         baseURI = "http://localhost:8080/user";
 
-        //get jwt token to use in all requests
-        authToken =
-                given() //prerequisites
-                        .when()// action to be performed
-                        .contentType("application/json")
-                        .body("""
-                                {
-                                    "email":"sampleemail@gmail.com",
-                                    "userPassword":"qwertyisfun"
-                                }""")
-                        .post("/login")
-                        .then() //what needs to be asserted/validated/tested for correctness
-                        .extract().body().asString();
     }
 
     /// //////////////////////
@@ -39,13 +27,15 @@ class UserControllerTest {
     /// //////////////////////
 
     @Test
+    //TODO: figure out a way of dynamically incrementing order numbers based on test position, look into MethodOrderer
+    @Order(1)
     void createUser_UserDoesntExists_UserIsCreated() {
         given()
                 .when()
                 .contentType("application/json")
                 .body("""
                         {
-                            "username":"klopez2",
+                            "username":"SampleUser2",
                             "email":"sampleemail2@gmail.com",
                             "userPassword":"qwertyisfun2"
                         }
@@ -53,93 +43,164 @@ class UserControllerTest {
                 .post("/createUser")
                 .then()
                 .assertThat()
+                .body("success", equalTo(true))
+                .body("message", not(emptyOrNullString()))
+                .body("warning", equalTo(null))
+                .body("data", equalTo(null))
                 .statusCode(200);
-
     }
 
     @Test
-    @Order(1)
+    @Order(2)
     void createUser_UserDoesExists_ConflictResponse() {
         given()
                 .when()
                 .contentType("application/json")
                 .body("""
                         {
-                            "username":"klopez",
-                            "email":"sampleemail@gmail.com",
-                            "userPassword":"qwertyisfun"
+                            "username":"SampleUser2",
+                            "email":"sampleemail2@gmail.com",
+                            "userPassword":"qwertyisfun2"
                         }
                         """)
                 .post("/createUser")
                 .then()
                 .assertThat()
+                .body("detail", not(emptyOrNullString()))
+                .body("instance", equalTo("uri=/user/createUser"))
+                .body("status", equalTo(409))
+                .body("title", equalTo("Conflict"))
                 .statusCode(409);//conflict
     }
 
     @Test
+    @Order(3)
     void createUser_EmptyReqBody_BadReqResponse() {
         given()
                 .when()
                 .contentType("application/json")
-                .body("")
+                .body("{}")
                 .post("/createUser")
                 .then()
                 .assertThat()
+                .body("detail", not(emptyOrNullString()))
+                .body("instance", equalTo("uri=/user/createUser"))
+                .body("status", equalTo(400))
+                .body("title", equalTo("Bad Request"))
                 .statusCode(400);//bad request
     }
 
     @Test
-    void createUser_IncorrectReqBody_BadReqResponse() {
+    @Order(4)
+    void createUser_MissingUsernameInReqBody_BadReqResponse() {
         given()
                 .when()
                 .contentType("application/json")
                 .body("""
                         {
-                            "email":"sampleemail@gmail.com",
-                            "userPassword":"qwertyisfun"
+                            "email":"sampleemail2@gmail.com",
+                            "userPassword":"qwertyisfun2"
                         }
                         """)
                 .post("/createUser")
                 .then()
                 .assertThat()
+                .body("detail", not(emptyOrNullString()))
+                .body("instance", equalTo("uri=/user/createUser"))
+                .body("status", equalTo(400))
+                .body("title", equalTo("Bad Request"))
                 .statusCode(400);//bad request
     }
 
     @Test
+    @Order(5)
+    void createUser_MissingEmailInReqBody_BadReqResponse() {
+        given()
+                .when()
+                .contentType("application/json")
+                .body("""
+                        {
+                            "username":"SampleUser2",
+                            "userPassword":"qwertyisfun2"
+                        }
+                        """)
+                .post("/createUser")
+                .then()
+                .assertThat()
+                .body("detail", not(emptyOrNullString()))
+                .body("instance", equalTo("uri=/user/createUser"))
+                .body("status", equalTo(400))
+                .body("title", equalTo("Bad Request"))
+                .statusCode(400);//bad request
+    }
+
+    @Test
+    @Order(6)
+    void createUser_MissingPasswordInReqBody_BadReqResponse() {
+        given()
+                .when()
+                .contentType("application/json")
+                .body("""
+                        {
+                            "username":"SampleUser2"
+                            "email":"sampleemail2@gmail.com"
+                        }
+                        """)
+                .post("/createUser")
+                .then()
+                .assertThat()
+                .body("detail", not(emptyOrNullString()))
+                .body("instance", equalTo("/user/createUser"))
+                .body("status", equalTo(400))
+                .body("title", equalTo("Bad Request"))
+                .statusCode(400);//bad request
+    }
+
+    @Test
+    @Order(7)
     void createUser_UsernameTooLong_BadReqResponse() {
         given()
                 .when()
                 .contentType("application/json")
                 .body("""
                         {
-                            "username":"klopezklopezklopezklopezkl(51 chars including this)",
-                            "email":"sampleemail@gmail.com",
-                            "userPassword":"qwertyisfun"
+                            "username":"useruseruseruseruseruseru(51 chars including this!)",
+                            "email":"sampleemail2@gmail.com",
+                            "userPassword":"qwertyisfun2"
                         }
                         """)
                 .post("/createUser")
                 .then()
                 .assertThat()
+                .body("detail", not(emptyOrNullString()))
+                .body("instance", equalTo("uri=/user/createUser"))
+                .body("status", equalTo(400))
+                .body("title", equalTo("Bad Request"))
                 .statusCode(400);//bad request
     }
 
     @Test
+    @Order(8)
     void createUser_EmailTooLong_BadReqResponse() {
         given()
                 .when()
                 .contentType("application/json")
                 .body("""
                         {
-                            "username":"klopez",
+                            "username":"SampleUser2",
                             "email":"sampleemail@gmail.comsampleemail@gmail.comsampleemail@gmail.comsampleemail@gmail.com
                             sampleemail@gmail.comsampleemail@gmail.comsampleemail@gmail.comsampleemail@gmai
                             (this is 255 chars including this)",
-                            "userPassword":"qwertyisfun"
+                            "userPassword":"qwertyisfun2"
                         }
                         """)
                 .post("/createUser")
                 .then()
                 .assertThat()
+                .body("detail", not(emptyOrNullString()))
+                .body("instance", equalTo("/user/createUser"))
+                .body("status", equalTo(400))
+                .body("title", equalTo("Bad Request"))
                 .statusCode(400);//bad request
     }
 
@@ -148,23 +209,28 @@ class UserControllerTest {
     /// /////////////////////
 
     @Test
+    @Order(9)
     void login_ExistingUser_JWTReturned() {
-        given()
+        String authToken = given()
                 .when()
                 .contentType("application/json")
                 .body("""
                         {
-                            "email":"sampleemail@gmail.com",
-                            "userPassword":"qwertyisfun"
-                        }""")
+                            "email":"sampleemail2@gmail.com",
+                            "userPassword":"qwertyisfun2"
+                        }
+                        """)
                 .post("/login")
                 .then() //what needs to be asserted/validated/tested for correctness
                 .assertThat()
                 .statusCode(200) //ok
-                .body(not(emptyOrNullString()));
+                .body(not(emptyOrNullString())).extract().body().asString();
+
+        authHeader = new Header("Authorization", "Bearer " + authToken);
     }
 
     @Test
+    @Order(10)
     void login_NonExistingUser_NotFoundResponse() {
         given()
                 .when()
@@ -176,191 +242,387 @@ class UserControllerTest {
                         }""")
                 .post("/login")
                 .then()
-                .assertThat().statusCode(404);//not found
+                .assertThat()
+                .body("detail", not(emptyOrNullString()))
+                .body("instance", equalTo("uri=/user/login"))
+                .body("status", equalTo(404))
+                .body("title", equalTo("Not Found"))
+                .statusCode(404);//not found
     }
 
     @Test
+    @Order(11)
     void login_EmptyReqBody_BadReqResponse() {
         given()
                 .when()
                 .contentType("application/json")
-                .body("")
+                .body("{}")
                 .post("/login")
                 .then()
-                .assertThat().statusCode(400);
+                .assertThat()
+                .body("detail", not(emptyOrNullString()))
+                .body("instance", equalTo("uri=/user/login"))
+                .body("status", equalTo(400))
+                .body("title", equalTo("Bad Request"))
+                .statusCode(400);
+    }
+
+    @Test
+    @Order(12)
+    void login_MissingEmailInReqBody_BadReqResponse() {
+        given()
+                .when()
+                .contentType("application/json")
+                .body("""
+                        {
+                            "userPassword":"qwertyisfun2"
+                        }
+                        """)
+                .post("/login")
+                .then()
+                .assertThat()
+                .body("detail", not(emptyOrNullString()))
+                .body("instance", equalTo("uri=/user/login"))
+                .body("status", equalTo(400))
+                .body("title", equalTo("Bad Request"))
+                .statusCode(400);
+    }
+
+    @Test
+    @Order(13)
+    void login_MissingPasswordInReqBody_BadReqResponse() {
+        given()
+                .when()
+                .contentType("application/json")
+                .body("""
+                        {
+                            "email":"sampleemail2@gmail.com",
+                        }
+                        """)
+                .post("/login")
+                .then()
+                .assertThat()
+                .body("detail", not(emptyOrNullString()))
+                .body("instance", equalTo("/user/login"))
+                .body("status", equalTo(400))
+                .body("title", equalTo("Bad Request"))
+                .statusCode(400);
     }
 
     /// ///////////////////
     /// GET USER TESTS ///
     /// ///////////////////
+    //only jwt token in header is needed for retrieval for this section of tests
 
     @Test
+    @Order(14)
     void getUser_ExistingUser_SuccessResponse() {
-        Header authHeader = new Header("Authorization", "Bearer " + authToken);
 
         given()
                 .when()
                 .contentType("application/json")
                 .header(authHeader)
-                .body("""
-                        {
-                            "email":"sampleemail@gmail.com"
-                        }
-                        """)
                 .get("/getUser")
                 .then()
                 .assertThat()
-                .statusCode(200)
-                .body("response", equalTo(true),
-                        "message", equalTo("User Found"),
-                        "data.username", equalTo("klopez"),
-                        "data.email", equalTo("sampleemail@gmail.com"),
-                        "data.password", equalTo(null)
-                );
+                .body("success", equalTo(true))
+                .body("message", not(emptyOrNullString()))
+                .body("warning", emptyOrNullString())
+                .body("data.username", equalTo("SampleUser2"))
+                .body("data.email", equalTo("sampleemail2@gmail.com"))
+                .body("data.password", equalTo(null))
+                .statusCode(200);
+        ;
     }
 
-    @Test
-    void getUser_NonExistingUser_NotFoundResponse() {
-        Header authHeader = new Header("Authorization", "Bearer " + authToken);
-
-        given()
-                .when()
-                .contentType("application/json")
-                .header(authHeader)
-                .body("""
-                        {
-                            "email":"sampleemail3@gmail.com"
-                        }
-                        """)
-                .get("/getUser")
-                .then()
-                .assertThat()
-                .statusCode(404); //not found
-    }
-
-    @Test
-    void getUser_EmptyReqBody_BadReqResponse() {
-        Header authHeader = new Header("Authorization", "Bearer " + authToken);
-
-        given()
-                .when()
-                .contentType("application/json")
-                .header(authHeader)
-                .body("")
-                .get("/getUser")
-                .then()
-                .assertThat()
-                .statusCode(400);
-    }
 
     /// ///////////////////////////
     /// UPDATE USER INFO TESTS ///
     /// ///////////////////////////
 
-    @Test
-    void updateEmail_ExisitingUser_SuccessResponse() {
-        Header authHeader = new Header("Authorization", "Bearer " + authToken);
+    ///----------------------
+    /// UPDATE EMAIL TESTS
+    ///----------------------
 
-        given()
+    @Test
+    @Order(15)
+    //updates jwt token
+    void updateEmail_EmailIsntAssociatedWithAnotherUser_SuccessResponse() {
+
+        Response response =
+                given()
                 .when()
                 .contentType("application/json")
                 .header(authHeader)
                 .body("""
                         {
-                            "oldEmail":"sampleemail@gmail.com",
                             "newEmail":"sampleemailtest@gmail.com"
                         }
                         """)
                 .patch("/updateEmail")
                 .then()
                 .assertThat()
-                .statusCode(200);
+                .statusCode(200)
+                .body("success", equalTo(true))
+                .body("message", not(emptyOrNullString()))
+                .body("warning", equalTo(null))
+                .body("data", not(emptyOrNullString()))
+                        .extract().response();
+
+
+        String authToken = response.jsonPath().getString("data");
+
+        authHeader = new Header("Authorization", "Bearer "+authToken);
     }
 
     @Test
-    void updateEmail_EmptyReqBody_BadResponse() {
-        Header authHeader = new Header("Authorization", "Bearer " + authToken);
+    @Order(16)
+    //for this test ensure a user with sampleemail@gmail.com exists
+    void updateEmail_EmailIsAssociatedWithAnotherUser_ConflictResponse() {
 
         given()
                 .when()
                 .contentType("application/json")
                 .header(authHeader)
-                .body("")
-                .patch("/updateEmail")
-                .then()
-                .assertThat()
-                .statusCode(400);
-    }
-//
-//    @Test
-//    void updateUsername() {
-//    }
-//
-//    @Test
-//    void updatePassword() {
-//    }
-
-
-    //test reset
-    @AfterAll
-    static void restDB() {
-        //RESET EMAIL FOR SAMPLE USER
-        String updateToken =
-                given() //prerequisites
-                        .when()// action to be performed
-                        .contentType("application/json")
-                        .body("""
-                                {
-                                    "email":"sampleemailtest@gmail.com",
-                                    "userPassword":"qwertyisfun"
-                                }""")
-                        .post("/login")
-                        .then() //what needs to be asserted/validated/tested for correctness
-                        .extract().body().asString();
-        Header authHeaderEmailReset = new Header("Authorization", "Bearer " + updateToken);
-
-        given()
-                .when()
-                .contentType("application/json")
-                .header(authHeaderEmailReset)
                 .body("""
                         {
-                            "oldEmail":"sampleemailtest@gmail.com",
                             "newEmail":"sampleemail@gmail.com"
                         }
                         """)
-                .patch("/updateEmail");
+                .patch("/updateEmail")
+                .then()
+                .assertThat()
+                .statusCode(409)
+                .body("detail", not(emptyOrNullString()))
+                .body("instance", equalTo("uri=/user/updateEmail"))
+                .body("status", equalTo(409))
+                .body("title", equalTo("Conflict"));
 
-        //DELETE NEWLY CREATED USER
+        }
 
-        //generate a new token with the credentials of the user to be deleted
-        String delToken =
-                given() //prerequisites
-                        .when()// action to be performed
-                        .contentType("application/json")
-                        .body("""
-                                {
-                                    "email":"sampleemail2@gmail.com",
-                                    "userPassword":"qwertyisfun2"
-                                }""")
-                        .post("/login")
-                        .then() //what needs to be asserted/validated/tested for correctness
-                        .extract().body().asString();
-
-        Header authHeaderDelUser = new Header("Authorization", "Bearer " + delToken);
+    @Test
+    @Order(17)
+    void updateEmail_EmptyReqBody_BadResponse() {
 
         given()
                 .when()
                 .contentType("application/json")
-                .header(authHeaderDelUser)
+                .header(authHeader)
                 .body("""
                         {
-                            "email":"sampleemail2@gmail.com"
+                        
                         }
                         """)
+                .patch("/updateEmail")
+                .then()
+                .assertThat()
+                .body("detail", not(emptyOrNullString()))
+                .body("instance", equalTo("uri=/user/updateEmail"))
+                .body("status", equalTo(400))
+                .body("title", equalTo("Bad Request"))
+                .statusCode(400);
+    }
+
+    @Test
+    @Order(18)
+    void updateEmail_BlankNewEmailField_BadResponse() {
+
+        given()
+                .when()
+                .contentType("application/json")
+                .header(authHeader)
+                .body("""
+                        {
+                            "newEmail:"
+                        }
+                        """)
+                .patch("/updateEmail")
+                .then()
+                .assertThat()
+                .body("detail", not(emptyOrNullString()))
+                .body("instance", equalTo("/user/updateEmail"))
+                .body("status", equalTo(400))
+                .body("title", equalTo("Bad Request"))
+                .statusCode(400);
+    }
+
+
+    ///------------------------
+    /// UPDATE USERNAME TESTS
+    ///------------------------
+
+    @Test
+    @Order(19)
+    void updateUsername_NewUsernameProvided_SuccessResponse() {
+
+        given()
+                .when()
+                .contentType("application/json")
+                .header(authHeader)
+                .body("""
+                        {
+                        "newData": "newUsername1234"
+                        }
+                        """)
+                .patch("/updateUsername")
+                .then()
+                .assertThat()
+                .body("success", equalTo(true))
+                .body("message", not(emptyOrNullString()))
+                .body("warnings", equalTo(null))
+                .body("data", equalTo(null))
+                .statusCode(200);
+
+    }
+
+    @Test
+    @Order(20)
+    void updateUsername_EmptyReqBody_BadReqResponse(){
+        given()
+                .when()
+                .contentType("application/json")
+                .header(authHeader)
+                .body("{}")
+                .patch("/updateUsername")
+                .then()
+                .assertThat()
+                .body("detail", not(emptyOrNullString()))
+                .body("instance", equalTo("uri=/user/updateUsername"))
+                .body("status", equalTo(400))
+                .body("title", equalTo("Bad Request"))
+                .statusCode(400);
+    }
+
+    @Test
+    @Order(21)
+    void updateUsername_BlankNewDataField_BadReqResponse(){
+        given()
+                .when()
+                .contentType("application/json")
+                .header(authHeader)
+                .body("""
+                        {
+                        "newData": ""
+                        }
+                        """)
+                .patch("/updateUsername")
+                .then()
+                .assertThat()
+                .body("detail", not(emptyOrNullString()))
+                .body("instance", equalTo("uri=/user/updateUsername"))
+                .body("status", equalTo(400))
+                .body("title", equalTo("Bad Request"))
+                .statusCode(400);
+    }
+
+
+    ///--------------------
+    /// UPDATE PASSWORD TESTS
+    ///--------------------
+    @Test
+    @Order(22)
+    void updatePassword_NewPasswordProvided_SuccessResponse() {
+
+        given()
+                .when()
+                .contentType("application/json")
+                .header(authHeader)
+                .body("""
+                        {
+                        "newData": "NewPasswordForUser1234"
+                        }
+                        """)
+                .patch("/updatePassword")
+                .then()
+                .assertThat()
+                .body("success", equalTo(true))
+                .body("message", not(emptyOrNullString()))
+                .body("warnings", equalTo(null))
+                .body("data", equalTo(null))
+                .statusCode(200);
+
+    }
+
+    @Test
+    @Order(23)
+    void updatePassword_EmptyReqBody_BadReqResponse(){
+        given()
+                .when()
+                .contentType("application/json")
+                .header(authHeader)
+                .body("{}")
+                .patch("/updatePassword")
+                .then()
+                .assertThat()
+                .body("detail", not(emptyOrNullString()))
+                .body("instance", equalTo("uri=/user/updatePassword"))
+                .body("status", equalTo(400))
+                .body("title", equalTo("Bad Request"))
+                .statusCode(400);
+    }
+
+    @Test
+    @Order(24)
+    void updatePassword_BlankNewDataField_BadReqResponse(){
+        given()
+                .when()
+                .contentType("application/json")
+                .header(authHeader)
+                .body("""
+                        {
+                        "newData": ""
+                        }
+                        """)
+                .patch("/updatePassword")
+                .then()
+                .assertThat()
+                .body("detail", not(emptyOrNullString()))
+                .body("instance", equalTo("uri=/user/updatePassword"))
+                .body("status", equalTo(400))
+                .body("title", equalTo("Bad Request"))
+                .statusCode(400);
+    }
+
+    @Test
+    @Order(25)
+    void deleteUser_ExistingUser_SuccessResponse(){
+        given()
+                .when()
+                .contentType("application/json")
+                .header(authHeader)
                 .delete("/deleteUser")
                 .then()
                 .assertThat()
+                .body("success", equalTo(true))
+                .body("message", not(emptyOrNullString()))
+                .body("warnings", emptyOrNullString())
+                .body("data", equalTo(null))
                 .statusCode(200);
+    }
+
+    @Test
+    @Order(26)
+    void deleteUser_NonExistingUser_UnauthorizedResponse(){
+        given()
+                .when()
+                .contentType("application/json")
+                .header(authHeader)
+                .delete("/deleteUser")
+                .then()
+                .assertThat()
+                .statusCode(401);//unauthorized
+    }
+
+    @Test
+    @Order(27)
+    void getUser_NonExistingUser_UnauthorizedResponse() {
+        given()
+                .when()
+                .contentType("application/json")
+                .header(authHeader)
+                .get("/getUser")
+                .then()
+                .assertThat()
+                .statusCode(401); //unauthorized
     }
 }

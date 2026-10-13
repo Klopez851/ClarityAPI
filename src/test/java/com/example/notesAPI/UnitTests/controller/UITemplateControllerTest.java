@@ -1,9 +1,9 @@
 package com.example.notesAPI.UnitTests.controller;
 
 import com.example.notesAPI.controller.UITemplateController;
-import com.example.notesAPI.dto.UITemplate.CreateTemplateDTO;
-import com.example.notesAPI.dto.UITemplate.DeleteUITemplateDTO;
-import com.example.notesAPI.dto.UITemplate.UpdateTemplateDTO;
+import com.example.notesAPI.DTOs.UITemplate.CreateTemplateDTO;
+import com.example.notesAPI.DTOs.UITemplate.DeleteUITemplateDTO;
+import com.example.notesAPI.DTOs.UITemplate.UpdateTemplateDTO;
 import com.example.notesAPI.service.UITemplateService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Test;

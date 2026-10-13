@@ -12,7 +12,7 @@ import java.net.URI;
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    //user input is not valid
+    //input is not valid
     @ExceptionHandler(IllegalArgumentException.class)
     public ProblemDetail handleInvalidUserInput(IllegalArgumentException ex, WebRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
@@ -20,7 +20,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return problemDetail;
     }
 
-    //user already exists
+    //Resource already exists
     @ExceptionHandler(ResourceAlreadyExistsException.class)
     public ProblemDetail handleDuplicateUser(ResourceAlreadyExistsException ex, WebRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
@@ -28,7 +28,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return problemDetail;
     }
 
-    //user not found
+    //Resource not found
     @ExceptionHandler(ResourceNotFoundException.class)
     public ProblemDetail handleUserNotFound(ResourceNotFoundException ex, WebRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
@@ -36,7 +36,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return problemDetail;
     }
 
-    //user making request and user record being afffected dont match
+    //user making request and user record being affected don't match
     @ExceptionHandler(ForbiddenRequestException.class)
     public ProblemDetail handleInvalidRequest(ForbiddenRequestException ex, WebRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, ex.getMessage());

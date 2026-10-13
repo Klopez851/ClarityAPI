@@ -1,10 +1,10 @@
 package com.example.notesAPI.service;
 
-import com.example.notesAPI.dto.ApiResponseDTO;
-import com.example.notesAPI.dto.UITemplate.CreateTemplateDTO;
-import com.example.notesAPI.dto.UITemplate.DeleteUITemplateDTO;
-import com.example.notesAPI.dto.UITemplate.GetTemplateDTO;
-import com.example.notesAPI.dto.UITemplate.UpdateTemplateDTO;
+import com.example.notesAPI.DTOs.ApiResponseDTO;
+import com.example.notesAPI.DTOs.UITemplate.CreateTemplateDTO;
+import com.example.notesAPI.DTOs.UITemplate.DeleteUITemplateDTO;
+import com.example.notesAPI.DTOs.UITemplate.GetTemplateDTO;
+import com.example.notesAPI.DTOs.UITemplate.UpdateTemplateDTO;
 import com.example.notesAPI.errorHandler.DatabaseErrorException;
 import com.example.notesAPI.errorHandler.ResourceNotFoundException;
 import com.example.notesAPI.model.UITemplate;

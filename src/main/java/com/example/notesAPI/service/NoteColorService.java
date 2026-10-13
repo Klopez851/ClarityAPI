@@ -1,10 +1,10 @@
 package com.example.notesAPI.service;
 
-import com.example.notesAPI.dto.ApiResponseDTO;
-import com.example.notesAPI.dto.noteColor.CreateNoteColorDTO;
-import com.example.notesAPI.dto.noteColor.DeleteNoteColorDTO;
-import com.example.notesAPI.dto.noteColor.NoteColorDTO;
-import com.example.notesAPI.dto.noteColor.UpdateNoteColorDTO;
+import com.example.notesAPI.DTOs.ApiResponseDTO;
+import com.example.notesAPI.DTOs.noteColor.CreateNoteColorDTO;
+import com.example.notesAPI.DTOs.noteColor.DeleteNoteColorDTO;
+import com.example.notesAPI.DTOs.noteColor.NoteColorDTO;
+import com.example.notesAPI.DTOs.noteColor.UpdateNoteColorDTO;
 import com.example.notesAPI.errorHandler.DatabaseErrorException;
 import com.example.notesAPI.errorHandler.ResourceAlreadyExistsException;
 import com.example.notesAPI.errorHandler.ResourceNotFoundException;
