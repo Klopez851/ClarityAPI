@@ -1,10 +1,10 @@
 package com.example.notesAPI.service;
 
-import com.example.notesAPI.DTOs.ApiResponseDTO;
-import com.example.notesAPI.DTOs.User.UpdateEmailDTO;
-import com.example.notesAPI.DTOs.User.UpdateUserInfoDTO;
-import com.example.notesAPI.DTOs.User.UserInfoDTO;
-import com.example.notesAPI.DTOs.User.UserLoginDTO;
+import com.example.notesAPI.dto.ApiResponseDTO;
+import com.example.notesAPI.dto.User.UpdateEmailDTO;
+import com.example.notesAPI.dto.User.UpdateUserInfoDTO;
+import com.example.notesAPI.dto.User.UserInfoDTO;
+import com.example.notesAPI.dto.User.UserLoginDTO;
 import com.example.notesAPI.errorHandler.DatabaseErrorException;
 import com.example.notesAPI.errorHandler.ResourceAlreadyExistsException;
 import com.example.notesAPI.errorHandler.ResourceNotFoundException;
@@ -85,7 +85,7 @@ public class UserService {
                 authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getUserPassword()));
         //auth manager returns an Authentication object and takes type authentication token
         if (authenticate.isAuthenticated()) {
-            return jwtService.generateToken(user.getEmail().toLowerCase());
+            return "token: " + jwtService.generateToken(user.getEmail().toLowerCase());
         } else {
             throw new ResourceNotFoundException("User not found with the email " + user.getEmail());
         }
@@ -144,10 +144,7 @@ public class UserService {
                     null
             );
 
-        } else if (userRepo.existsByEmail(newEmail)) {
-            throw new ResourceAlreadyExistsException("A user by the email "+newEmail+" already exists");
-
-        }else{
+        } else {
             user.get().setEmail(newEmail);
         }
 

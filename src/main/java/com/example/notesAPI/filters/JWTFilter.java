@@ -41,8 +41,7 @@ public class JWTFilter extends OncePerRequestFilter {
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             //bc authConfig needs an instance of JWTFilter in order to be inititalized, but jwt needs a bean in
             // authConfig to be initialized, it creates a circular redundancy if i try to call the UserDetails bean here
-            MyUserDetails userDetails = (MyUserDetails) context.getBean(MyUserDetailsService.class)
-                    .loadUserByUsername(email);//load by username is a misnomer, it loads the user by their email
+            MyUserDetails userDetails = (MyUserDetails) context.getBean(MyUserDetailsService.class).loadUserByUsername(email);//load by usernae=me is a misnomer, it loads the user by their email
 
             if (jwtService.validateToken(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken =

@@ -13,14 +13,13 @@
 - [Getting Started](#getting-started)
 - [Stopping the Application](#stopping-the-application)
 - [Challenges and Lessons Learned](#challenges-and-lessons-learned)
-- [Future Development](#future-development)
 ----
 
 # CLARITY API
 
 This is a RESTful API for my personal note-taking web application. The goal of this project is to allow users to create and customize notes to their liking, meeting both the aesthetic and functional needs they may have.
 
-I am building this project to address the data privacy concerns I have when using Google Keep, as well as my dissatisfaction with its UI customization options. I'm also building this project to gain hands-on experience with the Spring Boot ecosystem and deepen my understanding of the framework, its libraries, and standard backend development practices.
+I am building this project to address the data privacy concerns I have when using Google Keep, as well as my dissatisfaction with its UI customization options. I'm also building this project to gain hands-on experience with the Spring ecosystem and deepen my understanding of the framework, its libraries, and standard backend development practices.
 
 This project demonstrates my current understanding of:
 
@@ -37,7 +36,7 @@ This project demonstrates my current understanding of:
 
 # FEATURES
 
-This API supports basic CRUD operations for all key entities. Users authenticate through a login endpoint that returns a valid JWT, which can then be used to access protected endpoints.
+This API supports basic CRUD operations for all key entities, with the exception of the User entity. Instead, users authenticate through a login endpoint that returns a valid JWT, which can then be used to access protected endpoints.
 
 ## Authentication
 
@@ -108,8 +107,7 @@ After starting the application, the documentation can be accessed at:
 ## Testing
 
 * JUnit 5
-* Mockito (Unit Testing)
-* Rest Assured (API testing)
+* Rest Assured (unit testing)
 
 ## DevOps
 
@@ -153,24 +151,7 @@ A typical request flow is as follows:
 
 # Key Design Decisions
 
-## Design Patterns
-
-### Builder
-I decided to implement the Builder pattern for the Note entity because creating a Note can involve several optional 
-parameters. I found that using a constructor with all of these parameters made the creation logic harder to read and 
-therefore harder to maintain, especially when only some of the fields need to be provided during the creation process.
-
-Using the Builder pattern made the creation logic within my Note Service much cleaner while also making the entity 
-easier to expand in the future. If I wanted to add a new field to the Note entity, I would not have to update every 
-existing constructor or change the creation logic throughout the application. Instead, I can add a new method to the 
-builder and only include it in the method chain where it is needed.
-
-This is especially useful when adding optional fields, as I can give the field a default value within the builder and 
-only need to make changes to the builder itself rather than updating every place where a Note is created.
-
-## Implementation Decisions
-
-### DTOs
+### DTO Pattern
 
 I use DTOs to protect sensitive user information and to avoid overwhelming the frontend with unnecessary data every time a request is made. Not all information needs to be sent with every request, and DTOs give me fine-grained control over what data is transferred to and from the backend.
 
@@ -577,68 +558,3 @@ After researching entity relationships implementations, I was able to successful
 Debugging a system while also trying to understand it was one of the most challenging parts of this project.
 
 Being able to see how data moves line by line through the system; how it is received, transformed, and returned across layers, was extremely valuable. It helped me understand how all the components work together in practice rather than just in theory.
-
-# Future Development
-
-Here is a list of some of the things I plan on implementing as the project continues to develop.
-
-### Expand automated testing
-
-This is my current priority. I want to add more unit and API tests, especially for authentication, validation, error 
-handling, and making sure users cannot access resources belonging to other users.
-
-### Add password requirements and system validation
-
-I'd like to require users to choose a reasonably secure password and have the backend enforce these requirements 
-rather than relying only on frontend validation.
-
-### Implement a refresh token system
-
-Currently, there is no way for a user to get a new access token after their JWT expires without logging in again.
-
-A refresh token would allow the application to issue new short-lived access tokens without requiring the user to 
-authenticate again.
-
-This would require changes across multiple layers of the system, solidifying the need for a robust testing suite.
-
-### Introduce database migrations
-
-I'd like to move away from manually managing the database through schema.sql and use a migration tool such as Flyway 
-or Liquibase.
-
-This would make it easier to keep track of database changes and eventually deploy updates to a live database.
-
-### Add a logout endpoint and token revocation
-
-I'd like to add a proper logout system once the refresh token system is implemented.
-
-I originally planned on using a token blacklist, but I want to look into refresh-token revocation and rotation first 
-to determine which approach makes the most sense for the application.
-
-### Build a frontend
-
-I'd like to build a frontend for the API so I can turn Clarity into a complete application rather than only having 
-the backend.
-
-This will also give me an opportunity to put the customization features and overall UI design that motivated this 
-project into practice.
-
-### Add encryption for user data
-
-This application was created with user privacy as one of its main goals, but notes and labels are currently stored as 
-plaintext in the database.
-
-I plan to research more about application-level encryption for sensitive user data so that the implementation 
-better reflects the privacy goals of the project.
-
-### Proper Documentation
-
-The current documentation is enough for me while I'm developing the project, but it probably wouldn't be enough for 
-someone else who wanted to contribute.
-
-As the project grows, I'd like to put together a larger documentation guide that explains things like the project 
-structure, architecture, database design, authentication, testing, how everything fits together, and small but 
-important implementation details.
-
-The goal is to make it easier for someone new to the project to understand how everything works without having to dig 
-through the entire codebase or ask me for an explanation.
