@@ -85,7 +85,7 @@ public class UserService {
                 authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getUserPassword()));
         //auth manager returns an Authentication object and takes type authentication token
         if (authenticate.isAuthenticated()) {
-            return "token: " + jwtService.generateToken(user.getEmail().toLowerCase());
+            return jwtService.generateToken(user.getEmail().toLowerCase());
         } else {
             throw new ResourceNotFoundException("User not found with the email " + user.getEmail());
         }
@@ -144,7 +144,10 @@ public class UserService {
                     null
             );
 
-        } else {
+        } else if (userRepo.existsByEmail(newEmail)) {
+            throw new ResourceAlreadyExistsException("A user by the email "+newEmail+" already exists");
+
+        }else{
             user.get().setEmail(newEmail);
         }
 
