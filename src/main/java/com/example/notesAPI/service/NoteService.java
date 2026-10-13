@@ -1,7 +1,7 @@
 package com.example.notesAPI.service;
 
-import com.example.notesAPI.dto.ApiResponseDTO;
-import com.example.notesAPI.dto.Note.*;
+import com.example.notesAPI.DTOs.ApiResponseDTO;
+import com.example.notesAPI.DTOs.Note.*;
 import com.example.notesAPI.errorHandler.DatabaseErrorException;
 import com.example.notesAPI.errorHandler.ForbiddenRequestException;
 import com.example.notesAPI.errorHandler.ResourceNotFoundException;
@@ -27,7 +27,7 @@ import java.util.Optional;
 public class NoteService {
 
     /// CONSTANTS ///
-    //TODO: figure out a good content char size constant
+    //TODO: figure out a good content char size constant and update schema.sql
     private final int MAX_TITLE_SIZE = 100;
     private final NotesRepository noteRepo;
     private final NoteColorRepository noteColorRepo;
@@ -49,7 +49,8 @@ public class NoteService {
         Optional<Label> label = Optional.empty();
         Optional<NoteColor> color = Optional.empty();
 
-        //input validation
+        //INPUT VALIDATION//
+
         if (title != null && title.length() > MAX_TITLE_SIZE) {
             throw new IllegalArgumentException("Title can be a maximum of " + MAX_TITLE_SIZE + " characters");
         }
@@ -79,15 +80,13 @@ public class NoteService {
         }
 
         //create note
-        Note note = new Note(user.get(), title, content, label.orElse(null), color.orElse(null));
-
-        //give value to remaining note attributes
-        note.setPinned(false);
-        note.setHidden(false);
-        note.setViewOnly(false);
-        note.setDeleted(false);
-        note.setCosmetics("<insert cosmetics here");
-        note.setTimeLeftBeforeDeletion(null);
+        Note note = new Note.Builder()
+                .setUser(user.get())
+                .setTitle(title)
+                .setTextContent(content)
+                .setLabel(label.orElse(null))
+                .setColor(color.orElse(null))
+                .build();
 
         //save note
         try {

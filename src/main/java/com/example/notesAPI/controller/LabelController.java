@@ -1,10 +1,10 @@
 package com.example.notesAPI.controller;
 
-import com.example.notesAPI.dto.ApiResponseDTO;
-import com.example.notesAPI.dto.Label.CreateLabelDTO;
-import com.example.notesAPI.dto.Label.DeleteLabelDTO;
-import com.example.notesAPI.dto.Label.LabelDTO;
-import com.example.notesAPI.dto.Label.UpdateLabelDTO;
+import com.example.notesAPI.DTOs.ApiResponseDTO;
+import com.example.notesAPI.DTOs.Label.CreateLabelDTO;
+import com.example.notesAPI.DTOs.Label.DeleteLabelDTO;
+import com.example.notesAPI.DTOs.Label.LabelDTO;
+import com.example.notesAPI.DTOs.Label.UpdateLabelDTO;
 import com.example.notesAPI.service.LabelService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
